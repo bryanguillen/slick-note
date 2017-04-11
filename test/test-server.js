@@ -18,10 +18,20 @@ describe('ENDPOINTS TEST', function() {
 		return closeServer();
 	})
 
-	describe('Get the index static file', function() {
+	describe('Get the index.html static file', function() {
 		it('should render static index.html', function() {
 			return chai.request(app)
 				.get('/')
+				.then(function(res) {
+					res.should.have.status(200);
+				})
+		});
+	})
+
+	describe('GET the home.html static file', function() {
+		it('should render static home.html', function() {
+			return chai.request(app)
+				.get('/me')
 				.then(function(res) {
 					res.should.have.status(200);
 				})
