@@ -6,6 +6,9 @@
 var state = {};
 
 //MOCK DATA!!
+//DEV NOTE! DELETE AFTER DEVELOPMENT
+//this object literal actually isn't that bad, considering
+//using it for json file, adding the content that I need to add
 var userNotes = {
 	notes: [
 		{
@@ -23,16 +26,16 @@ var userNotes = {
 	]
 } 
 
-//DOM MANIPULATION
 function getUserNotes() {
 	var notes = ''
 	for(var i=0, length=userNotes.notes.length; i<length; i++) {
 		var note = userNotes.notes[i];
 		notes += createNoteHTML(note);
 	}
-	return displayData(notes);
+	return displayNotes(notes);
 }
 
+//DOM MANIPULATION
 function createNoteHTML(note) {
 	return  '<div><h1>' + 
 				note.title + 
@@ -42,7 +45,7 @@ function createNoteHTML(note) {
 			'<span>Delete Note</span></div>';
 }
 
-function displayData(notes) {
+function displayNotes(notes) {
 	$('div.notes-container').html(notes);
 }
 
