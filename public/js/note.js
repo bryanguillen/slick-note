@@ -48,7 +48,8 @@ function getSections() {
 				'<div>' + userNotes.notes[0].subTitle + '</div>'
 
 	var noteSections =  '<div>' + userNotes.notes[0].sections[0].header + '</div>'
-	$('div.section-container').html(title + noteSections); 
+	$('div.section-container').html(title + noteSections + 
+		'<button class="close-sections js-close-sections"> << </button>'); 
 }
 
 //DOM MANIPULATION
@@ -69,7 +70,16 @@ function saveNote() {
 	})
 }
 
-function showSection() {
+function hideSections() {
+	$('main').on('click', '.js-close-sections', function(event) {
+		event.preventDefault();
+		$(this).parent().removeClass('js-inline').addClass('js-hide-sections');
+		$(this).closest('main').find('div.note-container').removeClass('js-inline');
+		$(this).closest('main').find('button.show-section-button').removeClass('js-hide-section-button');
+	})
+}
+
+function showSections() {
 	$('main').on('click', '.show-section-button', function(event) {
 		event.preventDefault();
 		$(this).addClass('js-hide-section-button');
@@ -97,5 +107,6 @@ $(function() {
 	saveNote();
 	getCurrentNote();
 	editCurrentNote();
-	showSection();
+	showSections();
+	hideSections();
 })
