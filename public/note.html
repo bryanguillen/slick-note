@@ -1,9 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Note | User</title>
+	<meta charset="utf-8">
+	<title>User | Note</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Normalize.css, a cross-browser reset file -->
+  	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css" rel="stylesheet">
+  	<link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
-	<p>This is a note!</p>
+	<nav>
+		<div class="nav-container">
+			<span>Home</span>
+			<span>New Note</span>
+			<span>Account</span>
+		</div>
+	</nav>
+
+	<main>
+		<div class="note-container">
+			<div class="note-options">
+				<span>New Section</span>
+				<span>New SubSection</span>
+			</div>
+			<div class="note">
+			</div>
+			<textarea class="note js-edit-note"></textarea>
+			<button class="save-note js-save-note">Save</button>
+		</div>
+	</main>
+
+	<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+	<script type="text/javascript" src="js/note.js"></script>
+</body>
 </body>
 </html>
