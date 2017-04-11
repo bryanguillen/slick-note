@@ -57,6 +57,18 @@ function displayCurrentNote(currentNote) {
 }
 
 //EVENT LISTENERS
+function saveNote() {
+	$('main').on('click', '.save-note', function(event) {
+		event.preventDefault();
+		//THIS IS WHERE IT WOULD BE SAVED TO THE DB AND PERSISTED
+		//THEN, INSERT BACK TO DIV.NOTE IN ORDER TO BE EASILY READABLE
+		var noteText = $('textarea.note').val();
+		$('textarea.note').addClass('js-edit-note');
+		$('button.save-note').addClass('js-save-note');
+		$('div.note').text(noteText).removeClass('js-note');
+	})
+}
+
 function showSection() {
 	$('main').on('click', '.show-section-button', function(event) {
 		event.preventDefault();
@@ -76,13 +88,13 @@ function editCurrentNote() {
 		$('div.note').addClass("js-note");
 
 		//THEN, SET THE TEXT OF TEXTAREA TO THAT AND SHOW THE SAVE BUTTON!
-		$('textarea.note').append(text);
-		$('textarea.note').removeClass("js-edit-note");
+		$('textarea.note').append(text).removeClass("js-edit-note");
 		$('button.save-note').removeClass("js-save-note");
 	})	
 }
 
 $(function() {
+	saveNote();
 	getCurrentNote();
 	editCurrentNote();
 	showSection();
