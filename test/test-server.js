@@ -38,4 +38,14 @@ describe('ENDPOINTS TEST', function() {
 		});
 	})
 
+	describe('GET the note.html static file', function() {
+		it('should render static note.html', function() {
+			return chai.request(app)
+				.get('/note')
+				.then(function(res) {
+					res.should.have.status(200);
+				})
+		});
+	})
+
 })
