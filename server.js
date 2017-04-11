@@ -1,9 +1,11 @@
 //dependencies and imports
 const express = require('express');
+const morgan = require('morgan');
 const app = express();
 
 //serving static files
 app.use(express.static('public'));
+app.use(morgan('common'));
 
 //** remember to add mongoose promise as a global promise. 
 
@@ -34,4 +36,4 @@ if (require.main === module) {
   runServer().catch(err => console.error(err));
 };
 
-module.exports = {app, runServer};
+module.exports = {app, runServer, closeServer};
