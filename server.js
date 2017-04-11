@@ -1,11 +1,20 @@
 //dependencies and imports
 const express = require('express');
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const userHomeRouter = require('./userHomeRouter');
 const app = express();
 
 //serving static files
 app.use(express.static('public'));
+
+//parsing
+app.use(bodyParser.urlencoded({ extended: true }));
+
+//log http layer
 app.use(morgan('common'));
+
+app.use('/me', userHomeRouter);
 
 //** remember to add mongoose promise as a global promise. 
 
