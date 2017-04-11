@@ -3,6 +3,7 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const userHomeRouter = require('./userHomeRouter');
+const notesRouter = require('./notesRouter');
 const app = express();
 
 //serving static files
@@ -15,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('common'));
 
 app.use('/me', userHomeRouter);
+app.use('/note', notesRouter);
 
 //** remember to add mongoose promise as a global promise. 
 
