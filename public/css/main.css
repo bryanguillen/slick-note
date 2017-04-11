@@ -2,7 +2,7 @@
 	box-sizing: border-box;
 }
 
-.js-edit-note, .js-note, .js-save-note, .js-hide-sections, .js-hide-section-button {
+.js-edit-note, .js-hide-note, .js-save-note, .js-hide-sections, .js-hide-section-button {
 	display: none;
 }
 

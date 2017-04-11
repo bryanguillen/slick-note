@@ -66,12 +66,12 @@ function saveNote() {
 		var noteText = $('textarea.note').val();
 		$('textarea.note').addClass('js-edit-note');
 		$('button.save-note').addClass('js-save-note');
-		$('div.note').text(noteText).removeClass('js-note');
+		$('div.note').text(noteText).removeClass('js-hide-note');
 	})
 }
 
 function hideSections() {
-	$('main').on('click', '.js-close-sections', function(event) {
+	$('main').on('click', '.close-sections', function(event) {
 		event.preventDefault();
 		$(this).parent().removeClass('js-inline').addClass('js-hide-sections');
 		$(this).closest('main').find('div.note-container').removeClass('js-inline');
@@ -95,7 +95,7 @@ function editCurrentNote() {
 		
 		//FIRST GET THE TEXT OF THE DIV
 		var text = $(this).find('div.content').text();
-		$('div.note').addClass("js-note");
+		$('div.note').addClass("js-hide-note");
 
 		//THEN, SET THE TEXT OF TEXTAREA TO THAT AND SHOW THE SAVE BUTTON!
 		$('textarea.note').append(text).removeClass("js-edit-note");
