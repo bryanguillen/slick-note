@@ -1,0 +1,8 @@
+*{
+	box-sizing: border-box;
+}
+
+.js-edit-note, .js-note, .js-save-note {
+	display: none;
+}
+
