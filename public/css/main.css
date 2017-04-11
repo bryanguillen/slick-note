@@ -2,7 +2,14 @@
 	box-sizing: border-box;
 }
 
-.js-edit-note, .js-note, .js-save-note {
+.js-edit-note, .js-note, .js-save-note, .js-hide-sections, .js-hide-section-button {
 	display: none;
 }
 
+.js-inline {
+	display: inline-block;
+}
+
+.section-container {
+	width: 35%;
+}
