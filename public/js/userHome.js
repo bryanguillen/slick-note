@@ -1,15 +1,37 @@
 //State MGMT / API MGMT!
 var state = {};
 
-
+//DOM MANIPULATION
 function displayUserData(obj) {
+	//obj.username returns the username
+	//right here we want to get just the title and subtitles for 
+	//the user
+	//that is going to be again obj.userNotes[i].title && ""
+	//subtitle
 	var notes = '';
-	obj.note.forEach(function(item) {
-		notes += createNoteHTML(item);
-	})
-	return displayNotes(notes);
+	obj.userNotes.forEach(function(item) {
+		notes += createFeedHTML(item);
+	 })
+	return renderFeed(notes);
 }
 
+function createFeedHTML(note) {
+	//notes will display like facebook's 
+	//feed feature with just the title and subtitle
+	//of the post 
+	return  '<div><h1>' + 
+				note.title + 
+			'</h1><h6>' +
+				note.subtitle + 
+			'</h6>' +
+			'<span>Delete Note</span></div>';
+}
+
+function renderFeed(notes) {
+	$('div.notes-container').html(notes);
+}
+
+//EVENT LISTENERS
 function getUserData() {
 	var currentCookie = document.cookie.split('=');
 	//temp solution for now for getting cookie value. 
@@ -22,23 +44,6 @@ function getUserData() {
 	}
 	return $.ajax(user);
 }
-
-
-//DOM MANIPULATION
-function createNoteHTML(note) {
-	return  '<div><h1>' + 
-				note.title + 
-			'</h1><h6>' +
-				note.subTitle + 
-			'</h6>' +
-			'<span>Delete Note</span></div>';
-}
-
-function displayNotes(notes) {
-	$('div.notes-container').html(notes);
-}
-
-//EVENT LISTENERS
 
 $(function() {
 	getUserData();
