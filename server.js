@@ -10,20 +10,13 @@ const app = express();
 
 mongoose.Promise = global.Promise;
 
-//serving static files
 app.use(express.static('public'));
-//parsing
 app.use(bodyParser.urlencoded({ extended: true }));
-//log http layer
-app.use(morgan('common'));
-app.use('/', route);
-
-//** remember to add mongoose promise as a global promise. 
+app.use(morgan('common')); //log http layer
+app.use('/', route); 
 
 //start and kill server code below
-//TODO: ADD CONFIG VALUES LATER, ESPECIALLY MONGOOSE VALS LATER
-//using TEST_DATABASE_URL FOR NOW
-function runServer(databseUrl=TEST_DATABASE_URL) {
+function runServer(databseUrl=DATABASE_URL) {
 	return new Promise((resolve, reject) => { 
 		mongoose.connect(databseUrl, err => {
 			if(err) {
