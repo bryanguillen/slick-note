@@ -3,47 +3,72 @@ const chai = require('chai');
 const chaiHTTP = require('chai-http');
 const faker = require('faker');
 const {app, runServer, closeServer} = require('../server');
+const {Note} = require('../notesModel');
+const {User} = require('../usersModel');
 const should = chai.should();
 const mongoose = require('mongoose');
 
 //allowing for http integration testing
 chai.use(chaiHTTP);
 
+function seedDatabase() {
+	let seedData = [
+	{
+		"username": "bryang695",
+		"email": "bryang695@gmail.com",
+		"password": "cookies",
+		"createdAt": "4/11/17",
+		"notes": [] 
+	},
+
+	{
+		"username": "bryang217",
+		"email": "bryang217@gmail.com",
+		"password": "cookies",
+		"createdAt": "4/11/17",
+		"notes": [] 
+	},
+
+	{
+		"username": "cookieMonster",
+		"email": "cookieMonster@gmail.com",
+		"password": "cookies",
+		"createdAt": "4/11/17",
+		"notes": [] 
+	}
+	];
+	
+	return User.insertMany(seedData);
+}
+
+function tearDownDb() {
+	return mongoose.connection.dropDatabase();
+}
+
 describe('ENDPOINTS TEST', function() {
 	before(function() {
 		return runServer();
+	})
+
+	beforeEach(function() {
+		return seedDatabase();
+	})
+
+	afterEach(function() {
+		return tearDownDb();
 	})
 
 	after(function() {
 		return closeServer();
 	})
 
-	describe('Get the index.html static file', function() {
-		it('should render static index.html', function() {
+	describe('GET THE HOME PAGE FOR USER', function() {
+		it('should render user homepage and notes', function() {
 			return chai.request(app)
-				.get('/')
+				.get('/bryang695')
 				.then(function(res) {
 					res.should.have.status(200);
-				})
-		});
-	})
-
-	describe('GET the home.html static file', function() {
-		it('should render static home.html', function() {
-			return chai.request(app)
-				.get('/me')
-				.then(function(res) {
-					res.should.have.status(200);
-				})
-		});
-	})
-
-	describe('GET the note.html static file', function() {
-		it('should render static note.html', function() {
-			return chai.request(app)
-				.get('/note')
-				.then(function(res) {
-					res.should.have.status(200);
+					res.should.be.a('object');
 				})
 		});
 	})
