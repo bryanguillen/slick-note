@@ -1,39 +1,28 @@
-//client for user home!
-//the following is mock code to get a structure for the project.
-//LAYOUT INCLUDED BELOW
-
-//State MGMT
+//State MGMT / API MGMT!
 var state = {};
 
-//MOCK DATA!!
-//DEV NOTE! DELETE AFTER DEVELOPMENT
-//this object literal actually isn't that bad, considering
-//using it for json file, adding the content that I need to add
-var userNotes = {
-	notes: [
-		{
-			title: "Title #1",
-			subTitle: "sub-title #1"
-		},
-		{
-			title: "Title #2",
-			subTitle: "sub-title #2"
-		},
-		{
-			title: "Title #3",
-			subTitle: "sub-title #3"
-		}
-	]
-} 
 
-function getUserNotes() {
-	var notes = ''
-	for(var i=0, length=userNotes.notes.length; i<length; i++) {
-		var note = userNotes.notes[i];
-		notes += createNoteHTML(note);
-	}
+function displayUserData(obj) {
+	var notes = '';
+	obj.note.forEach(function(item) {
+		notes += createNoteHTML(item);
+	})
 	return displayNotes(notes);
 }
+
+function getUserData() {
+	var currentCookie = document.cookie.split('=');
+	//temp solution for now for getting cookie value. 
+	var username = currentCookie[1];
+	var user = {
+		method: 'GET',
+		url: 'http://localhost:8080/' + username + '.json',
+		dataType: "json", 
+		success: displayUserData
+	}
+	return $.ajax(user);
+}
+
 
 //DOM MANIPULATION
 function createNoteHTML(note) {
@@ -52,5 +41,5 @@ function displayNotes(notes) {
 //EVENT LISTENERS
 
 $(function() {
-	getUserNotes();
+	getUserData();
 })
