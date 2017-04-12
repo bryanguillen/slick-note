@@ -3,8 +3,7 @@ const chai = require('chai');
 const chaiHTTP = require('chai-http');
 const faker = require('faker');
 const {app, runServer, closeServer} = require('../server');
-const {Note} = require('../notesModel');
-const {User} = require('../usersModel');
+const {User} = require('../model');
 const should = chai.should();
 const mongoose = require('mongoose');
 const {TEST_DATABASE_URL} = require('../config');
@@ -19,7 +18,38 @@ function seedDatabase() {
 		"email": "bryang695@gmail.com",
 		"password": "cookies",
 		"createdAt": "4/11/17",
-		"notes": [] 
+		"userNotes": [
+			{
+				"title": "THE TIME VALUE OF TIME",
+				"subtitle": "FINANCE IN A CHANGING WORLD",
+				"notes": [
+					{
+						"header": "SECTION 1",
+						"content": "this is just some random content"
+					},
+					{
+						"header": "SECTION 2",
+						"content": "this is just some random content"
+					}
+				]
+
+			},
+			{
+				"title": "ACCOUNTING",
+				"subtitle": "ACCOUNTING IN A CHANGING WORLD",
+				"notes": [
+					{
+						"header": "SECTION 1",
+						"content": "this is just some random content"
+					},
+					{
+						"header": "SECTION 2",
+						"content": "this is just some random content"
+					}
+				]
+
+			}
+		] 
 	},
 
 	{
@@ -27,7 +57,39 @@ function seedDatabase() {
 		"email": "bryang217@gmail.com",
 		"password": "cookies",
 		"createdAt": "4/11/17",
-		"notes": [] 
+		"userNotes": [
+			{
+				"title": "THE TIME VALUE OF TIME",
+				"subtitle": "FINANCE IN A CHANGING WORLD",
+				"notes": [
+					{
+						"header": "SECTION 1",
+						"content": "this is just some random content"
+					},
+					{
+						"header": "SECTION 2",
+						"content": "this is just some random content"
+					}
+				]
+
+			},
+			
+			{
+				"title": "ACCOUNTING",
+				"subtitle": "ACCOUNTING IN A CHANGING WORLD",
+				"notes": [
+					{
+						"header": "SECTION 1",
+						"content": "this is just some random content"
+					},
+					{
+						"header": "SECTION 2",
+						"content": "this is just some random content"
+					}
+				]
+
+			}
+		] 
 	},
 
 	{
@@ -35,7 +97,39 @@ function seedDatabase() {
 		"email": "cookieMonster@gmail.com",
 		"password": "cookies",
 		"createdAt": "4/11/17",
-		"notes": [] 
+		"userNotes": [
+			{
+				"title": "THE TIME VALUE OF TIME",
+				"subtitle": "FINANCE IN A CHANGING WORLD",
+				"notes": [
+					{
+						"header": "SECTION 1",
+						"content": "this is just some random content"
+					},
+					{
+						"header": "SECTION 2",
+						"content": "this is just some random content"
+					}
+				]
+
+			},
+			{
+				"title": "ACCOUNTING",
+				"subtitle": "ACCOUNTING IN A CHANGING WORLD",
+				"notes": [
+					{
+						"header": "SECTION 1",
+						"content": "this is just some random content"
+					},
+					{
+						"header": "SECTION 2",
+						"content": "this is just some random content"
+					}
+				]
+
+			}
+		] 
+	
 	}
 	];
 	
