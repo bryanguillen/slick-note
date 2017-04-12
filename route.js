@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {app, runServer, closeServer} = require('./server.js');
-const {User} = require('./usersModel');
-const {Note} = require('./notesModel');
+const {User} = require('./model');
 
 //more dependencies and imports
 const bodyParser = require('body-parser');
