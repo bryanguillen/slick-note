@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-//SCHEMA for how the user json will look
-//just include the notes here, why not!
+//keep in mind indexing notes for later 
+//or schema design
 const userSchema = mongoose.Schema({
 	username: {type: String, required: true},
 	email: {type: String, required: true},
