@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema({
 	email: {type: String, required: true},
 	password: {type: String, required: true},
 	createdAt: {type: Date, required: true},
-	notes: type: Array
+	notes: Array
 });
 
 userSchema.methods.apiRepr = function() {
@@ -17,6 +17,6 @@ userSchema.methods.apiRepr = function() {
 	}
 }
 
-const User = mongoose.mode('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = {User};
