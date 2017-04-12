@@ -1,2 +1,8 @@
 language: node_js
 node_js: node
+deploy:app: https://shielded-stream-62421.herokuapp.com
+  provider: heroku
+  api_key: ''
+  app: 'yes'
+  on:
+    repo: bryg217/capstone-2
