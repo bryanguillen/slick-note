@@ -1,20 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const {app, runServer, closeServer} = require('./server.js');
-const {User} = require('./model');
+const {User, Note} = require('./model');
 
 //more dependencies and imports
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
-
 router.get('/:username.json', (req, res) => {
 	User 
 		.findOne({"username": req.params.username})
-		.exec()
-		.then(user => res
-			.json(user.apiRepr())
-			)
+		.populate('userNotes')
+		.exec((err, user) => {
+			if(err) {res.send(err)};
+			res.json(user.apiRepr());	
+		})
 		.catch(err => {
 			console.log(err);
 			res.status(500).json({errorMsg: "internal server error"});
