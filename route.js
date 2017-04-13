@@ -7,7 +7,7 @@ const {User, Note} = require('./model');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
-router.get('/:username.json', (req, res) => {
+router.get('/:username' + '.json', (req, res) => {
 	User 
 		.findOne({"username": req.params.username})
 		.populate('userNotes')
