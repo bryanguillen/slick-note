@@ -1,19 +1,11 @@
 const mongoose = require('mongoose');
 
-//keep in mind indexing notes for later 
-//or schema design
 const userSchema = mongoose.Schema({
 	username: {type: String, required: true},
 	email: {type: String, required: true},
 	password: {type: String, required: true},
 	createdAt: {type: Date, required: true},
-	userNotes: [
-		{
-			title: {type: String, required: true},
-			subtitle: {type: String, required: true},
-			notes: Array
-		}
-	]
+	userNotes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Note'}]
 });
 
 userSchema.methods.apiRepr = function() {
@@ -24,6 +16,28 @@ userSchema.methods.apiRepr = function() {
 	}
 }
 
-const User = mongoose.model('User', userSchema);
+const noteSchema = mongoose.Schema({
+	_user: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+	title: {type: String, required: true},
+	subtitle: {type: String, required: true},
+	notes: [
+		{
+			header: String,
+			content:  String
+		}
+	]
+})
 
-module.exports = {User};
+noteSchema.methods.noteAPIRepr = function() {
+	return {
+		_user: this._user,
+		title: this.title,
+		subtitle: this.subtitle,
+		notes: this.notes
+	}
+}
+
+const User = mongoose.model('User', userSchema);
+const Note = mongoose.model('Note', noteSchema);
+
+module.exports = {User, Note};
