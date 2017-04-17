@@ -6,10 +6,42 @@ const {User, Note} = require('./model');
 //more dependencies and imports
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
+const cookieParser = require('cookie-parser');
 
-router.get('/:username' + '.json', (req, res) => {
+router.get('/signout', (req, res) => {
+	res.clearCookie('id').json({successMessage: "congrats you have signed off!"});
+})
+
+router.get('/new-note', (req, res) => {
+	res.json({successMessage: "Hello world!"});
+});
+
+router.post('/new-note', jsonParser, (req, res) => {
+	//create the new post in the database 
+	let newNote = new Note ({
+	   	user: req.body.user,
+	   	title: req.body.title,
+	   	subtitle: req.body.subtitle
+	})
+	newNote.save((err, note) => {
+	   	if(err) {return console.log(err)};
+	   	 User
+	   	 	.findByIdAndUpdate(
+	   	 		req.cookies.id, 
+	   	 		{ $push: {userNotes: note._id}},
+	   	 		function (err, res) {
+	   	 			if(err) {return console.log(err)};
+	   	 			res.status(201);
+	   	 		}
+	   	 	)
+
+	   	//res.status(201);
+	})
+});
+
+router.get('/:id' + '.json', (req, res) => {
 	User 
-		.findOne({"username": req.params.username})
+		.findById(req.params.id)
 		.populate('userNotes')
 		.exec((err, user) => {
 			if(err) {res.send(err)};
@@ -21,22 +53,17 @@ router.get('/:username' + '.json', (req, res) => {
 		})
 });
 
-router.get('/:username', (req, res) => {
+router.get('/:id', (req, res) => {
 	User
-		.findOne({"username": req.params.username})
-		.exec()
-		.then(user => res
-			.cookie('username', req.params.username)
-			.sendFile(__dirname + '/public/home.html')
-			)
+		.findById(req.params.id)
+		.exec((err, user) => {
+			if(err) {res.send(err)};
+			res.cookie('id', req.params.id).sendFile(__dirname + '/public/home.html');
+		})
 		.catch(err => {
 			console.log(err);
 			res.status(500).json({errorMsg: "internal server error"});
 		})
-})
-
-router.get('/:id', (req, res) => {
-	res.sendFile(path.join(__dirname + '/public/note.html'));
 });
 
 module.exports = router;

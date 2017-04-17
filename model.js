@@ -17,7 +17,7 @@ userSchema.methods.apiRepr = function() {
 }
 
 const noteSchema = mongoose.Schema({
-	_user: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+	user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 	title: {type: String, required: true},
 	subtitle: {type: String, required: true},
 	notes: [
@@ -30,7 +30,7 @@ const noteSchema = mongoose.Schema({
 
 noteSchema.methods.noteAPIRepr = function() {
 	return {
-		_user: this._user,
+		user: this.user,
 		title: this.title,
 		subtitle: this.subtitle,
 		notes: this.notes

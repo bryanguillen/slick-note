@@ -5,11 +5,13 @@ const bodyParser = require('body-parser');
 const route = require('./route');
 const {DATABASE_URL, TEST_DATABASE_URL, PORT} = require('./config');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
 mongoose.Promise = global.Promise;
 
+app.use(cookieParser());
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('common')); //log http layer
