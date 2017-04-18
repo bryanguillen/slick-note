@@ -51,10 +51,10 @@ function getUserData() {
 	let currentCookie = document.cookie.split('='); 
 	let userId = currentCookie[1]; //temp solution for getting cookie
 	let settings = {
-		type: 'GET',
-		url: 'http://localhost:8080/' + userId + '.json',
-		dataType: "json", 
-		success: displayUserData
+	 	type: 'GET',
+	 	url: 'http://localhost:8080/' + userId + '.json',
+	 	dataType: "json", 
+	 	success: displayUserData
 	}
 	return $.ajax(settings);
 }
@@ -88,15 +88,46 @@ function createNewNote() {
 		 		"title": newTitle,
 		 		"subtitle": newSubtitle 
 		 	},	 	
-		 	dataType: "json", 
+		 	dataType: "json" 
 		}
 		renderNoteTemplate();
 		return $.ajax(settings);
 	});
 }
 
+function saveNote() {
+	$('main').on('click', '.save-note', function(event) {
+		event.preventDefault();
+		let noteText = $('textarea.note').val();
+		$('textarea.note').addClass('js-hide-edit');
+		$('button.save-note').addClass('js-hide-save');
+		$('div.note').text(noteText).removeClass('js-hide-note');
+		let settings = {
+		 	type: 'POST',
+		 	url: 'http://localhost:8080/note',
+			dataType: "json", 
+			success: renderNewNote
+		}
+		return $.ajax(settings);
+	})
+}
+
+function editCurrentNote() {
+	$('main').on('click', '.note', function(event) {
+		event.preventDefault();
+		//FIRST GET THE TEXT OF THE DIV
+		let noteText = $(this).find('div.note').text();
+		$('div.note').addClass("js-hide-note");
+		//THEN, SET THE TEXT OF TEXTAREA TO THAT AND SHOW THE SAVE BUTTON!
+		$('textarea.note').append(noteText).removeClass("js-hide-edit");
+		$('button.save-note').removeClass("js-hide-save");
+	})	
+}
+
 $(function() {
 	getUserData();
 	clickNewNote();
 	createNewNote();
+	saveNote();
+	editCurrentNote();
 })
