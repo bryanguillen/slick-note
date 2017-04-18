@@ -20,12 +20,7 @@ const noteSchema = mongoose.Schema({
 	user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 	title: {type: String, required: true},
 	subtitle: {type: String, required: true},
-	notes: [
-		{
-			header: String,
-			content:  String
-		}
-	]
+	notes: String
 })
 
 noteSchema.methods.noteAPIRepr = function() {
