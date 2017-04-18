@@ -1,6 +1,10 @@
 //State MGMT / API MGMT!
 var state = {};
 
+function getNote(obj) {
+	console.log(obj.notes);
+}
+
 //DOM MANIPULATION
 function displayUserData(obj) {
 	//obj.username returns the username
@@ -39,7 +43,7 @@ function renderNewNote() {
 }
 
 function renderNoteTemplate() {
-	$('main').html('<p>Hello world</p>');
+	$('main').html(getNoteTemplate());
 }
 
 //EVENT LISTENERS
@@ -85,9 +89,9 @@ function createNewNote() {
 		 		"subtitle": newSubtitle 
 		 	},	 	
 		 	dataType: "json", 
-		 	success: renderNoteTemplate  
-		 }
-		 return $.ajax(settings);
+		}
+		renderNoteTemplate();
+		return $.ajax(settings);
 	});
 }
 
