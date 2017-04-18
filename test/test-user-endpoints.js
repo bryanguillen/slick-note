@@ -13,33 +13,41 @@ chai.use(chaiHTTP);
 
 function seedDatabase() {
 	let userSeedData = [
-		{ 	
-			"username": "bryang695",
-			"email": "bryang695@gmail.com",
-			"password": "cookies",
-			"createdAt": "4/11/17",
-			"userNotes": []
-		},
+	{ 	
+	"username": "bryang695",
+	"email": "bryang695@gmail.com",
+	"password": "cookies",
+	"createdAt": "4/11/17",
+	"userNotes": []
+	},
 
-		{
-			"username": "bryang217",
-			"email": "bryang217@gmail.com",
-			"password": "cookies",
-			"createdAt": "4/11/17",
-			"userNotes": []
-		},
+	{	
+	"username": "bryang217",
+	"email": "bryang217@gmail.com",
+	"password": "cookies",
+	"createdAt": "4/11/17",
+	"userNotes": []
+	},
 
-		{
-			"_id": "58ef96d7a1ef2e629502193f",
-			"username": "bryang123",
-			"email": "bryang123@gmail.com",
-			"password": "cookies",
-			"createdAt": "4/11/17",
-			"userNotes": ["58ef97e9a1ef2e6295021945", "58ef97e9a1ef2e6295021946"]
-		}
+	{
+	
+	"username": "cookieMonster",
+	"email": "cookieMonster@gmail.com",
+	"password": "cookies",
+	"createdAt": "4/11/17",
+	"userNotes": []
+	}
 	];
 	
 	return User.insertMany(userSeedData);
+}
+
+function newNote(userId) {
+	return {
+		user: userId,
+		title: "Finance",
+		subtitle: "FOR THE FUTURE"
+	}
 }
 
 function tearDownDb() {
@@ -65,24 +73,52 @@ describe('ENDPOINTS TEST', function() {
 
 	describe('GET THE HOME PAGE FOR USER', function() {
 		it('should render user homepage and notes', function() {
-			return chai.request(app)
-				.get('/bryang695')
-				.then(function(res) {
-					res.should.have.status(200);
-				})
+			User
+			.findOne({"username": "cookieMonster"})
+			.exec()
+			.then(function(user) {
+				return chai.request(app)
+			 		.get('/' + user._id)
+			 		.then(function(res) {
+			 			res.should.have.status(200);
+			 			expect(res).to.be.html;
+			 		})
+			})
 		});
 	})
 
 	describe('GET JSON FILE FOR USER', function() {
 		it('should return user json', function() {
-			return chai.request(app)
-				.get('/bryang695' + '.json')
-				.then(function(res) {
-					res.should.have.status(200);
-					res.should.be.json;
-					res.should.be.a('object');
+			User
+			.findOne({"username": "cookieMonster"})
+			.exec()
+			.then(function(user) {
+				return chai.request(app)
+					.get('/' + user._id + '.json')
+					.then(function(res) {
+						res.should.have.status(200);
+						res.should.be.json;
+						res.should.be.a('object');
 				})
+			})
 		})
+	})
+
+	describe('POST FOR NEW NOTE', function() {
+		it('should create a new instance in db', function() {
+			User
+				.findOne({"username": "cookieMonster"})
+				.exec()
+				.then(function(user) {
+					let note = newNote(user._id)
+					return chai.request(app)
+						.post('/new-note')
+						.send(note)
+						.then(function(res) {
+							res.should.have.status(201);
+						})
+					})
+				})
 	})
 
 })
