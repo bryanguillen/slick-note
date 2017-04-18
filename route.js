@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {app, runServer, closeServer} = require('./server.js');
 const {User, Note} = require('./model');
+const path = require('path');
 
 //more dependencies and imports
 const bodyParser = require('body-parser');
@@ -29,13 +30,11 @@ router.post('/new-note', jsonParser, (req, res) => {
 	   	 	.findByIdAndUpdate(
 	   	 		req.cookies.id, 
 	   	 		{ $push: {userNotes: note._id}},
-	   	 		function (err, res) {
+	   	 		function (err) {
 	   	 			if(err) {return console.log(err)};
-	   	 			res.status(201);
 	   	 		}
 	   	 	)
-
-	   	//res.status(201);
+		res.status(201);
 	})
 });
 
@@ -43,10 +42,8 @@ router.get('/:id' + '.json', (req, res) => {
 	User 
 		.findById(req.params.id)
 		.populate('userNotes')
-		.exec((err, user) => {
-			if(err) {res.send(err)};
-			res.json(user.apiRepr());	
-		})
+		.exec()
+		.then(user => res.json(user.apiRepr()))
 		.catch(err => {
 			console.log(err);
 			res.status(500).json({errorMsg: "internal server error"});
@@ -56,10 +53,8 @@ router.get('/:id' + '.json', (req, res) => {
 router.get('/:id', (req, res) => {
 	User
 		.findById(req.params.id)
-		.exec((err, user) => {
-			if(err) {res.send(err)};
-			res.cookie('id', req.params.id).sendFile(__dirname + '/public/home.html');
-		})
+		.exec()
+		.then(res.cookie('id', req.params.id).sendFile(__dirname + '/public/home.html'))
 		.catch(err => {
 			console.log(err);
 			res.status(500).json({errorMsg: "internal server error"});

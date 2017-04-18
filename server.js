@@ -11,10 +11,10 @@ const app = express();
 
 mongoose.Promise = global.Promise;
 
-app.use(cookieParser());
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('common')); //log http layer
+app.use(cookieParser());
 app.use('/', route); 
 
 //start and kill server code below
