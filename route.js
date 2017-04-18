@@ -23,9 +23,11 @@ router.get('/signout', (req, res) => {
 
 //CREATING THE ACTUAL NOTE CONTENT
 router.put('/note', (req, res) => {
-	//we have to grab the current note and then just add the note content
-	//many ways we can do this, for now I think it is safe to say that 
-	//we are only going to have users with a few notes and that we can grab it by just finding it. 
+	Note
+		.findOneAndUpdate({"title": req.body.title}, { $set:{"notes": req.body.notes}}, {new: true})
+	 	.exec()
+	 	.then(note => res.status(204).send(console.log(note.apiRepr())))
+	 	//look for undefined.
 });
 
 //GETTING AND CREATING THE NEW NOTE TITLE AND SUBTITLE
@@ -38,7 +40,8 @@ router.post('/new-note', jsonParser, (req, res) => {
 	let newNote = new Note ({
 	   	user: req.body.user,
 	   	title: req.body.title,
-	   	subtitle: req.body.subtitle
+	   	subtitle: req.body.subtitle,
+		notes: req.body.notes
 	})
 	newNote.save((err, note) => {
 	   	if(err) {return console.log(err)};

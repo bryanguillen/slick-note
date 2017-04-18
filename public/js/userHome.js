@@ -1,10 +1,6 @@
 //State MGMT / API MGMT!
 var state = {};
 
-function getNote(obj) {
-	console.log(obj.notes);
-}
-
 //DOM MANIPULATION
 function displayUserData(obj) {
 	//obj.username returns the username
@@ -48,8 +44,7 @@ function renderNoteTemplate(title, subtitle) {
 
 //EVENT LISTENERS
 function getUserData() {
-	let currentCookie = document.cookie.split('='); 
-	let userId = currentCookie[1]; //temp solution for getting cookie
+	var userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 	let settings = {
 	 	type: 'GET',
 	 	url: 'http://localhost:8080/' + userId + '.json',
@@ -75,18 +70,19 @@ function clickNewNote() {
 function createNewNote() {
 	$('main').on('click', '.create-note', function(event) {
 		event.preventDefault();
-		let currentCookie = document.cookie.split('=');
 		//temp solution for now for getting cookie value. 
-		let userId = currentCookie[1];
+		let userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");//might cause bug
 		let newTitle = $('input[type="text"][name="new-note-title"]').val();
 		let newSubtitle = $('input[type="text"][name="new-note-subtitle"]').val();
+		//adding empty strings for fresh note
 		let settings = {
 		 	type: 'POST',
 		 	url: 'http://localhost:8080/new-note',
 		 	data: {
 		 		"user": userId,
 		 		"title": newTitle,
-		 		"subtitle": newSubtitle 
+		 		"subtitle": newSubtitle,
+		 		"notes": '' 
 		 	},	 	
 		 	dataType: "json",
 		 	success: renderNoteTemplate(newTitle, newSubtitle) 
@@ -99,9 +95,19 @@ function saveNote() {
 	$('main').on('click', 'button.save-note', function(event) {
 		event.preventDefault();
 		let noteText = $('textarea.edit-note').val();
+		let titleText = $(this).parent().prev().find('span.title-text').text(); //for fetching the note in db
 		$('textarea.edit-note').addClass('js-hide-edit');
 		$('button.save-note').addClass('js-hide-save');
 		$('div.note').text(noteText).removeClass('js-hide-note');
+		let settings = {
+			type: 'PUT',
+			url: 'http://localhost:8080/note',
+			data: {
+				"title": titleText,
+				"notes": noteText
+			}
+		}
+		return $.ajax(settings);
 	})
 }
 
