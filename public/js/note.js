@@ -2,111 +2,66 @@
 //the following is mock code to get a structure for the project.
 //LAYOUT INCLUDED BELOW
 
-//State MGMT
-var state = {};
+// function getCurrentNote() {
+// 	//get current note from api in the future
+// 	//for now just going to create and then display the note.
+// 	var note = userNotes.notes[0];
+// 	function createNoteHTML(note) {
+// 		var html = '<div class="header">' + 
+// 						note.sections[0].header + 
+// 					'</div>' + 
+// 					'<div class="content">' +
+// 						note.sections[0].content + 
+// 					'</div>'
+// 		return displayCurrentNote(html);
+// 	}
+// 	return createNoteHTML(note);
+// }
 
-//MOCK DATA!!
-var userNotes = {
-	notes: [
-		{
-			title: "FINANCE THE TIME VALUE OF MONEY",
-			subTitle: "FOR FINANCE 101",
-			sections: [
-					{
-						header: "The Time Value Of Money",
-						content: "The time value of money in the chapter " +
-						"states that what is more valuable than " +
-						"money is time. You can run out of money a hundred " +
-						"times and still recover from that. " +
-						"But if you lose time, you cannot recover from that."
-					}
-			]
-		}
-	]
-}
+// function getSections() {
+// 	//get the sections here to display on the side bar of current section
+// 	//these are going to be clickable sections that the user can use to navigate
+// 	var title = '<div>' + userNotes.notes[0].title + '</div>' + 
+// 				'<div>' + userNotes.notes[0].subTitle + '</div>'
 
-function getCurrentNote() {
-	//get current note from api in the future
-	//for now just going to create and then display the note.
-	var note = userNotes.notes[0];
-	function createNoteHTML(note) {
-		var html = '<div class="header">' + 
-						note.sections[0].header + 
-					'</div>' + 
-					'<div class="content">' +
-						note.sections[0].content + 
-					'</div>'
-		return displayCurrentNote(html);
-	}
-	return createNoteHTML(note);
-}
+// 	var noteSections =  '<div>' + userNotes.notes[0].sections[0].header + '</div>'
+// 	$('div.section-container').html(title + noteSections + 
+// 		'<button class="close-sections js-close-sections"> << </button>'); 
+// }
 
-function getSections() {
-	//get the sections here to display on the side bar of current section
-	//these are going to be clickable sections that the user can use to navigate
-	var title = '<div>' + userNotes.notes[0].title + '</div>' + 
-				'<div>' + userNotes.notes[0].subTitle + '</div>'
+// //DOM MANIPULATION
+// function displayCurrentNote(currentNote) {
+// 	$('div.note').html(currentNote);
+// }
 
-	var noteSections =  '<div>' + userNotes.notes[0].sections[0].header + '</div>'
-	$('div.section-container').html(title + noteSections + 
-		'<button class="close-sections js-close-sections"> << </button>'); 
-}
+// //EVENT LISTENERS
+// function saveNote() {
+// 	$('main').on('click', '.save-note', function(event) {
+// 		event.preventDefault();
+// 		//THIS IS WHERE IT WOULD BE SAVED TO THE DB AND PERSISTED
+// 		//THEN, INSERT BACK TO DIV.NOTE IN ORDER TO BE EASILY READABLE
+// 		var noteText = $('textarea.note').val();
+// 		$('textarea.note').addClass('js-edit-note');
+// 		$('button.save-note').addClass('js-save-note');
+// 		$('div.note').text(noteText).removeClass('js-hide-note');
+// 	})
+// }
 
-//DOM MANIPULATION
-function displayCurrentNote(currentNote) {
-	$('div.note').html(currentNote);
-}
+// function hideSections() {
+// 	$('main').on('click', '.close-sections', function(event) {
+// 		event.preventDefault();
+// 		$(this).parent().removeClass('js-inline').addClass('js-hide-sections');
+// 		$(this).closest('main').find('div.note-container').removeClass('js-inline');
+// 		$(this).closest('main').find('button.show-section-button').removeClass('js-hide-section-button');
+// 	})
+// }
 
-//EVENT LISTENERS
-function saveNote() {
-	$('main').on('click', '.save-note', function(event) {
-		event.preventDefault();
-		//THIS IS WHERE IT WOULD BE SAVED TO THE DB AND PERSISTED
-		//THEN, INSERT BACK TO DIV.NOTE IN ORDER TO BE EASILY READABLE
-		var noteText = $('textarea.note').val();
-		$('textarea.note').addClass('js-edit-note');
-		$('button.save-note').addClass('js-save-note');
-		$('div.note').text(noteText).removeClass('js-hide-note');
-	})
-}
-
-function hideSections() {
-	$('main').on('click', '.close-sections', function(event) {
-		event.preventDefault();
-		$(this).parent().removeClass('js-inline').addClass('js-hide-sections');
-		$(this).closest('main').find('div.note-container').removeClass('js-inline');
-		$(this).closest('main').find('button.show-section-button').removeClass('js-hide-section-button');
-	})
-}
-
-function showSections() {
-	$('main').on('click', '.show-section-button', function(event) {
-		event.preventDefault();
-		$(this).addClass('js-hide-section-button');
-		$('div.section-container').addClass('js-inline').removeClass('js-hide-sections');
-		$('div.note-container').addClass('js-inline');
-		getSections();
-	})
-}
-
-function editCurrentNote() {
-	$('main').on('click', '.note', function(event) {
-		event.preventDefault();
-		
-		//FIRST GET THE TEXT OF THE DIV
-		var text = $(this).find('div.content').text();
-		$('div.note').addClass("js-hide-note");
-
-		//THEN, SET THE TEXT OF TEXTAREA TO THAT AND SHOW THE SAVE BUTTON!
-		$('textarea.note').append(text).removeClass("js-edit-note");
-		$('button.save-note').removeClass("js-save-note");
-	})	
-}
-
-$(function() {
-	saveNote();
-	getCurrentNote();
-	editCurrentNote();
-	showSections();
-	hideSections();
-})
+// function showSections() {
+// 	$('main').on('click', '.show-section-button', function(event) {
+// 		event.preventDefault();
+// 		$(this).addClass('js-hide-section-button');
+// 		$('div.section-container').addClass('js-inline').removeClass('js-hide-sections');
+// 		$('div.note-container').addClass('js-inline');
+// 		getSections();
+// 	})
+// }

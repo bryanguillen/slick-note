@@ -42,8 +42,8 @@ function renderNewNote() {
 	$('main').html(getNewTemplate());
 }
 
-function renderNoteTemplate() {
-	$('main').html(getNoteTemplate());
+function renderNoteTemplate(title, subtitle) {
+	$('main').html(getNoteTemplate(title, subtitle));
 }
 
 //EVENT LISTENERS
@@ -88,40 +88,63 @@ function createNewNote() {
 		 		"title": newTitle,
 		 		"subtitle": newSubtitle 
 		 	},	 	
-		 	dataType: "json" 
+		 	dataType: "json",
+		 	success: renderNoteTemplate(newTitle, newSubtitle) 
 		}
-		renderNoteTemplate();
 		return $.ajax(settings);
 	});
 }
 
 function saveNote() {
-	$('main').on('click', '.save-note', function(event) {
+	$('main').on('click', 'button.save-note', function(event) {
 		event.preventDefault();
-		let noteText = $('textarea.note').val();
-		$('textarea.note').addClass('js-hide-edit');
+		let noteText = $('textarea.edit-note').val();
+		$('textarea.edit-note').addClass('js-hide-edit');
 		$('button.save-note').addClass('js-hide-save');
 		$('div.note').text(noteText).removeClass('js-hide-note');
-		let settings = {
-		 	type: 'POST',
-		 	url: 'http://localhost:8080/note',
-			dataType: "json", 
-			success: renderNewNote
-		}
-		return $.ajax(settings);
 	})
 }
 
-function editCurrentNote() {
+function editNote() {
 	$('main').on('click', '.note', function(event) {
 		event.preventDefault();
 		//FIRST GET THE TEXT OF THE DIV
 		let noteText = $(this).find('div.note').text();
 		$('div.note').addClass("js-hide-note");
 		//THEN, SET THE TEXT OF TEXTAREA TO THAT AND SHOW THE SAVE BUTTON!
-		$('textarea.note').append(noteText).removeClass("js-hide-edit");
+		$('textarea.edit-note').append(noteText).removeClass("js-hide-edit");
 		$('button.save-note').removeClass("js-hide-save");
 	})	
+}
+
+function editTitle() {
+	$('main').on('click', '.title', function(event) {
+		event.preventDefault();
+		//we want to hide this. well first get the text and then hide it. 
+		//then we want to update the title once they press save. 
+		let newTitle = $(this).find('span.title-text').text();
+		let newSubtitle = $(this).find('span.subtitle-text').text();
+		//after we grab that we have to then just allow the user to input something new.
+		$('div.title').addClass('js-hide-title');
+		$('div.edit-title').removeClass('js-edit-title-hide');
+	})
+}
+
+function saveTitle() {
+	$('main').on('click', '.update-titles', function(event) {
+		event.preventDefault();
+		//STRATEGY
+		//allow user to edit the titles, and then when hit saves, 
+		//grab those new values and insert them into their respective 
+		//span tags in order to display without the input boxes. 
+		let newTitle = $(this).parent().find('input[name="title"]').val();
+		let newSubtitle = $(this).parent().find('input[name="subtitle"]').val(); 
+		$(this).parent().addClass('js-edit-title-hide');
+		$(this).parent().prev().find('span.title-text').text(newTitle);
+		$(this).parent().prev().find('span.subtitle-text').text(newSubtitle);
+		$(this).parent().prev().removeClass('js-hide-title');
+
+	})
 }
 
 $(function() {
@@ -129,5 +152,7 @@ $(function() {
 	clickNewNote();
 	createNewNote();
 	saveNote();
-	editCurrentNote();
+	editNote();
+	editTitle();
+	saveTitle();
 })

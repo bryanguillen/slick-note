@@ -2,14 +2,6 @@
 	box-sizing: border-box;
 }
 
-.js-hide-edit, .js-hide-note, .js-hide-save {
+.js-hide-title, .js-edit-title-hide, .js-hide-edit, .js-hide-note, .js-hide-save {
 	display: none;
-}
-
-.js-inline {
-	display: inline-block;
-}
-
-.section-container {
-	width: 35%;
 }
