@@ -8,11 +8,14 @@ function displayUserData(obj) {
 	//the user
 	//that is going to be again obj.userNotes[i].title && ""
 	//subtitle
-	let notes = '';
-	obj.userNotes.forEach(function(item) {
-		notes += createFeedHTML(item);
-	 })
-	return renderFeed(notes);
+	if (obj.userNotes.length >= 1) {
+		let notes = '';
+		obj.userNotes.forEach(function(item) {
+			notes += createFeedHTML(item);
+	 	})
+		return renderFeed(notes);
+	}
+	return renderFeed('');
 }
 
 function createFeedHTML(note) {
@@ -36,33 +39,32 @@ function renderNewNote() {
 }
 
 function renderNoteTemplate() {
-	$('main').html();
+	$('main').html('<p>Hello world</p>');
 }
 
 //EVENT LISTENERS
 function getUserData() {
-	let currentCookie = document.cookie.split('=');
-	//temp solution for now for getting cookie value. 
-	let userId = currentCookie[1];
-	let currentUser = {
-		method: 'GET',
+	let currentCookie = document.cookie.split('='); 
+	let userId = currentCookie[1]; //temp solution for getting cookie
+	let settings = {
+		type: 'GET',
 		url: 'http://localhost:8080/' + userId + '.json',
 		dataType: "json", 
 		success: displayUserData
 	}
-	return $.ajax(currentUser);
+	return $.ajax(settings);
 }
 
 function clickNewNote() {
 	$('nav').on('click', '.new-note-button', function(event) {
 		event.preventDefault();
-		let currentUser = {
-		method: 'GET',
+		let settings = {
+		type: 'GET',
 		url: 'http://localhost:8080/new-note',
 		dataType: "json", 
 		success: renderNewNote
 		}
-		return $.ajax(currentUser);
+		return $.ajax(settings);
 	});
 }
 
@@ -74,8 +76,8 @@ function createNewNote() {
 		let userId = currentCookie[1];
 		let newTitle = $('input[type="text"][name="new-note-title"]').val();
 		let newSubtitle = $('input[type="text"][name="new-note-subtitle"]').val();
-		let currentUser = {
-		 	method: 'POST',
+		let settings = {
+		 	type: 'POST',
 		 	url: 'http://localhost:8080/new-note',
 		 	data: {
 		 		"user": userId,
@@ -85,7 +87,7 @@ function createNewNote() {
 		 	dataType: "json", 
 		 	success: renderNoteTemplate  
 		 }
-		 return $.ajax(currentUser);
+		 return $.ajax(settings);
 	});
 }
 

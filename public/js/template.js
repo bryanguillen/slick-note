@@ -14,23 +14,3 @@ function getNewTemplate() {
 			</div>
 			<button class="show-section-button"> >> </button>`
 }
-
-function getNoteTemplate() {
-	return
-		`<main>
-		<div class="section-container js-hide-sections">
-		</div>
-		<div class="note-container">
-			<div class="note-options">
-				<span>New Section</span>
-				<span>New SubSection</span>
-			</div>
-			<div class="note">
-			</div>
-			<textarea class="note js-edit-note"></textarea>
-			<!-- this button should be moved a little later! -->
-			<button class="save-note js-save-note">Save</button>
-		</div>
-		<button class="show-section-button"> >> </button>
-	</main>`
-}
