@@ -28,7 +28,7 @@ function runServer(databseUrl=DATABASE_URL) {
 		})
 
 		server = app.listen(process.env.PORT || 8080, function() {
-			console.log(`app is now listening on port 8080 & your database is ${TEST_DATABASE_URL}!`);
+			console.log(`app is now listening on port 8080 & your database is ${databseUrl}!`);
 			resolve();
 		})
 		.on('error', err => {

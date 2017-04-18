@@ -24,17 +24,13 @@ router.post('/new-note', jsonParser, (req, res) => {
 	   	title: req.body.title,
 	   	subtitle: req.body.subtitle
 	})
+	let _note; 
 	newNote.save((err, note) => {
 	   	if(err) {return console.log(err)};
 	   	 User
-	   	 	.findByIdAndUpdate(
-	   	 		req.cookies.id, 
-	   	 		{ $push: {userNotes: note._id}},
-	   	 		function (err) {
-	   	 			if(err) {return console.log(err)};
-	   	 		}
-	   	 	)
-		res.status(201);
+	   	 	.findByIdAndUpdate(req.cookies.id, { $push: {userNotes: note._id}})
+	   	 	.exec()
+	   	 	.then(note => res.status(201).json(note.apiRepr))
 	})
 });
 
