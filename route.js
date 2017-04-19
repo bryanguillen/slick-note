@@ -46,7 +46,7 @@ router.put('/update-notes', jsonParser, (req, res) => {
 			function(err, doc) {
 				if (err) {console.log(err)};
 				console.log(doc);
-				res.sendStatus(204);
+				res.sendStatus(204).end();
 			})
 });
 
@@ -77,13 +77,21 @@ router.post('/new-note', jsonParser, (req, res) => {
 	});
 });
 
+//DELETE notes from click on feed
+router.delete('/delete-note', jsonParser, (req, res) => {
+	Note
+		.deleteOne({"user": req.body.user, "title": req.body.title})
+		.exec()
+		.then(res.sendStatus(204).end())//what we could then do is just send a json and rerender the new dom. 
+})
+
 //GET the notes from click on feed
 router.get('/note', jsonParser, (req, res) => {
 	Note
 		.findOne({"user": req.query.user, "title": req.query.title, "subtitle": req.query.subtitle})
 		.exec(function(err, note) {
 	 		if (err) {return console.log(err)};
-	 		res.cookie('noteid', note._id).json(note.noteAPIRepr());
+	 		
 		})
 })
 
