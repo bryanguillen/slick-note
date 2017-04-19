@@ -22,12 +22,12 @@ function createFeedHTML(note) {
 	//notes will display like facebook's 
 	//feed feature with just the title and subtitle
 	//of the post 
-	return  '<div><h1>' + 
+	return  '<div class="user-note"><h1>' + 
 				note.title + 
 			'</h1><h6>' +
 				note.subtitle + 
-			'</h6>' +
-			'<span>Delete Note</span></div>';
+			'</h6></div>' +
+			'<div class="delete-button"><span>Delete Note</span></div>';
 }
 
 function renderFeed(notes) {
@@ -40,6 +40,11 @@ function renderNewNote() {
 
 function renderNoteTemplate(title, subtitle) {
 	$('main').html(getNoteTemplate(title, subtitle));
+}
+
+//getting note template 
+function renderGetNoteTemplate(obj) {
+	console.log(obj);
 }
 
 //EVENT LISTENERS
@@ -71,7 +76,7 @@ function createNewNote() {
 	$('main').on('click', '.create-note', function(event) {
 		event.preventDefault();
 		//temp solution for now for getting cookie value. 
-		let userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");//might cause bug
+		let userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 		let newTitle = $('input[type="text"][name="new-note-title"]').val();
 		let newSubtitle = $('input[type="text"][name="new-note-subtitle"]').val();
 		//adding empty strings for fresh note
@@ -100,7 +105,7 @@ function saveNote() {
 		$('div.note').text(noteText).removeClass('js-hide-note');
 		let settings = {
 			type: 'PUT',
-			url: 'http://localhost:8080/note',
+			url: 'http://localhost:8080/update-notes',
 			data: {
 				"title": titleText,
 				"notes": noteText
@@ -160,6 +165,34 @@ function saveTitle() {
 	})
 }
 
+function getUserNote() {
+	//on click what we are going to do is just render note template
+	//when the user clicks on div.user-note what we want to do here is 
+	//collect the text then render the noteTemplate with the titles as well 
+	//any notes. 
+	$('main').on('click', '.user-note', function(event) {
+		event.preventDefault();
+		let noteTitle = $(this).find('h1').text();
+		let noteSubtitle = $(this).find('h6').text();
+		let userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+		//what we need to do here, is find that and then 
+		//we want to set a cookie with the id and then 
+		//send a json with the information and just display with the proper template
+		let settings = {
+			type: 'GET',
+			url: 'http://localhost:8080/note',
+			data: {
+				"user": userId,
+				"title": noteTitle,
+				"subtitle": noteSubtitle
+			},
+			dataType: "json",
+			success: renderGetNoteTemplate
+		}
+		return $.ajax(settings);
+	})
+}
+
 $(function() {
 	getUserData();
 	clickNewNote();
@@ -168,4 +201,5 @@ $(function() {
 	editNote();
 	editTitle();
 	saveTitle();
+	getUserNote();
 })

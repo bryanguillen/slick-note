@@ -11,6 +11,9 @@ const cookieParser = require('cookie-parser');
 
 //COMMENTS JUST FOR DEV PURPOSES
 
+//**WILL CLEAN UP SOME OF THE CALLBACKS BELOW AFTER SOLVING PROBLEM. GOING OFF OF
+//MONGOOSE DOCS.
+
 //catching the favicon 
 router.get('/favicon.ico', function(req, res) {
     res.sendStatus(204);
@@ -26,7 +29,7 @@ router.put('/update-titles', jsonParser, (req, res) => {
 	Note
 		.findByIdAndUpdate({"_id": req.cookies.noteid}, 
 			{ $set: {"title": req.body.title, "subtitle": req.body.subtitle}}, 
-			{new: true}, 
+			{new: true}, //save new value here. 
 			function(err, doc) {
 				if (err) {console.log(err)};
 				console.log(doc);
@@ -35,13 +38,16 @@ router.put('/update-titles', jsonParser, (req, res) => {
 });
 
 //UPDATING THE ACTUAL NOTE CONTENT
-router.put('/note', jsonParser, (req, res) => {
+router.put('/update-notes', jsonParser, (req, res) => {
 	Note
-		.findByIdAndUpdate({"_id": req.cookies.noteid}, {$set: {"notes": req.body.notes}}, {new: true}, function(err, doc) {
-			if (err) {console.log(err)};
-			console.log(doc);
-			res.sendStatus(204);
-		})
+		.findByIdAndUpdate({"_id": req.cookies.noteid}, 
+			{$set: {"notes": req.body.notes}}, 
+			{new: true}, 
+			function(err, doc) {
+				if (err) {console.log(err)};
+				console.log(doc);
+				res.sendStatus(204);
+			})
 });
 
 //GETTING AND CREATING THE NEW NOTE TITLE AND SUBTITLE
@@ -71,6 +77,15 @@ router.post('/new-note', jsonParser, (req, res) => {
 	});
 });
 
+//GET the notes from click on feed
+// router.get('/note', jsonParser, (req, res) => {
+// 	let query = Note.findOne({"user": req.params.user, "title": req.body.title, "subtitle": req.body.subtitle});
+// 	// query.exec(function(err, note) {
+// 	// 	if (err) {return console.log(err)};
+// 	// 	res.send(console.log(note));
+// 	// })
+// })
+
 //GET THE USER INFORMATION FOR WHEN THEY FIRST LOGIN
 router.get('/:id' + '.json', (req, res) => {
 	User 
@@ -88,8 +103,7 @@ router.get('/:id', (req, res) => {
 	User
 		.findById(req.params.id)
 		.exec()
-		.then(res.cookie('id', req.params.id).sendFile(__dirname + '/public/home.html'))
-		//causing favicon error over and over again. 
+		.then(res.cookie('id', req.params.id).sendFile(__dirname + '/public/home.html')) 
 		.catch(err => {
 		  	console.log(err);
 		  	res.sendStatus(500).json({errorMsg: "internal server error"});
