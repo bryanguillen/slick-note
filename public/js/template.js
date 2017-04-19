@@ -38,3 +38,24 @@ function getNoteTemplate(title, subtitle) {
 				<button class="save-note">Save</button>
 			</div>`
 }
+
+function getPublishedNoteTemplate(title, subtitle, notes) {
+	return `<div class="title-container">
+				<div class="title">
+					<span class="title-text">  ${title} </span> 
+					<span class="subtitle-text"> ${subtitle} </span> 
+				</div>
+				<div class="edit-title js-edit-title-hide">  
+					<label>title</label>
+					<input type="text" name="title" required />
+					<label>subtitle</label>
+					<input type="text" name="subtitle" required />
+					<button class="update-titles">Update</button> 	
+				</div> 
+			</div>
+			<div class="note-container">
+				<div class="note">${notes}</div>
+				<textarea class="edit-note js-hide-edit"></textarea>
+				<button class="save-note js-hide-save">Save</button>
+			</div>`	
+}
