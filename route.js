@@ -78,13 +78,14 @@ router.post('/new-note', jsonParser, (req, res) => {
 });
 
 //GET the notes from click on feed
-// router.get('/note', jsonParser, (req, res) => {
-// 	let query = Note.findOne({"user": req.params.user, "title": req.body.title, "subtitle": req.body.subtitle});
-// 	// query.exec(function(err, note) {
-// 	// 	if (err) {return console.log(err)};
-// 	// 	res.send(console.log(note));
-// 	// })
-// })
+router.get('/note', jsonParser, (req, res) => {
+	Note
+		.findOne({"user": req.query.user, "title": req.query.title, "subtitle": req.query.subtitle})
+		.exec(function(err, note) {
+	 		if (err) {return console.log(err)};
+	 		res.cookie('noteid', note._id).json(note.noteAPIRepr());
+		})
+})
 
 //GET THE USER INFORMATION FOR WHEN THEY FIRST LOGIN
 router.get('/:id' + '.json', (req, res) => {
@@ -103,7 +104,7 @@ router.get('/:id', (req, res) => {
 	User
 		.findById(req.params.id)
 		.exec()
-		.then(res.cookie('id', req.params.id).sendFile(__dirname + '/public/home.html')) 
+		.then(res.clearCookie('noteid').cookie('id', req.params.id).sendFile(__dirname + '/public/home.html')) 
 		.catch(err => {
 		  	console.log(err);
 		  	res.sendStatus(500).json({errorMsg: "internal server error"});
