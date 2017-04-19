@@ -27,7 +27,7 @@ function createFeedHTML(note) {
 			'</h1><h6>' +
 				note.subtitle + 
 			'</h6></div>' +
-			'<div class="delete-button"><span>Delete Note</span></div>';
+			'<div><span class="delete-button">Delete Note</span></div>';
 }
 
 function renderFeed(notes) {
@@ -43,8 +43,10 @@ function renderNoteTemplate(title, subtitle) {
 }
 
 //getting note template 
-function renderGetNoteTemplate(obj) {
-	console.log(obj);
+function createUserNoteHTML(obj) {
+	//here is where we create the markeup.
+	//temp solution! 
+	$('main').html(getPublishedNoteTemplate(obj.title, obj.subtitle, obj.notes));
 }
 
 //EVENT LISTENERS
@@ -119,7 +121,7 @@ function editNote() {
 	$('main').on('click', '.note', function(event) {
 		event.preventDefault();
 		//FIRST GET THE TEXT OF THE DIV
-		let noteText = $(this).find('div.note').text();
+		let noteText = $(this).text();
 		$('div.note').addClass("js-hide-note");
 		//THEN, SET THE TEXT OF TEXTAREA TO THAT AND SHOW THE SAVE BUTTON!
 		$('textarea.edit-note').append(noteText).removeClass("js-hide-edit");
@@ -187,7 +189,7 @@ function getUserNote() {
 				"subtitle": noteSubtitle
 			},
 			dataType: "json",
-			success: renderGetNoteTemplate
+			success: createUserNoteHTML
 		}
 		return $.ajax(settings);
 	})
