@@ -84,7 +84,6 @@ function createNewNote() {
 		 		"subtitle": newSubtitle,
 		 		"notes": '' 
 		 	},	 	
-		 	dataType: "json",
 		 	success: renderNoteTemplate(newTitle, newSubtitle) 
 		}
 		return $.ajax(settings);

@@ -13,7 +13,7 @@ const cookieParser = require('cookie-parser');
 
 //catching the favicon 
 router.get('/favicon.ico', function(req, res) {
-    res.send(204);
+    res.sendStatus(204);
 });
 
 //account mgmt
@@ -22,34 +22,40 @@ router.get('/signout', (req, res) => {
 });
 
 //CREATING THE ACTUAL NOTE CONTENT
-router.put('/note', (req, res) => {
+router.put('/note', jsonParser, (req, res) => {
 	Note
-		.findOneAndUpdate({"title": req.body.title}, { $set:{"notes": req.body.notes}}, {new: true})
-	 	.exec()
-	 	.then(note => res.status(204).send(console.log(note.apiRepr())))
-	 	//look for undefined.
+		.findByIdAndUpdate({"_id": req.cookies.noteid}, {$set: {"notes": req.body.notes}}, {new: true}, function(err, doc) {
+			if (err) {console.log(err)};
+			console.log(doc);
+			res.sendStatus(204);
+		})
 });
 
 //GETTING AND CREATING THE NEW NOTE TITLE AND SUBTITLE
 router.get('/new-note', (req, res) => {
-	res.json({successMessage: "Hello world!"});
+	res.clearCookie('noteid').json({successMessage: "Hello world!"});
 });
 
 router.post('/new-note', jsonParser, (req, res) => {
 	//create the new post in the database 
 	let newNote = new Note ({
-	   	user: req.body.user,
-	   	title: req.body.title,
-	   	subtitle: req.body.subtitle,
-		notes: req.body.notes
-	})
-	newNote.save((err, note) => {
-	   	if(err) {return console.log(err)};
-	   	 User
+		"user": req.body.user,
+		"title": req.body.title, 
+		"subtitle": req.body.subtitle,
+		"notes": req.body.notes
+	});
+
+	newNote.save(function(err, note) {
+		if (err) {return console.log(err)};
+		User
 	   	 	.findByIdAndUpdate(req.cookies.id, { $push: {userNotes: note._id}})
 	   	 	.exec()
-	   	 	.then(note => res.status(201).json(note.apiRepr()))
-	})
+	   	 	.then(res.cookie('noteid', note._id).sendStatus(201))
+	   	 	.catch(err => {
+	   	 		console.log(err);
+	   	 		res.sendStatus(500).json({errorMessage: "error"});
+	   	 	})
+	});
 });
 
 //GET THE USER INFORMATION FOR WHEN THEY FIRST LOGIN
@@ -61,7 +67,7 @@ router.get('/:id' + '.json', (req, res) => {
 		.then(user => res.json(user.apiRepr()))
 		.catch(err => {
 		 	console.log(err);
-		 	res.status(500).json({errorMsg: "internal server error"});
+		 	res.sendStatus(500).json({errorMsg: "internal server error"});
 		})
 });
 
@@ -73,7 +79,7 @@ router.get('/:id', (req, res) => {
 		//causing favicon error over and over again. 
 		.catch(err => {
 		  	console.log(err);
-		  	res.status(500).json({errorMsg: "internal server error"});
+		  	res.sendStatus(500).json({errorMsg: "internal server error"});
 		})
 });
 
