@@ -21,7 +21,20 @@ router.get('/signout', (req, res) => {
 	res.clearCookie('id').json({successMessage: "congrats you have signed off!"});
 });
 
-//CREATING THE ACTUAL NOTE CONTENT
+//UPDATING TITLES IF USER WANTS TO
+router.put('/update-titles', jsonParser, (req, res) => {
+	Note
+		.findByIdAndUpdate({"_id": req.cookies.noteid}, 
+			{ $set: {"title": req.body.title, "subtitle": req.body.subtitle}}, 
+			{new: true}, 
+			function(err, doc) {
+				if (err) {console.log(err)};
+				console.log(doc);
+				res.sendStatus(204);
+		})
+});
+
+//UPDATING THE ACTUAL NOTE CONTENT
 router.put('/note', jsonParser, (req, res) => {
 	Note
 		.findByIdAndUpdate({"_id": req.cookies.noteid}, {$set: {"notes": req.body.notes}}, {new: true}, function(err, doc) {

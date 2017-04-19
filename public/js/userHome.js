@@ -94,7 +94,7 @@ function saveNote() {
 	$('main').on('click', 'button.save-note', function(event) {
 		event.preventDefault();
 		let noteText = $('textarea.edit-note').val();
-		let titleText = $(this).parent().prev().find('span.title-text').text(); //for fetching the note in db
+		let titleText = $(this).parent().prev().find('span.title-text').text();
 		$('textarea.edit-note').addClass('js-hide-edit');
 		$('button.save-note').addClass('js-hide-save');
 		$('div.note').text(noteText).removeClass('js-hide-note');
@@ -148,7 +148,15 @@ function saveTitle() {
 		$(this).parent().prev().find('span.title-text').text(newTitle);
 		$(this).parent().prev().find('span.subtitle-text').text(newSubtitle);
 		$(this).parent().prev().removeClass('js-hide-title');
-
+		let settings = {
+			type: 'PUT',
+			url: 'http://localhost:8080/update-titles',
+			data: {
+				"title": newTitle,
+				"subtitle": newSubtitle
+			}
+		}
+		return $.ajax(settings);
 	})
 }
 
