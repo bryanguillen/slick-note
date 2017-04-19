@@ -195,6 +195,25 @@ function getUserNote() {
 	})
 }
 
+function clickDeleteNote() {
+	$('main').on('click', '.delete-button', function(event) {
+		event.preventDefault();
+		let divTag = $(this).parent().prev();
+		let userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+		let noteTitle = divTag.find('h1').text();
+		let noteSubtitle = divTag.find('h6').text();
+		let settings = {
+			type: 'DELETE',
+			url: 'http://localhost:8080/delete-note',
+			data: {
+				"user": userId,
+				"title": noteTitle,
+			}
+		}
+		return $.ajax(settings);
+	})
+}
+
 $(function() {
 	getUserData();
 	clickNewNote();
@@ -204,4 +223,5 @@ $(function() {
 	editTitle();
 	saveTitle();
 	getUserNote();
+	clickDeleteNote();
 })
