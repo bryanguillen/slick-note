@@ -10,15 +10,9 @@ const jsonParser = bodyParser.json();
 const cookieParser = require('cookie-parser');
 
 //COMMENTS JUST FOR DEV PURPOSES
-
+//WILL TEST AFTER DONE. 
 //**WILL CLEAN UP SOME OF THE CALLBACKS BELOW AFTER SOLVING PROBLEM. GOING OFF OF
 //MONGOOSE DOCS.
-
-// //catching the favicon 
-// router.get('/favicon.ico', function(req, res) {
-//     res.sendStatus(204);
-// });
-
 //account mgmt
 router.get('/signout', (req, res) => {
 	res.clearCookie('id').json({successMessage: "congrats you have signed off!"});
