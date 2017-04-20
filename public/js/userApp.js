@@ -22,7 +22,8 @@ function createFeedHTML(note) {
 	//notes will display like facebook's 
 	//feed feature with just the title and subtitle
 	//of the post 
-	return  '<div class="user-note"><h1>' + 
+	return  '<div class="note-id">' + note._id + '</div>' +
+			'<div class="user-note"><h1>' + 
 				note.title + 
 			'</h1><h6>' +
 				note.subtitle + 
@@ -34,31 +35,47 @@ function renderFeed(notes) {
 	$('main').html(notes);
 }
 
-function renderNewNote() {
+function renderNewNoteTemplate() {
 	$('main').html(getNewTemplate());
 }
 
-function renderNoteTemplate(title, subtitle) {
-	$('main').html(getNoteTemplate(title, subtitle));
+function renderNoteTemplate(obj) {
+	$('main').html(getNoteTemplate(obj.title, obj.subtitle, obj.id));
 }
 
-//getting note template 
-function createUserNoteHTML(obj) {
-	//here is where we create the markeup.
-	//temp solution! 
-	$('main').html(getPublishedNoteTemplate(obj.title, obj.subtitle, obj.notes));
+function renderPublishedNote(obj) {
+	//here is where we get the template then render
+	$('main').html(getPublishedNoteTemplate(obj.title, obj.subtitle, obj.notes, obj._id));
 }
 
 //EVENT LISTENERS
 function getUserData() {
-	var userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+	let userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1"); //temp solution
 	let settings = {
 	 	type: 'GET',
-	 	url: 'http://localhost:8080/' + userId + '.json',
+		url: 'http://localhost:8080/user/' + userId + '.json',
 	 	dataType: "json", 
 	 	success: displayUserData
 	}
 	return $.ajax(settings);
+}
+
+function getUserNote() {
+	$('main').on('click', '.user-note', function(event) {
+		event.preventDefault();
+		let userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+		let noteId = $(this).prev().text();
+		let settings = {
+			type: 'GET',
+			url: 'http://localhost:8080/note/' + noteId,
+			data: {
+				"_id": noteId
+			},
+			dataType: "json",
+			success: renderPublishedNote //keep eye on this
+		}
+		return $.ajax(settings);
+	})
 }
 
 function clickNewNote() {
@@ -68,7 +85,7 @@ function clickNewNote() {
 		type: 'GET',
 		url: 'http://localhost:8080/new-note',
 		dataType: "json", 
-		success: renderNewNote
+		success: renderNewNoteTemplate
 		}
 		return $.ajax(settings);
 	});
@@ -91,7 +108,7 @@ function createNewNote() {
 		 		"subtitle": newSubtitle,
 		 		"notes": '' 
 		 	},	 	
-		 	success: renderNoteTemplate(newTitle, newSubtitle) 
+		 	success: renderNoteTemplate 
 		}
 		return $.ajax(settings);
 	});
@@ -101,19 +118,18 @@ function saveNote() {
 	$('main').on('click', 'button.save-note', function(event) {
 		event.preventDefault();
 		let noteText = $('textarea.edit-note').val();
-		let titleText = $(this).parent().prev().find('span.title-text').text();
-		$('textarea.edit-note').addClass('js-hide-edit');
-		$('button.save-note').addClass('js-hide-save');
-		$('div.note').text(noteText).removeClass('js-hide-note');
+		let noteId = $(this).next().text();
+		$('div.editing-note-container').hide();
+		$('div.note').text(noteText).show();
 		let settings = {
-			type: 'PUT',
-			url: 'http://localhost:8080/update-notes',
-			data: {
-				"title": titleText,
-				"notes": noteText
-			}
-		}
-		return $.ajax(settings);
+		 	type: 'PUT',
+		 	url: 'http://localhost:8080/update-notes',
+		 	data: {
+		 		"title": titleText,
+		 		"notes": noteText
+		// 	}
+		// }
+		// return $.ajax(settings);
 	})
 }
 
@@ -167,34 +183,6 @@ function saveTitle() {
 	})
 }
 
-function getUserNote() {
-	//on click what we are going to do is just render note template
-	//when the user clicks on div.user-note what we want to do here is 
-	//collect the text then render the noteTemplate with the titles as well 
-	//any notes. 
-	$('main').on('click', '.user-note', function(event) {
-		event.preventDefault();
-		let noteTitle = $(this).find('h1').text();
-		let noteSubtitle = $(this).find('h6').text();
-		let userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-		//what we need to do here, is find that and then 
-		//we want to set a cookie with the id and then 
-		//send a json with the information and just display with the proper template
-		let settings = {
-			type: 'GET',
-			url: 'http://localhost:8080/note',
-			data: {
-				"user": userId,
-				"title": noteTitle,
-				"subtitle": noteSubtitle
-			},
-			dataType: "json",
-			success: createUserNoteHTML
-		}
-		return $.ajax(settings);
-	})
-}
-
 function clickDeleteNote() {
 	$('main').on('click', '.delete-button', function(event) {
 		event.preventDefault();
@@ -216,12 +204,12 @@ function clickDeleteNote() {
 
 $(function() {
 	getUserData();
+	getUserNote();
 	clickNewNote();
 	createNewNote();
 	saveNote();
 	editNote();
 	editTitle();
 	saveTitle();
-	getUserNote();
 	clickDeleteNote();
 })
