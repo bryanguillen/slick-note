@@ -45,7 +45,8 @@ function renderNoteTemplate(obj) {
 
 function renderPublishedNote(obj) {
 	//here is where we get the template then render
-	$('main').html(getPublishedNoteTemplate(obj.title, obj.subtitle, obj.notes, obj._id));
+	//renders note with editing mode hidden so the user could do as he/she pleases
+	$('main').html(getPublishedNoteTemplate(obj.title, obj.subtitle, obj.notes, obj.id));
 }
 
 //EVENT LISTENERS
@@ -114,7 +115,17 @@ function createNewNote() {
 	});
 }
 
-function saveNote() {
+function updateNote() {
+	//Two different sections because of design of app. 
+	//You are either updating the titles, which wont be that often, 
+	//or the note which is the core activity of the app.
+	//therefore we split it, and focus more on the first event
+	//listener of this function
+	//willing to split these into two different functions completely.
+	//but seems fair to say that updateNote includes the note and the 
+	//titles for the notes.
+	
+	//updating the actual note
 	$('main').on('click', 'button.save-note', function(event) {
 		event.preventDefault();
 		let noteText = $('textarea.edit-note').val();
@@ -123,63 +134,59 @@ function saveNote() {
 		$('div.note').text(noteText).show();
 		let settings = {
 		 	type: 'PUT',
-		 	url: 'http://localhost:8080/update-notes',
+		 	url: 'http://localhost:8080/update-note/' + noteId,
 		 	data: {
-		 		"title": titleText,
 		 		"notes": noteText
-		// 	}
-		// }
-		// return $.ajax(settings);
+		 	}
+		}
+		return $.ajax(settings);
+	})
+
+	//updating the titles
+	$('main').on('click', '.update-titles', function(event) {
+		event.preventDefault();
+		let titleParent = $(this).parent(); //CONSIDER RENAMING THIS VARIABLE
+		let newTitle = titleParent.find('input[name="title"]').val();
+		let newSubtitle = titleParent.find('input[name="subtitle"]').val(); 
+		let noteId = titleParent.parent().next().find('div.note-id').text();
+
+		//consider putting the next two lines into a function?
+		//set the title with new values in UI
+		titleParent.prev().find('span.title-text').text(newTitle);
+		titleParent.prev().find('span.subtitle-text').text(newSubtitle); 
+		
+		$(this).parent().hide();
+		titleParent.prev().show();
+		
+		let settings = {
+		  	type: 'PUT',
+		  	url: 'http://localhost:8080/update-note/' + noteId,
+		  	data: {
+		  		"title": newTitle,
+		  		"subtitle": newSubtitle
+		  	}
+		 }
+		return $.ajax(settings);
 	})
 }
 
 function editNote() {
 	$('main').on('click', '.note', function(event) {
 		event.preventDefault();
-		//FIRST GET THE TEXT OF THE DIV
+		//FIRST GET THE TEXT OF THE DIV THEN HIDE IT
 		let noteText = $(this).text();
-		$('div.note').addClass("js-hide-note");
+		$('div.note').hide();
 		//THEN, SET THE TEXT OF TEXTAREA TO THAT AND SHOW THE SAVE BUTTON!
-		$('textarea.edit-note').append(noteText).removeClass("js-hide-edit");
-		$('button.save-note').removeClass("js-hide-save");
+		$('textarea.edit-note').append(noteText);
+		$('div.editing-note-container').show();
 	})	
 }
 
 function editTitle() {
 	$('main').on('click', '.title', function(event) {
-		event.preventDefault();
-		//we want to hide this. well first get the text and then hide it. 
-		//then we want to update the title once they press save. 
-		let newTitle = $(this).find('span.title-text').text();
-		let newSubtitle = $(this).find('span.subtitle-text').text();
-		//after we grab that we have to then just allow the user to input something new.
-		$('div.title').addClass('js-hide-title');
-		$('div.edit-title').removeClass('js-edit-title-hide');
-	})
-}
-
-function saveTitle() {
-	$('main').on('click', '.update-titles', function(event) {
-		event.preventDefault();
-		//STRATEGY
-		//allow user to edit the titles, and then when hit saves, 
-		//grab those new values and insert them into their respective 
-		//span tags in order to display without the input boxes. 
-		let newTitle = $(this).parent().find('input[name="title"]').val();
-		let newSubtitle = $(this).parent().find('input[name="subtitle"]').val(); 
-		$(this).parent().addClass('js-edit-title-hide');
-		$(this).parent().prev().find('span.title-text').text(newTitle);
-		$(this).parent().prev().find('span.subtitle-text').text(newSubtitle);
-		$(this).parent().prev().removeClass('js-hide-title');
-		let settings = {
-			type: 'PUT',
-			url: 'http://localhost:8080/update-titles',
-			data: {
-				"title": newTitle,
-				"subtitle": newSubtitle
-			}
-		}
-		return $.ajax(settings);
+		event.preventDefault();  
+		$('div.title').hide();
+		$('div.edit-title').show(); //can also just add a class in order to just render it hidden
 	})
 }
 
@@ -207,9 +214,8 @@ $(function() {
 	getUserNote();
 	clickNewNote();
 	createNewNote();
-	saveNote();
+	updateNote();
 	editNote();
 	editTitle();
-	saveTitle();
 	clickDeleteNote();
 })
