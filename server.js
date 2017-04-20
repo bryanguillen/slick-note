@@ -3,15 +3,16 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const route = require('./route');
-const {DATABASE_URL, TEST_DATABASE_URL, PORT} = require('./config');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
+const {DATABASE_URL, TEST_DATABASE_URL, PORT} = require('./config');
 
 const app = express();
 
 mongoose.Promise = global.Promise;
 
 app.use(express.static('public'));
+app.use('/user', express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('common')); //log http layer
 app.use(cookieParser());
