@@ -2,6 +2,14 @@
 	box-sizing: border-box;
 }
 
-.js-hide-title, .js-edit-title-hide, .js-hide-edit, .js-hide-note, .js-hide-save {
+/*.js-hide-title, .js-edit-title-hide, .js-hide-edit, .js-hide-note, .js-hide-save {
+	display: none;
+}*/
+
+.edit-title, .hide-edit-note {
+	display: none;
+}
+
+.note-id {
 	display: none;
 }
