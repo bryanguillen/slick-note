@@ -23,7 +23,7 @@ function getNoteTemplate(title, subtitle, noteId) {
 					<span class="title-text">  ${title} </span> 
 					<span class="subtitle-text"> ${subtitle} </span> 
 				</div>
-				<div class="edit-title js-edit-title-hide">  
+				<div class="edit-title">  
 					<label>title</label>
 					<input type="text" name="title" required />
 					<label>subtitle</label>
@@ -32,7 +32,7 @@ function getNoteTemplate(title, subtitle, noteId) {
 				</div> 
 			</div>
 			<div class="note-container">
-				<div class="note js-hide-note">
+				<div class="note">
 				</div>
 				<div class="editing-note-container">
 					<textarea class="edit-note"></textarea>
@@ -49,7 +49,7 @@ function getPublishedNoteTemplate(title, subtitle, notes, noteId) {
 					<span class="title-text">  ${title} </span> 
 					<span class="subtitle-text"> ${subtitle} </span> 
 				</div>
-				<div class="edit-title js-edit-title-hide">  
+				<div class="edit-title">  
 					<label>title</label>
 					<input type="text" name="title" required />
 					<label>subtitle</label>
@@ -58,10 +58,12 @@ function getPublishedNoteTemplate(title, subtitle, notes, noteId) {
 				</div> 
 			</div>
 			<div class="note-container">
+				<!-- notes added so user could read their notes -->
 				<div class="note">${notes}</div>
-				<div class="editing-note-container">
-					<textarea class="edit-note js-hide-edit"></textarea>
-					<button class="save-note js-hide-save">Save</button>
+				<!-- hide-edit-note added to render just note so user could read without edit -->
+				<div class="editing-note-container hide-edit-note">
+					<textarea class="edit-note"></textarea>
+					<button class="save-note">Save</button>
 					<div class="note-id">${noteId}</div>
 				</div>
 			</div>`	
