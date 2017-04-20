@@ -1,6 +1,3 @@
-//State MGMT / API MGMT!
-var state = {};
-
 //DOM MANIPULATION
 function displayUserData(obj) {
 	//obj.username returns the username
@@ -22,13 +19,14 @@ function createFeedHTML(note) {
 	//notes will display like facebook's 
 	//feed feature with just the title and subtitle
 	//of the post 
-	return  '<div class="note-id">' + note._id + '</div>' +
-			'<div class="user-note"><h1>' + 
-				note.title + 
-			'</h1><h6>' +
-				note.subtitle + 
-			'</h6></div>' +
-			'<div><span class="delete-button">Delete Note</span></div>';
+	return  '<div class="user-note-container">' + 
+				'<div class="note-id">' + note._id + '</div>' +
+				'<div class="user-note">' + 
+					'<h1>' + note.title + '</h1>' + 
+					'<h6>' + note.subtitle + '</h6>' + 
+				'</div>' +
+				'<div class="delete-container"><span class="delete-button">Delete Note</span></div>' +
+			'</div>'; 
 }
 
 function renderFeed(notes) {
@@ -65,7 +63,8 @@ function getUserNote() {
 	$('main').on('click', '.user-note', function(event) {
 		event.preventDefault();
 		let userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-		let noteId = $(this).prev().text();
+		let noteId = $(this).closest('.user-note-container').find('div.note-id').text(); //keep eye on this
+		console.log(noteId);
 		let settings = {
 			type: 'GET',
 			url: 'http://localhost:8080/note/' + noteId,
@@ -193,19 +192,13 @@ function editTitle() {
 function clickDeleteNote() {
 	$('main').on('click', '.delete-button', function(event) {
 		event.preventDefault();
-		let divTag = $(this).parent().prev();
-		let userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-		let noteTitle = divTag.find('h1').text();
-		let noteSubtitle = divTag.find('h6').text();
-		let settings = {
-			type: 'DELETE',
-			url: 'http://localhost:8080/delete-note',
-			data: {
-				"user": userId,
-				"title": noteTitle,
-			}
-		}
-		return $.ajax(settings);
+		//hide on click
+		let noteId = $(this).closest('.user-note-container').find('.note-id').text();
+	 	let settings = {
+	 		type: 'DELETE',
+	 		url: 'http://localhost:8080/delete-note/' + noteId
+	 	}
+	 	return $.ajax(settings);
 	})
 }
 
