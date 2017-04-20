@@ -26,7 +26,7 @@ router.get('/signout', (req, res) => {
 });
 
 //DELETE notes from click on feed
-router.delete('/delete-note/:note_id', (req, res) => {
+router.delete('/note/:note_id', (req, res) => {
 	Note
 		.findByIdAndRemove(req.params.note_id)
 		.exec()
@@ -38,11 +38,14 @@ router.delete('/delete-note/:note_id', (req, res) => {
 })
 
 //UPDATING THE ACTUAL NOTE CONTENT
-router.put('/update-note/:note_id', jsonParser, (req, res) => {
+router.put('/note/:note_id', jsonParser, (req, res) => {
 	//check what fields were sent via the ajax request.. then update
 	let updatedFields = {};
 	Object.keys(req.body).forEach(function(field) {
-		updatedFields[field] = req.body[field];
+		//leave id out of the update 
+		if (field !== "id") {
+			updatedFields[field] = req.body[field];
+		}
 	})
 	let newValues = { $set: updatedFields}
 	Note

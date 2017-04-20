@@ -68,7 +68,6 @@ function getUserNote() {
 		event.preventDefault();
 		let userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 		let noteId = $(this).closest('.user-note-container').find('div.note-id').text(); //keep eye on this
-		console.log(noteId);
 		let settings = {
 			type: 'GET',
 			url: 'http://localhost:8080/note/' + noteId,
@@ -137,7 +136,7 @@ function updateNote() {
 		$('div.note').text(noteText).show();
 		let settings = {
 		 	type: 'PUT',
-		 	url: 'http://localhost:8080/update-note/' + noteId,
+		 	url: 'http://localhost:8080/note/' + noteId,
 		 	data: {
 		 		"notes": noteText
 		 	}
@@ -163,7 +162,7 @@ function updateNote() {
 		
 		let settings = {
 		  	type: 'PUT',
-		  	url: 'http://localhost:8080/update-note/' + noteId,
+		  	url: 'http://localhost:8080/note/' + noteId,
 		  	data: {
 		  		"title": newTitle,
 		  		"subtitle": newSubtitle
@@ -207,7 +206,7 @@ function confirmDelete() {
 		let noteId = $(this).closest('.user-note-container').find('.note-id').text();
 	 	let settings = {
 	 		type: 'DELETE',
-	 		url: 'http://localhost:8080/delete-note/' + noteId
+	 		url: 'http://localhost:8080/note/' + noteId
 	 	}
 	 	return $.ajax(settings);
 	})	
