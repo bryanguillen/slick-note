@@ -14,48 +14,63 @@ const cookieParser = require('cookie-parser');
 //**WILL CLEAN UP SOME OF THE CALLBACKS BELOW AFTER SOLVING PROBLEM. GOING OFF OF
 //MONGOOSE DOCS.
 
-//catching the favicon 
-router.get('/favicon.ico', function(req, res) {
-    res.sendStatus(204);
-});
+// //catching the favicon 
+// router.get('/favicon.ico', function(req, res) {
+//     res.sendStatus(204);
+// });
 
 //account mgmt
 router.get('/signout', (req, res) => {
 	res.clearCookie('id').json({successMessage: "congrats you have signed off!"});
 });
 
-//UPDATING TITLES IF USER WANTS TO
-router.put('/update-titles', jsonParser, (req, res) => {
+//DELETE notes from click on feed
+router.delete('/delete-note/:note_id', (req, res) => {
 	Note
-		.findByIdAndUpdate({"_id": req.cookies.noteid}, 
-			{ $set: {"title": req.body.title, "subtitle": req.body.subtitle}}, 
-			{new: true}, //save new value here. 
-			function(err, doc) {
-				if (err) {console.log(err)};
-				console.log(doc);
-				res.sendStatus(204);
+		.deleteOne(req.params.note_id)
+		.exec()
+		.then(res.status(204).end()) 
+		.catch(err => {
+			console.log(err);
+			res.status(500).json({errorMsg: "internal server error"});
 		})
-});
+})
 
 //UPDATING THE ACTUAL NOTE CONTENT
-router.put('/update-notes', jsonParser, (req, res) => {
+router.put('/update-note/:note_id', jsonParser, (req, res) => {
+	//check what fields were sent via the ajax request.. then update
+	let updatedFields = {};
+	Object.keys(req.body).forEach(function(field) {
+		updatedFields[field] = req.body[field];
+	})
+	let newValues = { $set: updatedFields}
 	Note
-		.findByIdAndUpdate({"_id": req.cookies.noteid}, 
-			{$set: {"notes": req.body.notes}}, 
+		.findByIdAndUpdate({"_id": req.params.note_id}, 
+			newValues, 
 			{new: true}, 
 			function(err, doc) {
-				if (err) {console.log(err)};
+				if (err) {
+					console.log(err);
+					res.status(500).json({errorMsg: "internal server error"});
+				}
 				console.log(doc);
-				res.sendStatus(204).end();
+				res.status(204).end();
 			})
 });
 
 //GETTING AND CREATING THE NEW NOTE TITLE AND SUBTITLE
 router.get('/new-note', (req, res) => {
-	res.clearCookie('noteid').json({successMessage: "Hello world!"});
+	res
+	.status(200)
+	.json({successMessage: "get create new note"})
+	.catch(err => {
+		console.log(err);
+		res.status(500).json({errorMsg: "internal server error"});
+	})
 });
 
 router.post('/new-note', jsonParser, (req, res) => {
+	//later test code by making sure each key is present when introducing new note
 	//create the new post in the database 
 	let newNote = new Note ({
 		"user": req.body.user,
@@ -69,54 +84,56 @@ router.post('/new-note', jsonParser, (req, res) => {
 		User
 	   	 	.findByIdAndUpdate(req.cookies.id, { $push: {userNotes: note._id}})
 	   	 	.exec()
-	   	 	.then(res.cookie('noteid', note._id).sendStatus(201))
+	   	 	.then(res.status(201).json(note.noteAPIRepr()))
 	   	 	.catch(err => {
 	   	 		console.log(err);
-	   	 		res.sendStatus(500).json({errorMessage: "error"});
+	   	 		res.status(500).json({errorMsg: "internal server error"});
 	   	 	})
 	});
 });
 
-//DELETE notes from click on feed
-router.delete('/delete-note', jsonParser, (req, res) => {
-	Note
-		.deleteOne({"user": req.body.user, "title": req.body.title})
-		.exec()
-		.then(res.sendStatus(204).end())//what we could then do is just send a json and rerender the new dom. 
-})
-
 //GET the notes from click on feed
-router.get('/note', jsonParser, (req, res) => {
+router.get('/note/:note_id', (req, res) => {
 	Note
-		.findOne({"user": req.query.user, "title": req.query.title, "subtitle": req.query.subtitle})
-		.exec(function(err, note) {
-	 		if (err) {return console.log(err)};
-	 		
-		})
+		.findById({"_id": req.params.note_id}, function(err, note) {
+	 		if (err) {
+	 			console.log(err)
+	 			res.status(500).json({errorMsg: "internal server error"});
+	 		};
+	 		res.json(note.noteAPIRepr());
+	 	})
+		.exec()
 })
 
 //GET THE USER INFORMATION FOR WHEN THEY FIRST LOGIN
-router.get('/:id' + '.json', (req, res) => {
+router.get('/user/:id' + '.json', (req, res) => {
 	User 
 		.findById(req.params.id)
 		.populate('userNotes')
 		.exec()
-		.then(user => res.json(user.apiRepr()))
+		.then(user => res.status(200).json(user.apiRepr()))
 		.catch(err => {
 		 	console.log(err);
-		 	res.sendStatus(500).json({errorMsg: "internal server error"});
+		 	res.status(500).json({errorMsg: "internal server error"});
 		})
 });
 
-router.get('/:id', (req, res) => {
+router.get('/user/:id', (req, res) => {
 	User
 		.findById(req.params.id)
 		.exec()
-		.then(res.clearCookie('noteid').cookie('id', req.params.id).sendFile(__dirname + '/public/home.html')) 
+		.then(res.cookie('id', req.params.id).status(200).sendFile(__dirname + '/public/home.html')) 
 		.catch(err => {
 		  	console.log(err);
-		  	res.sendStatus(500).json({errorMsg: "internal server error"});
+		  	res.status(500).json({errorMsg: "internal server error"});
 		})
+});
+
+router.get('/', (req, res) => {
+	res.status(200).sendFile(__dirname + '/public/index.html', function(err) {
+		if (err) {return console.log(err)};
+		res.status(500).json({errorMsg: "internal server error"});
+	})
 });
 
 module.exports = router;
