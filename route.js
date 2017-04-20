@@ -13,15 +13,22 @@ const cookieParser = require('cookie-parser');
 //WILL TEST AFTER DONE. 
 //**WILL CLEAN UP SOME OF THE CALLBACKS BELOW AFTER SOLVING PROBLEM. GOING OFF OF
 //MONGOOSE DOCS.
+
 //account mgmt
 router.get('/signout', (req, res) => {
-	res.clearCookie('id').json({successMessage: "congrats you have signed off!"});
+	try{	
+		res.clearCookie('id').json({successMessage: "congrats you have signed off!"});
+	}
+	catch(err) {
+		console.log(err);
+		res.status(500).json({errorMsg: "internal server error"});
+	}
 });
 
 //DELETE notes from click on feed
 router.delete('/delete-note/:note_id', (req, res) => {
 	Note
-		.deleteOne(req.params.note_id)
+		.findByIdAndRemove(req.params.note_id)
 		.exec()
 		.then(res.status(204).end()) 
 		.catch(err => {
