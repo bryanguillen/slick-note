@@ -15,7 +15,7 @@ function getNewTemplate() {
 			<button class="show-section-button"> >> </button>`
 }
 
-function getNoteTemplate(title, subtitle) {
+function getNoteTemplate(title, subtitle, noteId) {
 	//template for the actual note taking of the application
 	//couldn't think of a better name for now.!
 	return `<div class="title-container">
@@ -34,12 +34,16 @@ function getNoteTemplate(title, subtitle) {
 			<div class="note-container">
 				<div class="note js-hide-note">
 				</div>
-				<textarea class="edit-note"></textarea>
-				<button class="save-note">Save</button>
+				<div class="editing-note-container">
+					<textarea class="edit-note"></textarea>
+					<button class="save-note">Save</button>
+					<div class="note-id">${noteId}</div>
+				</div>
 			</div>`
 }
 
-function getPublishedNoteTemplate(title, subtitle, notes) {
+function getPublishedNoteTemplate(title, subtitle, notes, noteId) {
+	//return to this and see if better way. 
 	return `<div class="title-container">
 				<div class="title">
 					<span class="title-text">  ${title} </span> 
@@ -55,7 +59,10 @@ function getPublishedNoteTemplate(title, subtitle, notes) {
 			</div>
 			<div class="note-container">
 				<div class="note">${notes}</div>
-				<textarea class="edit-note js-hide-edit"></textarea>
-				<button class="save-note js-hide-save">Save</button>
+				<div class="editing-note-container">
+					<textarea class="edit-note js-hide-edit"></textarea>
+					<button class="save-note js-hide-save">Save</button>
+					<div class="note-id">${noteId}</div>
+				</div>
 			</div>`	
 }
