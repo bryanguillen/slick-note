@@ -25,7 +25,11 @@ function createFeedHTML(note) {
 					'<h1>' + note.title + '</h1>' + 
 					'<h6>' + note.subtitle + '</h6>' + 
 				'</div>' +
-				'<div class="delete-container"><span class="delete-button">Delete Note</span></div>' +
+				'<div class="delete-container">' + 
+					'<span class="delete-button">Delete Note</span>' + 
+					'<span class="confirm-delete">Are you sure</span>' + 
+					'<span class="confirm-delete confirm-delete-button">Yes</span>' + 
+				'</div>' +
 			'</div>'; 
 }
 
@@ -78,7 +82,7 @@ function getUserNote() {
 	})
 }
 
-function clickNewNote() {
+function getNewNote() {
 	$('nav').on('click', '.new-note-button', function(event) {
 		event.preventDefault();
 		let settings = {
@@ -189,26 +193,35 @@ function editTitle() {
 	})
 }
 
-function clickDeleteNote() {
+function deleteNote() {
 	$('main').on('click', '.delete-button', function(event) {
 		event.preventDefault();
-		//hide on click
+		$(this).nextAll().show();
+	})
+}
+
+function confirmDelete() {
+	$('main').on('click', '.confirm-delete-button', function(event) {
+		event.preventDefault();
+		let userNoteContainer = $(this).closest('.user-note-container').hide(); //might make this into a function LIKE PARENT CONTAINER
 		let noteId = $(this).closest('.user-note-container').find('.note-id').text();
 	 	let settings = {
 	 		type: 'DELETE',
 	 		url: 'http://localhost:8080/delete-note/' + noteId
 	 	}
 	 	return $.ajax(settings);
-	})
+	})	
 }
 
 $(function() {
+	//recently changed names, might cause bug. be on the lookout. 
 	getUserData();
 	getUserNote();
-	clickNewNote();
+	getNewNote();
 	createNewNote();
 	updateNote();
 	editNote();
 	editTitle();
-	clickDeleteNote();
+	deleteNote();
+	confirmDelete();
 })
