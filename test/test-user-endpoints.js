@@ -11,43 +11,37 @@ const {TEST_DATABASE_URL} = require('../config');
 //allowing for http integration testing
 chai.use(chaiHTTP);
 
-function seedDatabase() {
+mongoose.Promise = global.Promise; 
+
+function seedUserDatabase() {
 	let userSeedData = [
 	{ 	
 	"username": "bryang695",
 	"email": "bryang695@gmail.com",
 	"password": "cookies",
-	"createdAt": "4/11/17",
 	"userNotes": []
 	},
 
 	{	
+	"id": "58ef96d7a1ef2e629502193f",
 	"username": "bryang217",
 	"email": "bryang217@gmail.com",
 	"password": "cookies",
-	"createdAt": "4/11/17",
-	"userNotes": []
+	"userNotes": ["58f50436aef859ac6e642884"]
 	},
 
 	{
-	
+	"id": "58ef96d7a1ef2e6295021942",
 	"username": "cookieMonster",
 	"email": "cookieMonster@gmail.com",
 	"password": "cookies",
-	"createdAt": "4/11/17",
-	"userNotes": []
+	"userNotes": ["58f50436aef859ac6e642885", "58f50436aef859ac6e642887"]
 	}
 	];
 	
-	return User.insertMany(userSeedData);
-}
 
-function newNote(userId) {
-	return {
-		user: userId,
-		title: "Finance",
-		subtitle: "FOR THE FUTURE"
-	}
+
+	return User.insertMany(userSeedData);
 }
 
 function tearDownDb() {
@@ -60,7 +54,7 @@ describe('ENDPOINTS TEST', function() {
 	})
 
 	beforeEach(function() {
-		return seedDatabase();
+		return seedUserDatabase()
 	})
 
 	afterEach(function() {
@@ -71,54 +65,68 @@ describe('ENDPOINTS TEST', function() {
 		return closeServer();
 	})
 
-	describe('GET THE HOME PAGE FOR USER', function() {
-		it('should render user homepage and notes', function() {
+	describe('GET INDEX HTML', function() {
+		it('should render the index.html', function() {
+			return chai.request(app)
+				.get('/')
+				.then(function(res) {
+					res.should.have.status(200);
+					res.should.be.html;
+				})
+		});
+	})
+
+	describe('GET THE LOGGED IN HOME PAGE FILE', function() {
+		it('should send and render FILE with a 200 status', function() {
+			User
+				.findOne({"username": "cookieMonster"})
+				.exec()
+				.then(function(user) {
+					return chai.request(app)
+						.get('/user/' + user._id)
+						.then(function(res) {
+							res.should.have.status(200);
+							res.should.be.html;
+						})
+				})
+		});
+	})
+
+	describe('GET THE USER DATA FOR FEED', function() {
+		it('should send json of users notes', function() {
 			User
 			.findOne({"username": "cookieMonster"})
 			.exec()
 			.then(function(user) {
 				return chai.request(app)
-			 		.get('/' + user._id)
+			 		.get('/user/' + user._id + '.json')
 			 		.then(function(res) {
 			 			res.should.have.status(200);
-			 			expect(res).to.be.html;
+			 			res.body.should.be.a("object");
+			 			res.should.include.keys('id', 'username', 'userNotes')
+			 			res.should.be.json;
+			 			return User.findOne({"username": "cookieMonster"}).exec()
+			 		})
+			 		.then(user => {
+			 			"58ef96d7a1ef2e6295021942".should.equal(user._id);
 			 		})
 			})
 		});
 	})
 
-	describe('GET JSON FILE FOR USER', function() {
-		it('should return user json', function() {
-			User
-			.findOne({"username": "cookieMonster"})
-			.exec()
-			.then(function(user) {
-				return chai.request(app)
-					.get('/' + user._id + '.json')
-					.then(function(res) {
-						res.should.have.status(200);
-						res.should.be.json;
-						res.should.be.a('object');
-				})
-			})
-		})
-	})
-
-	describe('POST FOR NEW NOTE', function() {
-		it('should create a new instance in db', function() {
-			User
-				.findOne({"username": "cookieMonster"})
-				.exec()
-				.then(function(user) {
-					let note = newNote(user._id)
-					return chai.request(app)
-						.post('/new-note')
-						.send(note)
-						.then(function(res) {
-							res.should.have.status(201);
-						})
-					})
-				})
-	})
+	// describe('GET INDIVIDUAL NOTE', function() {
+	// 	it('should return json data of note', function() {
+	// 		Note
+	// 		.findOne({"title": "Accounting"})
+	// 		.exec()
+	// 		.then(function(note) {
+	// 			return chai.request(app)
+	// 				.get('/note/' + note._id)
+	// 				.then(function(res) {
+	// 					res.should.have(200);
+	// 				})
+	// 		})
+	// 	});
+	// })
 
 })
