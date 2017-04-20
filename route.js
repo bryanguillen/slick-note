@@ -54,13 +54,14 @@ router.put('/update-note/:note_id', jsonParser, (req, res) => {
 
 //GETTING AND CREATING THE NEW NOTE TITLE AND SUBTITLE
 router.get('/new-note', (req, res) => {
-	res
-	.status(200)
-	.json({successMessage: "get create new note"})
-	.catch(err => {
+	//unsure of how to use err handling middle ware for now just use try ... catch. 
+	try{
+		res.status(200).json({successMessage: "get create new note"});
+	}
+	catch(err) {
 		console.log(err);
 		res.status(500).json({errorMsg: "internal server error"});
-	})
+	}
 });
 
 router.post('/new-note', jsonParser, (req, res) => {
