@@ -56,7 +56,7 @@ function getUserData() {
 	let userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1"); //temp solution
 	let settings = {
 	 	type: 'GET',
-		url: 'http://localhost:8080/user/' + userId + '.json',
+		url: 'http://localhost:8080/users/' + userId + '.json',
 	 	dataType: "json", 
 	 	success: displayUserData
 	}

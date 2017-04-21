@@ -26,7 +26,8 @@ router.get('/signout', (req, res) => {
 });
 
 //DELETE notes from click on feed
-router.delete('/note/:note_id', (req, res) => {
+//ALSO DELETE FROM THE USERS ARRAY!
+router.delete('/note/:noteId', (req, res) => {
 	Note
 		.findByIdAndRemove(req.params.note_id)
 		.exec()
@@ -38,7 +39,7 @@ router.delete('/note/:note_id', (req, res) => {
 })
 
 //UPDATING THE ACTUAL NOTE CONTENT
-router.put('/note/:note_id', jsonParser, (req, res) => {
+router.put('/note/:noteId', jsonParser, (req, res) => {
 	//check what fields were sent via the ajax request.. then update
 	let updatedFields = {};
 	Object.keys(req.body).forEach(function(field) {
@@ -49,7 +50,7 @@ router.put('/note/:note_id', jsonParser, (req, res) => {
 	})
 	let newValues = { $set: updatedFields}
 	Note
-		.findByIdAndUpdate({"_id": req.params.note_id}, 
+		.findByIdAndUpdate({"_id": req.params.noteId}, 
 			newValues, 
 			{new: true}, 
 			function(err, doc) {
@@ -98,9 +99,9 @@ router.post('/new-note', jsonParser, (req, res) => {
 });
 
 //GET the notes from click on feed
-router.get('/note/:note_id', (req, res) => {
+router.get('/note/:noteId', (req, res) => {
 	Note
-		.findById({"_id": req.params.note_id}, function(err, note) {
+		.findById({"_id": req.params.noteId}, function(err, note) {
 	 		if (err) {
 	 			console.log(err)
 	 			res.status(500).json({errorMsg: "internal server error"});
@@ -111,7 +112,7 @@ router.get('/note/:note_id', (req, res) => {
 })
 
 //GET THE USER INFORMATION FOR WHEN THEY FIRST LOGIN
-router.get('/user/:id' + '.json', (req, res) => {
+router.get('/users/:id' + '.json', (req, res) => {
 	User 
 		.findById(req.params.id)
 		.populate('userNotes')
@@ -123,7 +124,7 @@ router.get('/user/:id' + '.json', (req, res) => {
 		})
 });
 
-router.get('/user/:id', (req, res) => {
+router.get('/users/:id', (req, res) => {
 	User
 		.findById(req.params.id)
 		.exec()
