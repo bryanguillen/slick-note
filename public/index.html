@@ -20,7 +20,21 @@
 	</nav>
 
 	<main>
-		<p>This is the home page!</p>
+		<!-- create the signup form. -->
+		<!-- Login could just be another template -->
+		<form method="post" action="/users" class="signup-form">
+			<fieldset name="signup-form">
+				<label>Email</label>
+				<input type="text" name="email" required />
+				<label>Username</label>
+				<input type="text" name="username" required />
+				<label>Password</label>
+				<input type="text" name="password" required />
+				<label>Confirm Password</label>
+				<input type="text" name="confirm-password" required />
+				<button class="authentication-button">Sign Up</button>
+			</fieldset>
+		</form>
 	</main>
 	
 	<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
