@@ -3,17 +3,15 @@ const chai = require('chai');
 const chaiHTTP = require('chai-http');
 const faker = require('faker');
 const {app, runServer, closeServer} = require('../server');
-const {User, Note} = require('../model');
+const {User} = require('../model');
 const should = chai.should();
 const mongoose = require('mongoose');
-const {TEST_DATABASE_URL} = require('../config');
+const {TEST_USER_DATABASE_URL} = require('../config');
 
 //allowing for http integration testing
 chai.use(chaiHTTP);
 
-mongoose.Promise = global.Promise; 
-
-function seedUserDatabase() {
+function seedUserCollection() {
 	let userSeedData = [
 	{ 	
 	"username": "bryang695",
@@ -39,10 +37,9 @@ function seedUserDatabase() {
 	}
 	];
 	
-
-
 	return User.insertMany(userSeedData);
 }
+
 
 function tearDownDb() {
 	return mongoose.connection.dropDatabase();
@@ -50,11 +47,11 @@ function tearDownDb() {
 
 describe('ENDPOINTS TEST', function() {
 	before(function() {
-		return runServer(TEST_DATABASE_URL);
+		return runServer(TEST_USER_DATABASE_URL);
 	})
 
 	beforeEach(function() {
-		return seedUserDatabase()
+		return seedUserCollection();
 	})
 
 	afterEach(function() {
@@ -107,26 +104,11 @@ describe('ENDPOINTS TEST', function() {
 			 			res.should.be.json;
 			 			return User.findOne({"username": "cookieMonster"}).exec()
 			 		})
-			 		.then(user => {
+			 		.then(function(user) {
 			 			"58ef96d7a1ef2e6295021942".should.equal(user._id);
 			 		})
 			})
 		});
 	})
 
-	// describe('GET INDIVIDUAL NOTE', function() {
-	// 	it('should return json data of note', function() {
-	// 		Note
-	// 		.findOne({"title": "Accounting"})
-	// 		.exec()
-	// 		.then(function(note) {
-	// 			return chai.request(app)
-	// 				.get('/note/' + note._id)
-	// 				.then(function(res) {
-	// 					res.should.have(200);
-	// 				})
-	// 		})
-	// 	});
-	// })
-
-})
+});
