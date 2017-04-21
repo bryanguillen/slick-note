@@ -6,7 +6,7 @@
 	display: none;
 }*/
 
-.edit-title, .hide-edit-note {
+.edit-title, .hide-edit-note, .confirm-delete {
 	display: none;
 }
 
