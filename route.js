@@ -3,11 +3,32 @@ const router = express.Router();
 const {app, runServer, closeServer} = require('./server.js');
 const {User, Note} = require('./model');
 const path = require('path');
+const passport = require('passport');
 
 //more dependencies and imports
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 const cookieParser = require('cookie-parser');
+
+//passport strategy
+const {BasicStrategy} = require('passport-http');
+
+passport.use(new BasicStrategy(
+  	function(username, password, done) {
+    	User.findOne({ username: username }, function (err, user) {
+      		if (err) { return done(err); }
+      	
+      		if (!user) { return done(null, false); }
+      		
+      		if (!user.validPassword(password)) { return done(null, false); }
+      		
+      		return done(null, user);
+    	});
+  	}
+));
+					
+
+router.use(passport.initialize());
 
 //COMMENTS JUST FOR DEV PURPOSES
 //WILL TEST AFTER DONE. 
@@ -112,7 +133,7 @@ router.get('/note/:noteId', (req, res) => {
 })
 
 //GET THE USER INFORMATION FOR WHEN THEY FIRST LOGIN
-router.get('/users/:id' + '.json', (req, res) => {
+router.get('/user/:id' + '.json', (req, res) => {
 	User 
 		.findById(req.params.id)
 		.populate('userNotes')
@@ -124,7 +145,7 @@ router.get('/users/:id' + '.json', (req, res) => {
 		})
 });
 
-router.get('/users/:id', (req, res) => {
+router.get('/user/:id', (req, res) => {
 	User
 		.findById(req.params.id)
 		.exec()
