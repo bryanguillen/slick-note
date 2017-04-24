@@ -101,7 +101,7 @@ let userController = {
 
 	signout: function (req, res) {
 		try {
-			return res.clearCookie('id').status(200).sendFile(__dirname + '/public/index.html');
+			return res.clearCookie('id').status(200).json({sucessfulLogout: "logout successfully"});
 		}
 		catch (err) {
 			console.log(err);
@@ -155,6 +155,7 @@ let noteController = {
 			if (field !== "id") {
 				updatedFields[field] = req.body[field];
 			}
+
 		})
 		let newValues = { $set: updatedFields}
 		Note

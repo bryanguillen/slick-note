@@ -1,13 +1,11 @@
-//dependencies and imports
 const express = require('express');
+const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const route = require('./route');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const {DATABASE_URL, TEST_DATABASE_URL, PORT} = require('./config');
-
-const app = express();
 
 mongoose.Promise = global.Promise;
 
