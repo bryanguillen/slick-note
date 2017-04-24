@@ -18,28 +18,40 @@ function getNewTemplate() {
 function getNoteTemplate(title, subtitle, noteId) {
 	//template for the actual note taking of the application
 	//couldn't think of a better name for now.!
-	return `<div class="title-container">
-				<div class="title">
-					<span class="title-text">  ${title} </span> 
-					<span class="subtitle-text"> ${subtitle} </span> 
-				</div>
-				<div class="edit-title">  
-					<label>title</label>
-					<input type="text" name="title" required />
-					<label>subtitle</label>
-					<input type="text" name="subtitle" required />
-					<button class="update-titles">Update</button> 	
-				</div> 
-			</div>
-			<div class="note-container">
-				<div class="note">
-				</div>
-				<div class="editing-note-container">
-					<textarea class="edit-note"></textarea>
-					<button class="save-note">Save</button>
-					<div class="note-id">${noteId}</div>
-				</div>
-			</div>`
+	return  `<div class="row">
+                <div class="col-12 title-container">
+                    <div class="title">
+                        <span class="title-text">${title}</span> 
+                        <span class="subtitle-text">${subtitle}</span> 
+                    </div>
+                    <div class="edit-title">  
+                        <div class="error-message">PLEASE FILL OUT BOTH FIELDS</div>
+                        <div class="edit-title-container">
+                            <label class="update-title-label">title</label>
+                            <input type="text" name="title" class="update-title-field" required />
+                        </div>
+                        <div class="edit-subtitle-container">
+                            <label class="update-subtitle-label">subtitle</label>
+                            <input type="text" name="subtitle" class="update-subtitle-field" required />   
+                        </div>
+                        <button class="update-titles">Update</button>
+                        <button class="cancel-title-update">Cancel</button>
+                        <div class="note-id">${noteId}</div>
+                    </div> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 note-container">
+                    <div class="note"></div>
+                    <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
+                    <div class="editing-note-container">
+                        <textarea class="edit-note"></textarea>
+                        <div class="save-button-container"><button class="save-note">Save</button></div>
+                        <div class="note-id">${noteId}</div>
+                    </div>
+                </div>
+            </div>`
+
 }
 
 function getPublishedNoteTemplate(title, subtitle, notes, noteId) {
@@ -51,6 +63,7 @@ function getPublishedNoteTemplate(title, subtitle, notes, noteId) {
                         <span class="subtitle-text">${subtitle}</span> 
                     </div>
                     <div class="edit-title">  
+                        <div class="error-message">PLEASE FILL OUT BOTH FIELDS</div>
                         <div class="edit-title-container">
                             <label class="update-title-label">title</label>
                             <input type="text" name="title" class="update-title-field" required />
@@ -60,6 +73,8 @@ function getPublishedNoteTemplate(title, subtitle, notes, noteId) {
                             <input type="text" name="subtitle" class="update-subtitle-field" required />   
                         </div>
                         <button class="update-titles">Update</button>
+                        <button class="cancel-title-update">Cancel</button>
+                        <div class="note-id">${noteId}</div>
                     </div> 
                 </div>
             </div>
@@ -67,6 +82,7 @@ function getPublishedNoteTemplate(title, subtitle, notes, noteId) {
                 <div class="col-12 note-container">
                     <div class="note">${notes}</div>
                     <div class="editing-note-container hide-edit-note">
+                        <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
                         <textarea class="edit-note"></textarea>
                         <div class="save-button-container"><button class="save-note">Save</button></div>
                         <div class="note-id">${noteId}</div>

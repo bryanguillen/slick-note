@@ -1,4 +1,19 @@
 //DOM MANIPULATION
+function renderUserHome(data) {
+	//get the contents within the main tag in 
+	//the data and then just render that.. due to 
+	//the way that the server side code was written.! 
+	let openMainTag = data.search('<main>') + 6;
+	let closingMainTag = data.search('</main>');
+	let noteFeedHTML = data.slice(openMainTag, closingMainTag);
+	$('main').html(noteFeedHTML);
+	
+}
+
+function renderSuccessfulLogout(obj) {
+	$('body').html('<p>' + obj.sucessfulLogout + '</p>')
+}
+
 function renderFeed(notes) {
 	$('main').html(notes);
 }
@@ -18,6 +33,33 @@ function renderPublishedNote(obj) {
 }
 
 //EVENT LISTENERS
+function getUserHome() {
+	$('nav').on('click', '.home', function(event) {
+		event.preventDefault();
+		let userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+		let settings = {
+			type: 'GET',
+			url: 'http://localhost:8080/user/' + userId,
+			dataType: 'html',
+			success: renderUserHome
+		}
+		return $.ajax(settings);
+	})
+}
+
+function getLogout() {
+	$('nav').on('click', '.logout', function(event) {
+		event.preventDefault();
+		let settings = {
+			type: 'GET',
+			url: 'http://localhost:8080/logout',
+			dataType: 'json',
+			success: renderSuccessfulLogout
+		}
+		return $.ajax(settings);
+	})
+}
+
 function getUserNote() {
 	$('main').on('click', '.view-note', function(event) {
 		event.preventDefault();
@@ -79,8 +121,13 @@ function updateNote() {
 	//updating the actual note
 	$('main').on('click', 'button.save-note', function(event) {
 		event.preventDefault();
-		let noteText = $('textarea.edit-note').val();
-		let noteId = $(this).next().text();
+		//ugly solutions for now for both noteText and noteId.
+		let noteText = $(this).parent().closest('div.editing-note-container').find('textarea.edit-note').val();
+		if (noteText.trim().length === 0) {
+					return $(this).parent().closest('div.note-container').find('.note-error-message').show();
+		}
+		let noteId = $(this).parent().next().text();
+		$(this).parent().closest('div.note-container').find('.note-error-message').hide();
 		$('div.editing-note-container').hide();
 		$('div.note').text(noteText).show();
 		let settings = {
@@ -99,26 +146,38 @@ function updateNote() {
 		let titleParent = $(this).parent(); //CONSIDER RENAMING THIS VARIABLE
 		let newTitle = titleParent.find('input[name="title"]').val();
 		let newSubtitle = titleParent.find('input[name="subtitle"]').val(); 
-		let noteId = titleParent.parent().next().find('div.note-id').text();
+		let noteId = titleParent.parent().find('div.note-id').text();
+		
+		if (newTitle.trim().length === 0 || newSubtitle.trim().length === 0) {
+					return titleParent.find('div.error-message').show();
+		}
 
 		//consider putting the next two lines into a function?
 		//set the title with new values in UI
 		titleParent.prev().find('span.title-text').text(newTitle);
 		titleParent.prev().find('span.subtitle-text').text(newSubtitle); 
 		
-		$(this).parent().hide();
+		titleParent.hide();
 		titleParent.prev().show();
-		
+
 		let settings = {
 		  	type: 'PUT',
 		  	url: 'http://localhost:8080/note/' + noteId,
 		  	data: {
 		  		"title": newTitle,
 		  		"subtitle": newSubtitle
-		  	}
+		  	}	
 		 }
 		return $.ajax(settings);
 	})
+
+	$('main').on('click', '.cancel-title-update', function(event) {
+		event.preventDefault();
+		let titleParent =$(this).parent();
+		titleParent.hide();
+		titleParent.prev().show();
+	})
+
 }
 
 function editNote() {
@@ -163,6 +222,8 @@ function confirmDelete() {
 
 $(function() {
 	//recently changed names, might cause bug. be on the lookout. SYNTAX / NAMIN ERRORS
+	getUserHome();
+	getLogout();
 	getUserNote();
 	getNewNote();
 	createNewNote();
