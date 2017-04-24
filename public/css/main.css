@@ -10,7 +10,7 @@ body {
 	background-color: #737373;
 }
 
-.signup-container {
+.signup-container, .login-container {
 	height: 100vh;
 	width: 100vw;
 	display: table;
@@ -23,16 +23,16 @@ body {
 	vertical-align: middle;
 }
 
-.signup-content {
+.signup-content, .login-content {
 	text-align: center;
 }
 
-.signup-label, .signup-field {
+.signup-label, .signup-field, .login-label, .login-field {
 	display: block;
 	margin: 0 auto;
 }
 
-.signup-label {
+.signup-label, .login-label {
 	font-size: 25px;
 	margin-bottom: 5px;
 	margin-top: 5px;
@@ -41,7 +41,7 @@ body {
 	color: white;
 }
 
-.signup-field {
+.signup-field, .login-field {
 	width: 275px;
 	height: 55px;
 	padding: 15px;
