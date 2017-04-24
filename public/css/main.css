@@ -23,16 +23,16 @@ body {
 	vertical-align: middle;
 }
 
-.signup-content, .login-content {
+.signup-content, .login-content, .titles-content {
 	text-align: center;
 }
 
-.signup-label, .signup-field, .login-label, .login-field {
+.signup-label, .signup-field, .login-label, .login-field, .title-field , .subtitle-field, .title-label, .subtitle-label {
 	display: block;
 	margin: 0 auto;
 }
 
-.signup-label, .login-label {
+.signup-label, .login-label, .title-label, .subtitle-label {
 	font-size: 25px;
 	margin-bottom: 5px;
 	margin-top: 5px;
@@ -41,7 +41,7 @@ body {
 	color: white;
 }
 
-.signup-field, .login-field {
+.signup-field, .login-field, .title-field , .subtitle-field {
 	width: 275px;
 	height: 55px;
 	padding: 15px;
@@ -53,13 +53,92 @@ body {
 	color: white;
 }
 
-.authentication-button {
+.authentication-button, .create-note {
 	height: 35px;
 	width: 150px;
 	margin-top: 10px;
 	background-color: #737373;
 	border: 0;
 	color: white; 
+}
+
+.nav-container {
+	text-align: right;
+}
+
+.nav-button {
+	color: white;
+	margin-right: 10px;
+	display: inline-block;
+	font-size: 20px;
+}
+
+.nav-button:hover {
+	color: black;
+}
+
+.user-note-container span {
+	color: white;
+}
+
+
+.user-note {
+	padding-bottom: 15px;	
+	padding-top: 15px;
+	border-bottom: 1px solid black;
+	margin-bottom: 10px;
+}
+
+.note-header {
+	display: block;
+	margin-bottom: 10px;
+}
+
+.note-title {
+	font-size: 25px;
+	/*color: white;*/
+}
+
+.note-subtitle {
+	font-size: 20px;
+	/*color: white;*/
+}
+
+.view-note {
+	display: inline-block;
+	font-size: 15px;
+	/*color: white;*/
+}
+
+.view-note:hover {
+	color: black;
+}
+
+.delete-container {
+	margin-top: 10px;
+}
+
+.confirm-delete {
+	margin-left: 5px;
+}
+
+@media screen and (min-width: 640px) {
+	.nav-button {
+		font-size: 30px;
+	}
+
+	.view-note {
+		font-size: 25px;
+	}
+
+	.note-title {
+		font-size: 55px;
+	}
+
+	.note-subtitle {
+		font-size: 30px;
+	}
+
 }
 
 .edit-title, .hide-edit-note, .confirm-delete {

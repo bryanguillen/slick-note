@@ -1,18 +1,18 @@
 function getNewTemplate() {
-	return `<div class="section-container js-hide-sections">
-			</div>
-			<div class="note-container">
-				<form class="new-note">
-					<fieldset name="create-note">
-						<label>Title</label>	
-						<input type="text" name="new-note-title">
-						<label>Subtitle</label>
-						<input type="text" name="new-note-subtitle">
-					</fieldset>
-					<button class="create-note">Create Note</button>
-				</form>
-			</div>
-			<button class="show-section-button"> >> </button>`
+	return `<div class="row">
+                <div class="note-container">
+                    <div class="col-12 titles-content">
+                    <form class="new-note">
+                        <fieldset name="create-note">
+                            <label class="title-label">Title</label>    
+                            <input type="text" name="new-note-title" class="title-field" placeholder="eg. Biology" required />
+                            <label class="subtitle-label">Subtitle</label>
+                            <input type="text" name="new-note-subtitle" class="subtitle-field" placeholder="eg. Life Science For School" required />
+                            <button class="create-note">Create Note</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>`
 }
 
 function getNoteTemplate(title, subtitle, noteId) {

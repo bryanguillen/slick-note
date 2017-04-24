@@ -1,16 +1,19 @@
 function createFeedHTML(note) {
-	return  '<div class="user-note-container">' + 
-				'<div class="note-id">' + note._id + '</div>' +
-				'<div class="user-note">' + 
-					'<h1>' + note.title + '</h1>' + 
-					'<h6>' + note.subtitle + '</h6>' + 
-				'</div>' +
-				'<div class="delete-container">' + 
-					'<span class="delete-button">Delete Note</span>' + 
-					'<span class="confirm-delete">Are you sure</span>' + 
-					'<span class="confirm-delete confirm-delete-button">Yes</span>' + 
-				'</div>' +
-			'</div>';
+	return  `<div class="row user-note-container"> 
+				<div class="col-12">
+					<div class="note-id">${note._id}</div>
+					<div class="user-note">
+						<span class="note-header note-title"> ${note.title} </span> 
+						<span class="note-header note-subtitle"> ${note.subtitle} </span> 
+						<span class="view-note">view note</span>
+						<div class="delete-container">
+                            <span class="delete-button">Delete Note</span>
+                            <span class="confirm-delete">Are you sure</span>
+                            <span class="confirm-delete confirm-delete-button">Yes</span>
+                        </div>
+					</div>
+				</div>
+			</div>`
 }
 
 function createUserHomeHTML(notes) {
@@ -25,17 +28,20 @@ function createUserHomeHTML(notes) {
   				<!-- normalize css packages -->
   				<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css" rel="stylesheet">
   				<!--custom css page-->
+  				<link rel="stylesheet" type="text/css" href="css/grid.css">
   				<link rel="stylesheet" type="text/css" href="css/main.css">
 			</head>
 			<body>
 	
 				<nav>
-					<div class="nav-container">
-						<span>Home</span>
-						<span class="new-note-button">New Note</span>
-						<span class="accounts">Account</span>
-					</div>
-				</nav>
+            		<div class="row">
+                		<div class="col-12 nav-container">
+                    		<span class="home nav-button">Home</span>
+                    		<span class="new-note-button nav-button">New Note</span>
+                    		<span class="logout nav-button">Logout</span>
+                		</div>
+            		</div>        
+        		</nav>
 
 				<main>${notes}</main>
 

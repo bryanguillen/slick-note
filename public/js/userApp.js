@@ -1,38 +1,4 @@
 //DOM MANIPULATION
-function displayUserData(obj) {
-	//obj.username returns the username
-	//right here we want to get just the title and subtitles for 
-	//the user
-	//that is going to be again obj.userNotes[i].title && ""
-	//subtitle
-	if (obj.userNotes.length >= 1) {
-		let notes = '';
-		obj.userNotes.forEach(function(item) {
-			notes += createFeedHTML(item);
-	 	})
-		return renderFeed(notes);
-	}
-	return renderFeed('');
-}
-
-function createFeedHTML(note) {
-	//notes will display like facebook's 
-	//feed feature with just the title and subtitle
-	//of the post 
-	return  '<div class="user-note-container">' + 
-				'<div class="note-id">' + note._id + '</div>' +
-				'<div class="user-note">' + 
-					'<h1>' + note.title + '</h1>' + 
-					'<h6>' + note.subtitle + '</h6>' + 
-				'</div>' +
-				'<div class="delete-container">' + 
-					'<span class="delete-button">Delete Note</span>' + 
-					'<span class="confirm-delete">Are you sure</span>' + 
-					'<span class="confirm-delete confirm-delete-button">Yes</span>' + 
-				'</div>' +
-			'</div>'; 
-}
-
 function renderFeed(notes) {
 	$('main').html(notes);
 }
@@ -52,19 +18,8 @@ function renderPublishedNote(obj) {
 }
 
 //EVENT LISTENERS
-function getUserData() {
-	let userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1"); //temp solution
-	let settings = {
-	 	type: 'GET',
-		url: 'http://localhost:8080/users/' + userId + '.json',
-	 	dataType: "json", 
-	 	success: displayUserData
-	}
-	return $.ajax(settings);
-}
-
 function getUserNote() {
-	$('main').on('click', '.user-note', function(event) {
+	$('main').on('click', '.view-note', function(event) {
 		event.preventDefault();
 		let userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 		let noteId = $(this).closest('.user-note-container').find('div.note-id').text(); //keep eye on this
@@ -84,13 +39,7 @@ function getUserNote() {
 function getNewNote() {
 	$('nav').on('click', '.new-note-button', function(event) {
 		event.preventDefault();
-		let settings = {
-		type: 'GET',
-		url: 'http://localhost:8080/new-note',
-		dataType: "json", 
-		success: renderNewNoteTemplate
-		}
-		return $.ajax(settings);
+		return renderNewNoteTemplate(); //KEEP AN EYE ON THIS. 
 	});
 }
 
@@ -213,8 +162,7 @@ function confirmDelete() {
 }
 
 $(function() {
-	//recently changed names, might cause bug. be on the lookout. 
-	getUserData();
+	//recently changed names, might cause bug. be on the lookout. SYNTAX / NAMIN ERRORS
 	getUserNote();
 	getNewNote();
 	createNewNote();
