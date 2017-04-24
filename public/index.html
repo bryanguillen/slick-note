@@ -8,33 +8,35 @@
 	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 	<!-- Normalize.css, a cross-browser reset file -->
   	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css" rel="stylesheet">
+  	<link rel="stylesheet" type="text/css" href="css/grid.css">
   	<!-- custom css sheet -->
   	<link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
-	
-	<nav>
-		<div class="nav-container">
-			<span class="login">Login</span>
-		</div>
-	</nav>
 
 	<main>
-		<!-- create the signup form. -->
-		<!-- Login could just be another template -->
-		<form method="post" action="/users" class="signup-form">
-			<fieldset name="signup-form">
-				<label>Email</label>
-				<input type="text" name="email" required />
-				<label>Username</label>
-				<input type="text" name="username" required />
-				<label>Password</label>
-				<input type="text" name="password" required />
-				<label>Confirm Password</label>
-				<input type="text" name="confirm-password" required />
-				<button class="authentication-button">Sign Up</button>
-			</fieldset>
-		</form>
+		<div class="signup-container">
+			<div class="inner-container">
+			<div class="row">
+				<div class="col-12 signup-content">
+					<form method="post" action="/users" class="signup-form">
+						<fieldset name="signup-form">
+							<label class="signup-label">Email</label>
+							<input type="text" name="email" class="signup-field" placeholder="foo@bar.com" required />
+							<label class="signup-label">Username</label>
+							<input type="text" name="username" class="signup-field" placeholder="johnsmith123" required />
+							<label class="signup-label">Password</label>
+							<input type="password" name="password" class="signup-field" required />
+							<label class="signup-label">Confirm Password</label>
+							<input type="password" name="confirm-password" class="signup-field" required />
+							<div class="authentication-button-container"><button class="authentication-button">Sign Up</button></div>
+						</fieldset>
+					</form>
+					<div class="signup-login-links-container"><a href="/login.html">Login</a></div>
+				</div>
+			</div>
+			</div>
+		</div>
 	</main>
 	
 	<script src="https://code.jquery.com/jquery-3.1.0.js"></script>

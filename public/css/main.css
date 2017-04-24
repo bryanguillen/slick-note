@@ -2,9 +2,65 @@
 	box-sizing: border-box;
 }
 
-/*.js-hide-title, .js-edit-title-hide, .js-hide-edit, .js-hide-note, .js-hide-save {
-	display: none;
-}*/
+fieldset {
+	border: 0;
+}
+
+body {
+	background-color: #737373;
+}
+
+.signup-container {
+	height: 100vh;
+	width: 100vw;
+	display: table;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.inner-container {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.signup-content {
+	text-align: center;
+}
+
+.signup-label, .signup-field {
+	display: block;
+	margin: 0 auto;
+}
+
+.signup-label {
+	font-size: 25px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+	width: 275px;
+	text-align: left;
+	color: white;
+}
+
+.signup-field {
+	width: 275px;
+	height: 55px;
+	padding: 15px;
+	background-color: #737373;
+	border-top: 0;
+	border-left: 0;
+	border-right: 0;
+	border-bottom: 1px solid black;
+	color: white;
+}
+
+.authentication-button {
+	height: 35px;
+	width: 150px;
+	margin-top: 10px;
+	background-color: #737373;
+	border: 0;
+	color: white; 
+}
 
 .edit-title, .hide-edit-note, .confirm-delete {
 	display: none;
