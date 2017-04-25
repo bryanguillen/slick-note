@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const {app, runServer, closeServer} = require('./server.js');
 const {User} = require('./model')
 const passport = require('passport');
 const {userController, noteController} = require('./controller');

@@ -6,6 +6,7 @@ const route = require('./route');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const {DATABASE_URL, TEST_DATABASE_URL, PORT} = require('./config');
+require('dotenv').config()
 
 mongoose.Promise = global.Promise;
 
