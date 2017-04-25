@@ -35,24 +35,24 @@ let userController = {
 	 		res.status(400).json({errorMsg: "Your request is empty and invalid."})
 		}
 		
-		Object.keys(req.body).forEach(function(field) {
-			let submittedValue = req.body[field];
-			if(submittedValue === '') {
-				return res.status(422).json({errorMsg: `Incorrect Length: ${field} is empty`});
-			} 
-			else if(typeof submittedValue !== 'string') {
-				return res.status(422).json({errorMsg: `Incorrect datatype: ${field} is wrong field type`});	
-			}
-		})
+		// Object.keys(req.body).forEach(function(field) {
+		// 	let submittedValue = req.body[field];
+		// 	if(submittedValue === '') {
+		// 		return res.status(422).json({errorMsg: `Incorrect Length: ${field} is empty`});
+		// 	} 
+		// 	else if(typeof submittedValue !== 'string') {
+		// 		return res.status(422).json({errorMsg: `Incorrect datatype: ${field} is wrong field type`});	
+		// 	}
+		// })
 
-		let {email, username, password, passwordConfirmation} = req.body
+		let {username, email, password, passwordConfirmation} = req.body
 
  		if(password !== passwordConfirmation) {
  			return res.status(422).json({errorMsg: `Passwords do not match.`})
  		}
 
-		email = email.trim().toLowerCase(); 
-		username = username.trim().toLowerCase();
+		// email = email.trim().toLowerCase(); 
+		// username = username.trim().toLowerCase();
 		password = password.trim();
 	
 		//next check if user exists then create if it does not exist. 
@@ -68,8 +68,8 @@ let userController = {
 				})
 				.then(hash => {
 					let newUser = new User ({
-						email: email,
-						username: username, 
+						email: email.trim().toLowerCase(),
+						username: username.trim().toLowerCase(), 
 						password: hash,
 						userNotes: []
 					});
