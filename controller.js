@@ -45,7 +45,14 @@ let userController = {
 			}
 		})
 
- 		let {email, username, password, passwordConfirmation} = req.body
+		//recently changed this
+		try{
+ 			let {email, username, password, passwordConfirmation} = req.body
+		}
+		catch(err) {
+			console.log(err);
+			return res.status(422).json({errorMsg: "missing one field"})
+		}
 
  		if(password !== passwordConfirmation) {
  			return res.status(422).json({errorMsg: `Passwords do not match.`})
