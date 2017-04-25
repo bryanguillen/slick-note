@@ -1,12 +1,14 @@
 //imports
 const {User, Note} = require('./model');
-const {createFeedHTML, createUserHomeHTML} = require('./services');
+const {createFeedHTML, createUserHomeHTML, renderHTMLAfterLogout, renderHTMLAfterSignup} = require('./services');
 
 let userController = {
 	
 	getHomePage: function (req, res) {
+		//right here what we want to do is redirect the user in after 
+		//loggin in. then just allow them, 
 		User
-			.findById(req.params.id)
+			.findById(req.user._id)
 			.populate('userNotes')
 			.exec() 
 			//get the user information. 
@@ -86,7 +88,7 @@ let userController = {
 					User
 	   	 				.find(user.username)
 	   	 				.exec()
-	   	 				.then(res.status(201).json(user.apiRepr()))
+	   	 				.then(res.send(renderHTMLAfterSignup()))
 	   	 				.catch(err => {
 	   	 					console.log(err);
 	   	 					res.status(500).json({errorMsg: "internal server error"});
@@ -99,15 +101,31 @@ let userController = {
 			})
 	},
 
-	signout: function (req, res) {
+	getLogin: function (req, res) {
 		try {
-			return res.clearCookie('id').status(200).json({sucessfulLogout: "logout successfully"});
+			return res.status(200).sendFile(__dirname + '/public/login.html');
 		}
 		catch (err) {
 			console.log(err);
 			return res.status(500).json({errMessage: "internal server error"});
 		}
-	}
+	},
+
+	signout: function (req, res) {
+		try {
+				req.session.destroy(function (err) {
+					res.clearCookie('id').send(renderHTMLAfterLogout()); //send body only for ajax call processing
+				})
+  		}
+		catch (err) {
+			console.log(err);
+			return res.status(500).json({errMessage: "internal server error"});
+		}
+	}, 
+
+	redirectHome: function (req, res) {
+    	res.redirect('/user/' + req.user._id);
+  	}
 }
 
 let noteController = {

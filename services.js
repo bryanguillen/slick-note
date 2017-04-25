@@ -52,5 +52,55 @@ function createUserHomeHTML(notes) {
 			</html>`
 }
 
+function renderHTMLAfterLogout() {
+	return `<main>
+		<div class="signup-container">
+			<div class="inner-container">
+			<div class="row">
+				<div class="col-12 signup-content">
+					<form method="post" action="/users" class="signup-form">
+						<fieldset name="signup-form">
+							<label class="signup-label">Email</label>
+							<input type="text" name="email" class="signup-field" placeholder="foo@bar.com" required />
+							<label class="signup-label">Username</label>
+							<input type="text" name="username" class="signup-field" placeholder="johnsmith123" required />
+							<label class="signup-label">Password</label>
+							<input type="password" name="password" class="signup-field" required />
+							<label class="signup-label">Confirm Password</label>
+							<input type="password" name="confirm-password" class="signup-field" required />
+							<div class="authentication-button-container"><button class="authentication-button">Sign Up</button></div>
+							<span><em><strong>REDIRECTED TO LOGIN IF SUCCESSFUL SIGNUP, THEN LOG BACK IN</strong></em></span>
+						</fieldset>
+					</form>
+					<div class="signup-login-links-container"><a href="/login.html">Login</a></div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</main>`
+}
 
-module.exports = {createFeedHTML, createUserHomeHTML}
+function renderHTMLAfterSignup() {
+	return `<main>
+		<div class="login-container">
+			<div class="inner-container">
+				<div class="row">
+					<div class="col-12 login-content">
+						<form method="post" action="/login" class="login-form">
+							<fieldset name="login-form">
+								<label class="login-label">Username</label>
+								<input type="text" name="username" class="login-field" placeholder="johnsmith28" required />
+								<label class="login-label">Password</label>
+								<input type="password" name="password" class="login-field" required />
+								<button class="authentication-button login">Login</button>
+							</fieldset>
+						</form>
+						<div class="signup-login-links-container"><a href="/index.html">Sign Up</a></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>`
+}
+
+module.exports = {createFeedHTML, createUserHomeHTML, renderHTMLAfterLogout, renderHTMLAfterSignup}
