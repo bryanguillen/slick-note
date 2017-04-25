@@ -45,8 +45,7 @@ let userController = {
 			}
 		})
 
-		//recently changed this
- 		let {email, username, password, passwordConfirmation} = req.body
+		let {email, username, password, passwordConfirmation} = req.body
 
  		if(password !== passwordConfirmation) {
  			return res.status(422).json({errorMsg: `Passwords do not match.`})
@@ -89,7 +88,7 @@ let userController = {
 					User
 	   	 				.find(user.username)
 	   	 				.exec()
-	   	 				.then(res.send(renderHTMLAfterSignup()))
+	   	 				.then(res.status(201).send(renderHTMLAfterSignup()))
 	   	 				.catch(err => {
 	   	 					console.log(err);
 	   	 					res.status(500).json({errorMsg: "internal server error"});
