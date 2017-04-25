@@ -15,12 +15,12 @@ function signup() {
 		let passwordConfirmation = fieldSet.find('input[name="confirm-password"]').val();
 		let settings = {
 	 		type: 'POST',
-	 		url: '/users',
+	 		url: 'https://vast-mesa-45606.herokuapp.com/users',
 	 		data: {
-	 			username: username,
-	 			email: email,
-	 			password: password,
-	 			passwordConfirmation: passwordConfirmation
+	 			"username": username,
+	 			"email": email,
+	 			"password": password,
+	 			"passwordConfirmation": passwordConfirmation
 	 		},
 	 		dataType: "html",
 	 		success: renderLogin
