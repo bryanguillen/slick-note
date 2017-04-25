@@ -15,7 +15,7 @@ function signup() {
 		let passwordConfirmation = fieldSet.find('input[name="confirm-password"]').val();
 		let settings = {
 	 		type: 'POST',
-	 		url: 'http://localhost:8080/users',
+	 		url: 'https://shielded-stream-62421.herokuapp.com/users',
 	 		data: {
 	 			username: username,
 	 			email: email,
