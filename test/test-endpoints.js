@@ -20,9 +20,6 @@ function logUserIn() {
 			return chai.request(app)
 				.post('/login')
 				.send(user)
-				.then(function (req) {
-					console.log(req.user)
-				})
 }
 
 function logUserOut() {
@@ -84,32 +81,31 @@ describe('ENDPOINT API TEST', function() {
 
 	describe('Test protected API endpoints.', function() {
 
-		// beforeEach(function() {
-		// 	return logUserIn();
-		// })
+		beforeEach(function() {
+			return logUserIn();
+		})
 
-		// afterEach(function() {
-		// 	return logUserOut();
-		// })
+		afterEach(function() {
+			return logUserOut();
+		})
 
 		describe('POST A NEW NOTE TO RESOURCE', function() {
 			it('should create a new note upon successful post', function() {
-				return logUserIn();
-			// 	let newNote = {
-			// 		"user": "58ff589bc73482f7bc627111",
-			// 		"title": "NEW TEST TITLE",
-			// 		"subtitle": "NEW TEST SUBTITLE",
-			// 		"notes": "NEW TEST NOTE"
-			// 	}
+				let newNote = {
+					"user": "58ff589bc73482f7bc627111",
+					"title": "NEW TEST TITLE",
+					"subtitle": "NEW TEST SUBTITLE",
+					"notes": "NEW TEST NOTE"
+				}
 
-			// 	return chai.request(app)
-			// 		.post('/new-note')
-			// 		.send(newNote)
-			// 		.then(function(res) {
-			// 			res.should.have.status(201);
-			// 			res.should.be.json;
-			// 			res.should.be.a('object');
-			// 		})
+				return chai.request(app)
+					.post('/new-note')
+					.send(newNote)
+					.then(function(res) {
+						res.should.have.status(201);
+						res.should.be.json;
+						res.should.be.a('object');
+					})
 			})
 		})
 	})
