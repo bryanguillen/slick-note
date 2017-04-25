@@ -52,14 +52,14 @@ router.use(require('express-session')({ secret: 'keyboard cat', resave: false, s
 router.use(passport.initialize()); 
 router.use(passport.session());
 
+router.post('/users', userController.createNewUser);
+router.get('/logout', userController.signout);
+router.get('/login', userController.getLogin);
+router.post('/login', passport.authenticate('local-signup', { failureRedirect: '/login' }), userController.redirectHome)
 router.get('/user/:id', require('connect-ensure-login').ensureLoggedIn(), userController.getHomePage); 
 router.get('/note/:noteId', require('connect-ensure-login').ensureLoggedIn(), noteController.getNote); //GET note on click
 router.delete('/note/:noteId', require('connect-ensure-login').ensureLoggedIn(), noteController.deleteNote);
 router.put('/note/:noteId', require('connect-ensure-login').ensureLoggedIn(), noteController.updateNote);
 router.post('/new-note', require('connect-ensure-login').ensureLoggedIn(), noteController.createNote);
-router.post('/users', userController.createNewUser);
-router.get('/logout', userController.signout);
-router.get('/login', userController.getLogin);
-router.post('/login', passport.authenticate('local-signup', { failureRedirect: '/login' }), userController.redirectHome)
 
 module.exports = router;
