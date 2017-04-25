@@ -2,7 +2,8 @@
 function renderUserHome(data) {
 	//get the contents within the main tag in 
 	//the data and then just render that.. due to 
-	//the way that the server side code was written.! 
+	//the way that the server side code was written.!
+	//and how ajax processes the request. 
 	let openMainTag = data.search('<main>') + 6;
 	let closingMainTag = data.search('</main>');
 	let noteFeedHTML = data.slice(openMainTag, closingMainTag);
@@ -10,8 +11,8 @@ function renderUserHome(data) {
 	
 }
 
-function renderSuccessfulLogout(obj) {
-	$('body').html('<p>' + obj.sucessfulLogout + '</p>')
+function renderLogout(data) {
+	$('body').html(data);
 }
 
 function renderFeed(notes) {
@@ -53,8 +54,8 @@ function getLogout() {
 		let settings = {
 			type: 'GET',
 			url: 'http://localhost:8080/logout',
-			dataType: 'json',
-			success: renderSuccessfulLogout
+			dataType: 'html',
+			success: renderLogout
 		}
 		return $.ajax(settings);
 	})
@@ -221,7 +222,6 @@ function confirmDelete() {
 }
 
 $(function() {
-	//recently changed names, might cause bug. be on the lookout. SYNTAX / NAMIN ERRORS
 	getUserHome();
 	getLogout();
 	getUserNote();
