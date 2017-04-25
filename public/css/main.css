@@ -96,18 +96,15 @@ body {
 
 .note-title {
 	font-size: 25px;
-	/*color: white;*/
 }
 
 .note-subtitle {
 	font-size: 20px;
-	/*color: white;*/
 }
 
 .view-note {
 	display: inline-block;
 	font-size: 15px;
-	/*color: white;*/
 }
 
 .view-note:hover {
@@ -183,7 +180,7 @@ body {
 }
 
 @media screen and (min-width: 640px) {
-	.nav-button {
+	.nav-button, .note-subtitle, .title-text, .subtitle-text {
 		font-size: 30px;
 	}
 
@@ -193,14 +190,6 @@ body {
 
 	.note-title {
 		font-size: 55px;
-	}
-
-	.note-subtitle {
-		font-size: 30px;
-	}
-
-	.title-text, .subtitle-text {
-		font-size: 30px;
 	}
 
 	.note, .edit-note {
