@@ -57,48 +57,39 @@ let userController = {
 	
 		//next check if user exists then create if it does not exist. 
 		return User
-			.find({email})
-			.count()
-			.exec()
-			.then(count => {
-				if(count>0) { 
-					return res.status(422).json({errorMsg: `This email already exists`});
-				}
-				return User
-					.find({username})
-					.count()
-					.exec()
-			})
-			.then(count => {
-				if(count>0) {
-					return res.status(422).json({errorMsg: `This username already exists`});
-				}
-				return User.hashPassword(password)
-			})
-			.then(hash => {
-				let newUser = new User ({
-					email: email,
-					username: username, 
-					password: hash,
-					userNotes: []
-				});
+				.find({username})
+				.count()
+				.exec()
+				.then(count => {
+					if(count>0) {
+						return res.status(422).json({errorMsg: `This username already exists`});
+					}
+					return User.hashPassword(password)
+				})
+				.then(hash => {
+					let newUser = new User ({
+						email: email,
+						username: username, 
+						password: hash,
+						userNotes: []
+					});
 
-				newUser.save(function(err, user) {
-					if (err) {return console.log(err)};
-					User
-	   	 				.find(user.username)
-	   	 				.exec()
-	   	 				.then(res.status(201).send(renderHTMLAfterSignup()))
-	   	 				.catch(err => {
-	   	 					console.log(err);
-	   	 					res.status(500).json({errorMsg: "internal server error"});
-	   	 				})
-				});
-			})
-			.catch(err => {
-				console.log(err);
-				res.status(500).json({errorMsg: 'internal server error'})
-			})
+					newUser.save(function(err, user) {
+						if (err) {return console.log(err)};
+						User
+	   	 					.find(user.username)
+	   	 					.exec()
+	   	 					.then(res.status(201).send(renderHTMLAfterSignup()))
+	   	 					.catch(err => {
+	   	 						console.log(err);
+	   	 						res.status(500).json({errorMsg: "internal server error"});
+	   	 					})
+					});
+				})
+				.catch(err => {
+					console.log(err);
+					res.status(500).json({errorMsg: 'internal server error'})
+				})
 	},
 
 	getLogin: function (req, res) {
