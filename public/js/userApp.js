@@ -40,7 +40,7 @@ function getUserHome() {
 		let userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 		let settings = {
 			type: 'GET',
-			url: 'https://shielded-stream-62421.herokuapp.com/user/' + userId,
+			url: '/user/' + userId,
 			dataType: 'html',
 			success: renderUserHome
 		}
@@ -53,7 +53,7 @@ function getLogout() {
 		event.preventDefault();
 		let settings = {
 			type: 'GET',
-			url: 'https://shielded-stream-62421.herokuapp.com/logout',
+			url: '/logout',
 			dataType: 'html',
 			success: renderLogout
 		}
@@ -68,7 +68,7 @@ function getUserNote() {
 		let noteId = $(this).closest('.user-note-container').find('div.note-id').text(); //keep eye on this
 		let settings = {
 			type: 'GET',
-			url: 'https://shielded-stream-62421.herokuapp.com/note/' + noteId,
+			url: '/note/' + noteId,
 			data: {
 				"_id": noteId
 			},
@@ -96,7 +96,7 @@ function createNewNote() {
 		//adding empty strings for fresh note
 		let settings = {
 		 	type: 'POST',
-		 	url: 'https://shielded-stream-62421.herokuapp.com/new-note',
+		 	url: '/new-note',
 		 	data: {
 		 		"user": userId,
 		 		"title": newTitle,
@@ -133,7 +133,7 @@ function updateNote() {
 		$('div.note').text(noteText).show();
 		let settings = {
 		 	type: 'PUT',
-		 	url: 'https://shielded-stream-62421.herokuapp.com/note/' + noteId,
+		 	url: '/note/' + noteId,
 		 	data: {
 		 		"notes": noteText
 		 	}
@@ -163,7 +163,7 @@ function updateNote() {
 
 		let settings = {
 		  	type: 'PUT',
-		  	url: 'https://shielded-stream-62421.herokuapp.com/note/' + noteId,
+		  	url: '/note/' + noteId,
 		  	data: {
 		  		"title": newTitle,
 		  		"subtitle": newSubtitle
@@ -215,7 +215,7 @@ function confirmDelete() {
 		let noteId = $(this).closest('.user-note-container').find('.note-id').text();
 	 	let settings = {
 	 		type: 'DELETE',
-	 		url: 'https://shielded-stream-62421.herokuapp.com/note/' + noteId
+	 		url: '/note/' + noteId
 	 	}
 	 	return $.ajax(settings);
 	})	
