@@ -31,28 +31,32 @@ let userController = {
 
 	createNewUser: function (req, res) {
 		//verify that each of the fields exist after verifying that the body is not empty.
+		console.log('starting');
 		if(!req.body) {
 	 		res.status(400).json({errorMsg: "Your request is empty and invalid."})
 		}
-		
-		// Object.keys(req.body).forEach(function(field) {
-		// 	let submittedValue = req.body[field];
-		// 	if(submittedValue === '') {
-		// 		return res.status(422).json({errorMsg: `Incorrect Length: ${field} is empty`});
-		// 	} 
-		// 	else if(typeof submittedValue !== 'string') {
-		// 		return res.status(422).json({errorMsg: `Incorrect datatype: ${field} is wrong field type`});	
-		// 	}
-		// })
+		console.log('still going');
+		console.time();
+		Object.keys(req.body).forEach(function(field) {
+			let submittedValue = req.body[field];
+			if(submittedValue === '') {
+				return res.status(422).json({errorMsg: `Incorrect Length: ${field} is empty`});
+			} 
+			else if(typeof submittedValue !== 'string') {
+				return res.status(422).json({errorMsg: `Incorrect datatype: ${field} is wrong field type`});	
+			}
+		})
+		console.end()
 
+		console.time();
 		let {username, email, password, passwordConfirmation} = req.body
 
  		if(password !== passwordConfirmation) {
  			return res.status(422).json({errorMsg: `Passwords do not match.`})
  		}
 
-		// email = email.trim().toLowerCase(); 
-		// username = username.trim().toLowerCase();
+		email = email.trim().toLowerCase(); 
+		username = username.trim().toLowerCase();
 		password = password.trim();
 	
 		//next check if user exists then create if it does not exist. 
@@ -68,8 +72,8 @@ let userController = {
 				})
 				.then(hash => {
 					let newUser = new User ({
-						email: email.trim().toLowerCase(),
-						username: username.trim().toLowerCase(), 
+						email: email,
+						username: username, 
 						password: hash,
 						userNotes: []
 					});
@@ -90,6 +94,7 @@ let userController = {
 					console.log(err);
 					res.status(500).json({errorMsg: 'internal server error'})
 				})
+		console.end();
 	},
 
 	getLogin: function (req, res) {
