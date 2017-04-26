@@ -48,7 +48,7 @@ let userController = {
 		})
 		console.end()
 
-		console.time();
+		console.timeEnd();
 		let {username, email, password, passwordConfirmation} = req.body
 
  		if(password !== passwordConfirmation) {
@@ -94,7 +94,7 @@ let userController = {
 					console.log(err);
 					res.status(500).json({errorMsg: 'internal server error'})
 				})
-		console.end();
+		console.timeEnd();
 	},
 
 	getLogin: function (req, res) {
