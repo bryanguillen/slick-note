@@ -31,12 +31,11 @@ let userController = {
 
 	createNewUser: function (req, res) {
 		//verify that each of the fields exist after verifying that the body is not empty.
-		console.log('starting');
+		
 		if(!req.body) {
 	 		res.status(400).json({errorMsg: "Your request is empty and invalid."})
 		}
-		console.log('still going');
-		console.time();
+	
 		Object.keys(req.body).forEach(function(field) {
 			let submittedValue = req.body[field];
 			if(submittedValue === '') {
@@ -46,10 +45,8 @@ let userController = {
 				return res.status(422).json({errorMsg: `Incorrect datatype: ${field} is wrong field type`});	
 			}
 		})
-		console.timeEnd()
-
-		console.timeEnd();
-		let {username, email, password, passwordConfirmation} = req.body
+		
+		let {username, email, password, passwordConfirmation} = req.body;
 
  		if(password !== passwordConfirmation) {
  			return res.status(422).json({errorMsg: `Passwords do not match.`})
@@ -94,7 +91,7 @@ let userController = {
 					console.log(err);
 					res.status(500).json({errorMsg: 'internal server error'})
 				})
-		console.timeEnd();
+		
 	},
 
 	getLogin: function (req, res) {
