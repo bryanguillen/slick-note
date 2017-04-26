@@ -46,7 +46,7 @@ let userController = {
 				return res.status(422).json({errorMsg: `Incorrect datatype: ${field} is wrong field type`});	
 			}
 		})
-		console.end()
+		console.timeEnd()
 
 		console.timeEnd();
 		let {username, email, password, passwordConfirmation} = req.body
