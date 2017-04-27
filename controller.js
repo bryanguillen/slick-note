@@ -1,25 +1,24 @@
 //imports
 const {User, Note} = require('./model');
-const {createFeedHTML, createUserHomeHTML, renderHTMLAfterLogout, renderHTMLAfterSignup} = require('./services');
+const {services} = require('./services');
 
 let userController = {
 	
 	getHomePage: function (req, res) {
 		User
-			.findById(req.user._id)
+			.findById(req.params.id)//req.user._id for passport later
 			.populate('userNotes')
 			.exec() 
-			//get the user information. 
 			.then(user => user.apiRepr())
 			.then(function(json) {
 				let notes = '';
 				json.userNotes.forEach(function(note) {
- 					notes += createFeedHTML(note);
+ 					notes += services.getUserFeedMarkup(note);
  	 			})
 				return notes
 			})
 			.then(notes => {
-				return res.status(200).send(createUserHomeHTML(notes)); //keep eye on this
+				return res.cookie('id', req.params.id).status(200).send(services.getUserHomeMarkup(notes)); //just setting cookie for now.
 			})
 			.catch(err => {
 		  		console.log(err);
@@ -29,7 +28,7 @@ let userController = {
 
 	createNewUser: function (req, res) {
 		//verify that each of the fields exist after verifying that the body is not empty.
-		
+
 		if(!req.body) {
 	 		res.status(400).json({errorMsg: "Your request is empty and invalid."})
 		}
@@ -54,7 +53,7 @@ let userController = {
 		username = username.trim().toLowerCase();
 		password = password.trim();
 	
-		//next check if user exists then create if it does not exist. 
+		// //next check if user exists then create if it does not exist. 
 		return User
 				.find({username})
 				.count()
@@ -78,7 +77,7 @@ let userController = {
 						User
 	   	 					.find(user.username)
 	   	 					.exec()
-	   	 					.then(res.status(201).send(renderHTMLAfterSignup()))
+	   	 					.then(res.status(201).send(services.getLoginMarkup()))
 	   	 					.catch(err => {
 	   	 						console.log(err);
 	   	 						res.status(500).json({errorMsg: "internal server error"});
@@ -92,16 +91,7 @@ let userController = {
 		
 	},
 
-	getLogin: function (req, res) {
-		try {
-			return res.status(200).sendFile(__dirname + '/public/login.html');
-		}
-		catch (err) {
-			console.log(err);
-			return res.status(500).json({errMessage: "internal server error"});
-		}
-	},
-
+	//this is for passport as well.
 	signout: function (req, res) {
 		try {
 				req.session.destroy(function (err) {
@@ -114,6 +104,7 @@ let userController = {
 		}
 	}, 
 
+	//controller for passport
 	redirectHome: function (req, res) {
     	res.redirect('/user/' + req.user._id);
   	}
@@ -157,6 +148,7 @@ let noteController = {
 			})
 	},
 
+	//work with creating and updating the notes with the new schema
 	updateNote: function (req, res) {
 		let updatedFields = {};
 		Object.keys(req.body).forEach(function(field) {
@@ -180,13 +172,12 @@ let noteController = {
 					res.status(204).end();
 				})
 	},
-
+	
 	createNote: function (req, res) {
 		let newNote = new Note ({
 			"user": req.body.user,
 			"title": req.body.title, 
-			"subtitle": req.body.subtitle,
-			"notes": req.body.notes
+			"subtitle": req.body.subtitle
 		});
 
 		newNote.save(function(err, note) {
@@ -200,6 +191,24 @@ let noteController = {
 	   	 			res.status(500).json({errorMsg: "internal server error"});
 	   	 		})
 		});
+	}, 
+
+	createNoteSection: function(req, res) {
+		let newNoteSection = {
+			"header": req.body.header,
+			"note": req.body.note
+		}
+	
+		Note
+			.findByIdAndUpdate(req.params.noteId, { $push: {notes: newNoteSection}})
+			.exec()
+			.then(note => {
+				res.status(201).json(note.noteAPIRepr())
+			})
+			.catch(err => {
+				console.log(err);
+				res.status(500).json({errorMsg: "internal server error"});
+			})
 	}
 
 }
