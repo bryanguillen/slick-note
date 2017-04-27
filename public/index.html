@@ -13,7 +13,6 @@
   	<link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
-
 	<main>
 		<div class="signup-container">
 			<div class="inner-container">
@@ -28,9 +27,8 @@
 							<label class="signup-label">Password</label>
 							<input type="password" name="password" class="signup-field" required />
 							<label class="signup-label">Confirm Password</label>
-							<input type="password" name="confirm-password" class="signup-field" required />
-							<div class="authentication-button-container"><button class="authentication-button signup">Sign Up</button></div>
-							<span><em><strong>REDIRECTED TO LOGIN IF SUCCESSFUL SIGNUP, THEN LOG BACK IN</strong></em></span>
+							<input type="password" name="passwordConfirmation" class="signup-field" required />
+							<button class="authentication-button signup" type="submit">Sign Up</button>
 						</fieldset>
 					</form>
 					<div class="signup-login-links-container"><a href="/login.html">Login</a></div>
@@ -39,9 +37,5 @@
 			</div>
 		</div>
 	</main>
-	
-	<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
-	<script type="text/javascript" src="js/template.js"></script>
-	<script type="text/javascript" src="js/userAuthentication.js"></script>
 </body>
 </html>
