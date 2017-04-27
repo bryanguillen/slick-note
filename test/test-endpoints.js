@@ -1,7 +1,6 @@
 //imports and requirments 
 const chai = require('chai');
 const chaiHTTP = require('chai-http');
-const faker = require('faker');
 const {app, runServer, closeServer} = require('../server');
 const {User, Note} = require('../model');
 const should = chai.should();
@@ -12,16 +11,6 @@ const router = require('../route');
 //allowing for http integration testing
 chai.use(chaiHTTP);
 
-function logUserIn() {
-	let user = {
-				username: "bryanguillen",
-				password: "what"
-			}
-			return chai.request(app)
-				.post('/login')
-				.send(user)
-}
-
 function logUserOut() {
 	return chai.request(app)
 		.get('/logout')
@@ -30,8 +19,7 @@ function logUserOut() {
 function seedNoteCollection() {
 	let noteData = [
 		{
-			"_id": "58f50436aef859ac6e642884",
-			"user":  "58ff589bc73482f7bc627111",
+			"user":  "59001649c831088d943b57df",
 			"title": "THE TIME VALUE OF TIME",
 			"subtitle": "FINANCE IN A CHANGING WORLD",
 			"notes": "Hello Wolrd!"
@@ -39,16 +27,14 @@ function seedNoteCollection() {
 		},
 
 		{
-			"_id": "58f50436aef859ac6e642885",
-			"user":   "58ff588dc73482f7bc627110",
+			"user":   "59001649c831088d943b57df",
 			"title": "Accounting",
 			"subtitle": "Accounting IN A CHANGING WORLD",
 			"notes": ""
 		},
 
 		{
-			"_id": "58f50436aef859ac6e642887",
-			"user":   "58ff588dc73482f7bc627110",
+			"user":   "59001649c831088d943b57df",
 			"title": "MATH",
 			"subtitle": "MATH IN A CHANGING WORLD",
 			"notes": ""
@@ -64,7 +50,7 @@ function dropNoteCollection() {
 
 describe('ENDPOINT API TEST', function() {
 	before(function() {
-		return runServer(TEST_DATABASE_URL);
+		return runServer(process.env.TEST_DATABASE_URL);
 	})
 
 	beforeEach(function() {
@@ -80,33 +66,27 @@ describe('ENDPOINT API TEST', function() {
 	})
 
 	describe('Test protected API endpoints.', function() {
-
-		beforeEach(function() {
-			return logUserIn();
-		})
-
-		afterEach(function() {
-			return logUserOut();
-		})
-
-		describe('POST A NEW NOTE TO RESOURCE', function() {
-			it('should create a new note upon successful post', function() {
+		
+		describe('GET A USER AND THEIR NOTES', function() {
+			it('should return user home page with notes', function() {
 				let newNote = {
-					"user": "58ff589bc73482f7bc627111",
+					"user": "59001649c831088d943b57df",
 					"title": "NEW TEST TITLE",
 					"subtitle": "NEW TEST SUBTITLE",
 					"notes": "NEW TEST NOTE"
 				}
-
+				
 				return chai.request(app)
-					.post('/new-note')
-					.send(newNote)
-					.then(function(res) {
-						res.should.have.status(201);
-						res.should.be.json;
-						res.should.be.a('object');
-					})
-			})
+					.post('/login')
+      				.set('content-type', 'application/x-www-form-urlencoded')
+      				.type('form')
+      				.send('username=cfadul')
+      				.send('password=what')
+      				.then(function(res) {
+      					console.log(res);
+      				})
+      		})
 		})
+	
 	})
 })

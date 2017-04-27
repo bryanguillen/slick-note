@@ -6,6 +6,7 @@ const {userController, noteController} = require('./controller');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
+router.use(bodyParser.urlencoded({ extended: true }));
 router.use(jsonParser);
 
 //passport strategy

@@ -1,5 +1,6 @@
 //DOM MANIPULATION
 function renderLogin(data) {
+	// $('div.signup-error').hide();
 	$('body').html(data);
 }
 
@@ -24,7 +25,7 @@ function signup() {
 	 		},
 	 		dataType: "html",
 	 		success: renderLogin
-		} 
+	 	}		 
 		return $.ajax(settings)
 	})
 }
