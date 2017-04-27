@@ -1,9 +1,5 @@
 //DOM MANIPULATION
-function renderUserHome(data) {
-	//get the contents within the main tag in 
-	//the data and then just render that.. due to 
-	//the way that the server side code was written.!
-	//and how ajax processes the request. 
+function renderUserHome(data) { 
 	let openMainTag = data.search('<main>') + 6;
 	let closingMainTag = data.search('</main>');
 	let noteFeedHTML = data.slice(openMainTag, closingMainTag);
@@ -28,8 +24,6 @@ function renderNoteTemplate(obj) {
 }
 
 function renderPublishedNote(obj) {
-	//here is where we get the template then render
-	//renders note with editing mode hidden so the user could do as he/she pleases
 	$('main').html(getPublishedNoteTemplate(obj.title, obj.subtitle, obj.notes, obj.id));
 }
 
@@ -153,8 +147,6 @@ function updateNote() {
 					return titleParent.find('div.error-message').show();
 		}
 
-		//consider putting the next two lines into a function?
-		//set the title with new values in UI
 		titleParent.prev().find('span.title-text').text(newTitle);
 		titleParent.prev().find('span.subtitle-text').text(newSubtitle); 
 		

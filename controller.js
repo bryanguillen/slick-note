@@ -5,8 +5,6 @@ const {createFeedHTML, createUserHomeHTML, renderHTMLAfterLogout, renderHTMLAfte
 let userController = {
 	
 	getHomePage: function (req, res) {
-		//right here what we want to do is redirect the user in after 
-		//loggin in. then just allow them, 
 		User
 			.findById(req.user._id)
 			.populate('userNotes')
@@ -184,8 +182,6 @@ let noteController = {
 	},
 
 	createNote: function (req, res) {
-		//later test code by making sure each key is present when introducing new note
-		//create the new post in the database 
 		let newNote = new Note ({
 			"user": req.body.user,
 			"title": req.body.title, 

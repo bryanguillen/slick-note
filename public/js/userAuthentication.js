@@ -1,6 +1,5 @@
 //DOM MANIPULATION
 function renderLogin(data) {
-	// $('div.signup-error').hide();
 	$('body').html(data);
 }
 

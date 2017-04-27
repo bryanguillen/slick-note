@@ -16,8 +16,7 @@ function createFeedHTML(note) {
 			</div>`
 }
 
-function createUserHomeHTML(notes) {
-	//find a better way to implement this. 
+function createUserHomeHTML(notes) { 
 	return `<!DOCTYPE html>
 			<html>
 			<head>
