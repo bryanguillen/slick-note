@@ -16,8 +16,7 @@ function getNewTemplate() {
 }
 
 function getNoteTemplate(title, subtitle, noteId) {
-	//template for the actual note taking of the application
-	//couldn't think of a better name for now.!
+	//first rendered with the textarea allowing to edit.
 	return  `<div class="row">
                 <div class="col-12 title-container">
                     <div class="title">
