@@ -1,8 +1,9 @@
 //DOM MANIPULATION
 function renderUserHome(data) { 
-	let openMainTag = data.search('<main>') + 6;
-	let closingMainTag = data.search('</main>');
-	let noteFeedHTML = data.slice(openMainTag, closingMainTag);
+	//hack for endering user home through ajax call.
+	var openMainTag = data.search('<main>') + 6;
+	var closingMainTag = data.search('</main>');
+	var noteFeedHTML = data.slice(openMainTag, closingMainTag);
 	$('main').html(noteFeedHTML);
 	
 }
@@ -29,10 +30,11 @@ function renderPublishedNote(obj) {
 
 //EVENT LISTENERS
 function getUserHome() {
+	//beware this get call. 
 	$('nav').on('click', '.home', function(event) {
 		event.preventDefault();
-		let userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-		let settings = {
+		var userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+		var settings = {
 			type: 'GET',
 			url: '/user/' + userId,
 			dataType: 'html',
@@ -45,7 +47,7 @@ function getUserHome() {
 function getLogout() {
 	$('nav').on('click', '.logout', function(event) {
 		event.preventDefault();
-		let settings = {
+		var settings = {
 			type: 'GET',
 			url: '/logout',
 			dataType: 'html',
@@ -58,9 +60,9 @@ function getLogout() {
 function getUserNote() {
 	$('main').on('click', '.view-note', function(event) {
 		event.preventDefault();
-		let userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-		let noteId = $(this).closest('.user-note-container').find('div.note-id').text(); //keep eye on this
-		let settings = {
+		var userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+		var noteId = $(this).closest('.user-note-container').find('div.note-id').text(); //keep eye on this
+		var settings = {
 			type: 'GET',
 			url: '/note/' + noteId,
 			data: {
@@ -76,7 +78,7 @@ function getUserNote() {
 function getNewNote() {
 	$('nav').on('click', '.new-note-button', function(event) {
 		event.preventDefault();
-		return renderNewNoteTemplate(); //KEEP AN EYE ON THIS. 
+		return renderNewNoteTemplate(); 
 	});
 }
 
@@ -84,11 +86,11 @@ function createNewNote() {
 	$('main').on('click', '.create-note', function(event) {
 		event.preventDefault();
 		//temp solution for now for getting cookie value. 
-		let userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-		let newTitle = $('input[type="text"][name="new-note-title"]').val();
-		let newSubtitle = $('input[type="text"][name="new-note-subtitle"]').val();
+		var userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+		var newTitle = $('input[type="text"][name="new-note-title"]').val();
+		var newSubtitle = $('input[type="text"][name="new-note-subtitle"]').val();
 		//adding empty strings for fresh note
-		let settings = {
+		var settings = {
 		 	type: 'POST',
 		 	url: '/new-note',
 		 	data: {
@@ -104,28 +106,23 @@ function createNewNote() {
 }
 
 function updateNote() {
-	//Two different sections because of design of app. 
-	//You are either updating the titles, which wont be that often, 
-	//or the note which is the core activity of the app.
-	//therefore we split it, and focus more on the first event
-	//listener of this function
-	//willing to split these into two different functions completely.
-	//but seems fair to say that updateNote includes the note and the 
-	//titles for the notes.
-	
 	//updating the actual note
 	$('main').on('click', 'button.save-note', function(event) {
 		event.preventDefault();
+		
 		//ugly solutions for now for both noteText and noteId.
-		let noteText = $(this).parent().closest('div.editing-note-container').find('textarea.edit-note').val();
+		var noteText = $(this).parent().closest('div.editing-note-container').find('textarea.edit-note').val();
+		
 		if (noteText.trim().length === 0) {
 					return $(this).parent().closest('div.note-container').find('.note-error-message').show();
 		}
-		let noteId = $(this).parent().next().text();
+		var noteId = $(this).parent().next().text();
+		
 		$(this).parent().closest('div.note-container').find('.note-error-message').hide();
 		$('div.editing-note-container').hide();
 		$('div.note').text(noteText).show();
-		let settings = {
+		
+		var settings = {
 		 	type: 'PUT',
 		 	url: '/note/' + noteId,
 		 	data: {
@@ -138,22 +135,25 @@ function updateNote() {
 	//updating the titles
 	$('main').on('click', '.update-titles', function(event) {
 		event.preventDefault();
-		let titleParent = $(this).parent(); //CONSIDER RENAMING THIS VARIABLE
-		let newTitle = titleParent.find('input[name="title"]').val();
-		let newSubtitle = titleParent.find('input[name="subtitle"]').val(); 
-		let noteId = titleParent.parent().find('div.note-id').text();
 		
-		if (newTitle.trim().length === 0 || newSubtitle.trim().length === 0) {
-					return titleParent.find('div.error-message').show();
+		//get values firsts
+		var titleContainer = $(this).parent(); 
+		var newTitle = titleContainer.find('input[name="title"]').val();
+		var newSubtitle = titleContainer.find('input[name="subtitle"]').val();
+		var noteId = titleContainer.parent().find('div.note-id').text();
+
+		//client side validation
+		if (newTitle.trim() === 0 || newSubtitle.trim() === 0) {
+					return titleContainer.find('div.error-message').show();
 		}
 
-		titleParent.prev().find('span.title-text').text(newTitle);
-		titleParent.prev().find('span.subtitle-text').text(newSubtitle); 
-		
-		titleParent.hide();
-		titleParent.prev().show();
+		//set the values
+		titleContainer.prev().find('span.title-text').text(newTitle);
+		titleContainer.prev().find('span.subtitle-text').text(newSubtitle); 
+		titleContainer.hide();
+		titleContainer.prev().show();
 
-		let settings = {
+		var settings = {
 		  	type: 'PUT',
 		  	url: '/note/' + noteId,
 		  	data: {
@@ -166,7 +166,7 @@ function updateNote() {
 
 	$('main').on('click', '.cancel-title-update', function(event) {
 		event.preventDefault();
-		let titleParent =$(this).parent();
+		var titleParent =$(this).parent();
 		titleParent.hide();
 		titleParent.prev().show();
 	})
@@ -177,7 +177,7 @@ function editNote() {
 	$('main').on('click', '.note', function(event) {
 		event.preventDefault();
 		//FIRST GET THE TEXT OF THE DIV THEN HIDE IT
-		let noteText = $(this).text();
+		var noteText = $(this).text();
 		$('div.note').hide();
 		//THEN, SET THE TEXT OF TEXTAREA TO THAT AND SHOW THE SAVE BUTTON!
 		$('textarea.edit-note').append(noteText);
@@ -189,7 +189,7 @@ function editTitle() {
 	$('main').on('click', '.title', function(event) {
 		event.preventDefault();  
 		$('div.title').hide();
-		$('div.edit-title').show(); //can also just add a class in order to just render it hidden
+		$('div.edit-title').show(); 
 	})
 }
 
@@ -203,9 +203,9 @@ function deleteNote() {
 function confirmDelete() {
 	$('main').on('click', '.confirm-delete-button', function(event) {
 		event.preventDefault();
-		let userNoteContainer = $(this).closest('.user-note-container').hide(); //might make this into a function LIKE PARENT CONTAINER
-		let noteId = $(this).closest('.user-note-container').find('.note-id').text();
-	 	let settings = {
+		var userNoteContainer = $(this).closest('.user-note-container').hide(); 
+		var noteId = $(this).closest('.user-note-container').find('.note-id').text();
+	 	var settings = {
 	 		type: 'DELETE',
 	 		url: '/note/' + noteId
 	 	}
