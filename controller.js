@@ -21,7 +21,7 @@ let userController = {
 				return notes
 			})
 			.then(notes => {
-				return res.cookie('id', req.params.id).send(createUserHomeHTML(notes)); //keep eye on this
+				return res.status(200).send(createUserHomeHTML(notes)); //keep eye on this
 			})
 			.catch(err => {
 		  		console.log(err);
