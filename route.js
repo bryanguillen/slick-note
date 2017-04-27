@@ -60,7 +60,7 @@ router.get('/user/:id', userController.getHomePage);//require('connect-ensure-lo
 router.get('/note/:noteId', noteController.getNote); //GET note on click
 router.delete('/note/:noteId', noteController.deleteNote);
 router.put('/note/:noteId', noteController.updateNote);
-router.post('/note/:noteId', noteController.createNoteSection);
-router.post('/new-note', noteController.createNote);
+router.post('/note/:noteId', noteController.createNote);
+router.post('/new-note', noteController.startNote);
 
 module.exports = router;

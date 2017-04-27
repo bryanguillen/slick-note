@@ -16,12 +16,16 @@ function renderFeed(notes) {
 	$('main').html(notes);
 }
 
-function renderNewNoteTemplate() {
-	$('main').html(getNewTemplate());
+function renderNote(header, note, noteId) {
+	$('main').html(getNoteTemplate(header, note, noteId))
 }
 
-function renderNoteTemplate(obj) {
-	$('main').html(getNoteTemplate(obj.title, obj.subtitle, obj.id));
+function renderNewTitlesTemplate() {
+	$('main').html(getNewTitlesTemplate());
+}
+
+function renderNewNoteTemplate(obj) {
+	$('main').html(getNoteTemplate(obj.id));
 }
 
 function renderPublishedNote(obj) {
@@ -75,10 +79,10 @@ function getUserNote() {
 	})
 }
 
-function getNewNote() {
+function clickNewNote() {
 	$('nav').on('click', '.new-note-button', function(event) {
 		event.preventDefault();
-		return renderNewNoteTemplate(); 
+		return renderNewTitlesTemplate(); 
 	});
 }
 
@@ -87,19 +91,18 @@ function createNewNote() {
 		event.preventDefault();
 		//temp solution for now for getting cookie value. 
 		var userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-		var newTitle = $('input[type="text"][name="new-note-title"]').val();
-		var newSubtitle = $('input[type="text"][name="new-note-subtitle"]').val();
-		//adding empty strings for fresh note
+		var newHeader = $(this).closest('div.col-12').find('div.edit-header').find('input[name="header"]').val();
+		var newNote = $(this).parent().prev().val();
+		var noteId = $(this).parent().next().text();
+		console.log(noteId);
 		var settings = {
-		 	type: 'POST',
-		 	url: '/new-note',
-		 	data: {
-		 		"user": userId,
-		 		"title": newTitle,
-		 		"subtitle": newSubtitle,
-		 		"notes": '' 
-		 	},	 	
-		 	success: renderNoteTemplate 
+			type: 'POST',
+			url: '/note/' + noteId,
+			data: {
+				"header": newHeader,
+				"note": newNote
+			},
+			success: renderNote(newHeader, newNote, noteId)
 		}
 		return $.ajax(settings);
 	});
@@ -217,7 +220,7 @@ $(function() {
 	getUserHome();
 	getLogout();
 	getUserNote();
-	getNewNote();
+	clickNewNote();
 	createNewNote();
 	updateNote();
 	editNote();

@@ -160,6 +160,7 @@ let noteController = {
 			}
 		})
 		
+		//update the sections
 		if ("header" in updatedFields && "note" in updatedFields) {
 			Note
 				.findById(req.params.noteId)
@@ -196,9 +197,9 @@ let noteController = {
 				})
 	},
 	
-	createNote: function (req, res) {
+	startNote: function (req, res) {
 		let newNote = new Note ({
-			"user": req.body.user,
+			"user": req.cookies.id,
 			"title": req.body.title, 
 			"subtitle": req.body.subtitle
 		});
@@ -208,7 +209,7 @@ let noteController = {
 			User
 	   	 		.findByIdAndUpdate(req.cookies.id, { $push: {userNotes: note._id}})
 	   	 		.exec()
-	   	 		.then(res.status(201).json(note.noteAPIRepr()))
+	   	 		.then(res.status(201).send(services.getNewNoteMarkup(note._id)))//render new note html file
 	   	 		.catch(err => {
 	   	 			console.log(err);
 	   	 			res.status(500).json({errorMsg: "internal server error"});
@@ -216,7 +217,7 @@ let noteController = {
 		});
 	}, 
 
-	createNoteSection: function(req, res) {
+	createNote: function(req, res) {
 		let newNoteSection = {
 			"header": req.body.header,
 			"note": req.body.note

@@ -1,40 +1,38 @@
-function getNewTemplate() {
-	return `<div class="row">
+function getNewTitlesTemplate() {
+	//before a user creates any notes, 
+    //they have to name in order to be more orderly. they can
+    //always go back and change it.
+    return `<div class="row">
                 <div class="note-container">
                     <div class="col-12 titles-content">
-                    <form class="new-note">
+                    <form method="post" action="/new-note" class="new-note">
                         <fieldset name="create-note">
                             <label class="title-label">Title</label>    
-                            <input type="text" name="new-note-title" class="title-field" placeholder="eg. Biology" required />
+                            <input type="text" name="title" class="title-field" placeholder="eg. Biology" required />
                             <label class="subtitle-label">Subtitle</label>
-                            <input type="text" name="new-note-subtitle" class="subtitle-field" placeholder="eg. Life Science For School" required />
-                            <button class="create-note">Create Note</button>
+                            <input type="text" name="subtitle" class="subtitle-field" placeholder="eg. Life Science For School" required />
+                            <button class="start-notes">Start Creating Notes</button>
                         </fieldset>
                     </form>
                 </div>
             </div>`
 }
 
-function getNoteTemplate(title, subtitle, noteId) {
+function getNewNoteTemplate(noteId) {
 	//first rendered with the textarea allowing to edit.
 	return  `<div class="row">
-                <div class="col-12 title-container">
-                    <div class="title">
-                        <span class="title-text">${title}</span> 
-                        <span class="subtitle-text">${subtitle}</span> 
+                <div class="col-12 header-container">
+                    <!--this will be hidden at first -->
+                    <div class="header-name"> 
+                        <span class="header-text"></span> 
                     </div>
-                    <div class="edit-title">  
-                        <div class="error-message">PLEASE FILL OUT BOTH FIELDS</div>
-                        <div class="edit-title-container">
-                            <label class="update-title-label">title</label>
-                            <input type="text" name="title" class="update-title-field" required />
+                    <div class="edit-header">  
+                        <div class="error-message">PLEASE FILL OUT 'Header' Field</div>
+                        <div class="edit-header-container">
+                            <label class="header-label">header</label>
+                            <input type="text" name="title" class="update-header-field" required />
                         </div>
-                        <div class="edit-subtitle-container">
-                            <label class="update-subtitle-label">subtitle</label>
-                            <input type="text" name="subtitle" class="update-subtitle-field" required />   
-                        </div>
-                        <button class="update-titles">Update</button>
-                        <button class="cancel-title-update">Cancel</button>
+                        <button class="update-header">Save</button>
                         <div class="note-id">${noteId}</div>
                     </div> 
                 </div>
