@@ -151,14 +151,37 @@ let noteController = {
 	//work with creating and updating the notes with the new schema
 	updateNote: function (req, res) {
 		let updatedFields = {};
+		let newValues = { $set: updatedFields}
+
 		Object.keys(req.body).forEach(function(field) {
 			//leave id out of the update 
 			if (field !== "id") {
 				updatedFields[field] = req.body[field];
 			}
-
 		})
-		let newValues = { $set: updatedFields}
+		
+		if ("header" in updatedFields && "note" in updatedFields) {
+			Note
+				.findById(req.params.noteId)
+				.exec()
+				.then(userNote => {
+					for (let i=0, length=userNote.notes.length; i<length;  i++) {
+						if (userNote.notes[i].id === req.body.id) {
+							userNote.notes[i].header = req.body.header;
+							userNote.notes[i].note = req.body.note;
+							
+							userNote.save(function (err, updatedNote) {
+    							if (err) {
+    								console.log(err);
+    							}
+    							res.status(204).end();
+  							});
+						}
+					}
+				})
+				.catch(err => res.send(err))
+		}
+		
 		Note
 			.findByIdAndUpdate({"_id": req.params.noteId}, 
 				newValues, 
