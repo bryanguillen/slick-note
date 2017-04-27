@@ -11,11 +11,6 @@ const router = require('../route');
 //allowing for http integration testing
 chai.use(chaiHTTP);
 
-function logUserOut() {
-	return chai.request(app)
-		.get('/logout')
-}
-
 function seedNoteCollection() {
 	let noteData = [
 		{
@@ -77,16 +72,41 @@ describe('ENDPOINT API TEST', function() {
 				}
 				
 				return chai.request(app)
-					.post('/login')
-      				.set('content-type', 'application/x-www-form-urlencoded')
-      				.type('form')
-      				.send('username=cfadul')
-      				.send('password=what')
-      				.then(function(res) {
-      					console.log(res);
-      				})
+					.get('/user/59001649c831088d943b57df')
+					.then(function(res) {
+						res.should.have.status(200);
+						res.should.be.html;
+					})
       		})
 		})
 	
+		describe('GET NOTE BY ID', function() {
+			it('should render a note individually', function() {
+
+				return chai.request(app)
+					.get('/note/59001649c831088d943b57df')
+					.then(function(res) {
+						res.should.have.status(200);
+						res.shoud.be.html;
+					})
+			})
+		})
+
+		describe('DELETE NOTE BY ID', function() {
+			it('should render a note individually', function() {
+
+				return chai.request(app)
+					.delete('/note/59001649c831088d943b57df')
+					.then(function(res) {
+						res.should.have.status(204);
+    					return Note.findById(posts.id).exec();
+  					})
+  					.then(function(_post) {
+    					should.not.exist(_post);
+  					});
+					})
+			})
+		})
+
 	})
 })
