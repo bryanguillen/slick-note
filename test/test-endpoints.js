@@ -62,51 +62,85 @@ describe('ENDPOINT API TEST', function() {
 
 	describe('Test protected API endpoints.', function() {
 		
-		describe('GET A USER AND THEIR NOTES', function() {
+		describe('GET a user resource and their home page', function() {
 			it('should return user home page with notes', function() {
-				let newNote = {
-					"user": "59001649c831088d943b57df",
-					"title": "NEW TEST TITLE",
-					"subtitle": "NEW TEST SUBTITLE",
-					"notes": "NEW TEST NOTE"
-				}
-				
 				return chai.request(app)
 					.get('/user/59001649c831088d943b57df')
-					.then(function(res) {
+					.then(res => {
 						res.should.have.status(200);
 						res.should.be.html;
 					})
       		})
 		})
-	
-		describe('GET NOTE BY ID', function() {
-			it('should render a note individually', function() {
 
-				return chai.request(app)
-					.get('/note/59001649c831088d943b57df')
-					.then(function(res) {
+		describe('GET a note resource and then render', function() {
+			it('should render html file with all of the users notes', function() {
+				Note
+					.findOne()
+					.exec()
+					.then(doc => {
+						return doc._id;
+					})
+					.then(id => {
+						return chai.request(app)
+							.get('note/${id}');
+					})
+					.then(res => {
 						res.should.have.status(200);
-						res.shoud.be.html;
+						res.should.be.html;
 					})
 			})
 		})
 
-		describe('DELETE NOTE BY ID', function() {
-			it('should render a note individually', function() {
+		describe('POST a new note resource and then render html file', function() {
+			it('should render html file with the new titles on it and textarea.', function() {
+				let newNote = {
+					"user": "59001649c831088d943b57df",
+					"title": "NEW TEST TITLE",
+					"subtitle": "NEW TEST SUBTITLE",
+					"notes": ""
+				}
 
 				return chai.request(app)
-					.delete('/note/59001649c831088d943b57df')
-					.then(function(res) {
-						res.should.have.status(204);
-    					return Note.findById(posts.id).exec();
-  					})
-  					.then(function(_post) {
-    					should.not.exist(_post);
-  					});
+					.post('/new-note')
+					.send(newNote)
+					.then(res => {
+						res.should.have.status(201);
+						res.should.be.json;
+						res.should.be.a('object');
+						return Note.findOne({"title": "NEW TEST TITLE"}).exec()
+					})
+					.then(doc => {
+						doc.title.should.equal(newNote.title)
+						doc.subtitle.should.equal(newNote.subtitle)
+						doc.notes.should.equal(newNote.notes)
+					})
+			})
+		})
+
+		describe('PUT an existing note in the database', function() {
+			it('should return the updated notes', function() {
+				let noteUpdate = {"notes": "this is a new note"}
+				let id;
+				Note
+					.findOne()
+					.exec()
+					.then(doc => {
+						id = doc._id
+						return chai.request(app)
+							.put('/note/' + doc._id)
+							.send({noteUpdate})
+							.then(res => {
+								res.should.have.status(204);
+								return Note.findOne({"_id": id}).exec()
+							})
+							.then(newNote => {
+							 	newNote.notes.should.equal(noteUpdate.notes);
+							})
 					})
 			})
 		})
 
 	})
+
 })
