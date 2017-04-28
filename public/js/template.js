@@ -55,6 +55,11 @@ function getNoteHomeTemplate(title, subtitle, noteId) {
     return `<div class="row">
                 <div class="col-12 title-container">
                     <!--this will be hidden at first -->
+                    <span class="create-new-section">Create New Sections</span>
+                    <span class="sections-button">Note Sections</span>
+                    <div class="note-id">${noteId}</div>
+                    <div class="sections">
+                    </div>
                     <div class="note-id">${noteId}</div>
                     <div class="titles"> 
                         <span class="title-text">${title}</span>  
@@ -80,6 +85,11 @@ function getNoteTemplate(header, note, noteId) {
 	//return to this and see if better way. 
 	return `<div class="row">
                 <div class="col-12 header-container">
+                    <span class="create-new-section">Create New Sections</span>
+                    <span class="sections-button">Note Sections</span>
+                    <div class="note-id">${noteId}</div>
+                    <div class="sections">
+                    </div>
                     <div class="header"> 
                         <span class="header-text">${header}</span> 
                     </div>

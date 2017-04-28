@@ -124,6 +124,40 @@ let noteController = {
 			.exec()
 	},
 
+	getSections: function(req, res) {
+		Note
+			.findById(req.params.noteId)
+			.exec()
+			.then(note => {
+				let html = '';
+				for (let i=0; i<note.notes.length; i++) {
+					html += services.createSectionHTML(note.notes[i]);
+				}
+				return res.status(200).send(html);
+			})
+			.catch(err => {
+				console.log(err);
+				res.status(500).json({errorMsg: "internal server error"});
+			})
+	},
+
+	getNoteSection: function(req, res) {
+		Note
+			.findById(req.params.noteId)
+			.exec()
+			.then(note => {
+				for (let i=0; i<note.notes.length; i++) {
+					if (note.notes[i].id === req.params.sectionId) {
+						res.status(200).json(note.notes[i]);
+					}
+				}
+			})
+			.catch(err => {
+				console.log(err);
+				return res.status(500).json({errMessage: "hello world!"});
+			})
+	},
+
 	deleteNote: function (req, res) {
 		let note;
 		Note
@@ -198,8 +232,10 @@ let noteController = {
 	},
 	
 	startNote: function (req, res) {
+		//start note consists of just writing the 
+		//the titles for the note. so it is sort of the setup for the note. 
 		let newNote = new Note ({
-			"user": req.cookies.id,
+			"user": req.cookies.id, //use for now
 			"title": req.body.title, 
 			"subtitle": req.body.subtitle
 		});
