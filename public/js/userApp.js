@@ -1,3 +1,7 @@
+var domState = {
+	noteIdentification: 0
+}
+
 //DOM MANIPULATION
 function renderUserHome(data) { 
 	//hack for endering user home through ajax call.
@@ -24,12 +28,23 @@ function renderNoteHomepage(obj) {
 	$('main').html(getNoteHomeTemplate(obj.title, obj.subtitle, obj.id));
 }
 
+function renderSections(sections) {
+	$('div.sections').append(sections);
+}
+
+function renderSection(section) {
+	var noteId = function() {
+		return domState.noteIdentification
+	}
+	$('main').html(getNoteTemplate(section.header, section.note, noteId()));
+}
+
 function renderNewTitlesTemplate() {
 	$('main').html(getNewTitlesTemplate());
 }
 
 function renderNewNoteTemplate(obj) {
-	$('main').html(getNoteTemplate(obj.id));
+	$('main').html(getNewNoteTemplate(obj.id));
 }
 
 function renderPublishedNote(obj) {
@@ -69,7 +84,7 @@ function getUserNote() {
 	$('main').on('click', '.view-note', function(event) {
 		event.preventDefault();
 		var userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-		var noteId = $(this).closest('.user-note-container').find('div.note-id').text(); //keep eye on this
+		var noteId = $(this).parent().prev().text(); //keep eye on this
 		var settings = {
 			type: 'GET',
 			url: '/note/' + noteId,
@@ -78,6 +93,36 @@ function getUserNote() {
 			},
 			dataType: "json",
 			success: renderNoteHomepage //keep eye on this
+		}
+		return $.ajax(settings);
+	})
+}
+
+function getAllSections() {
+	$('main').on('click', '.sections-button', function(event) {
+		event.preventDefault();
+		var noteId = $(this).next().text();
+		var settings = {
+			type: 'GET',
+			url: '/note/' + noteId + '/sections',
+			dataType: 'html',
+			success: renderSections
+		}
+		return $.ajax(settings);
+	})
+}
+
+function getNoteSection() {
+	$('main').on('click', '.note-section', function(event) {
+		event.preventDefault();
+		var sectionId = $(this).prev().text();
+		var noteId = $(this).parent().prev().text();
+		domState.noteIdentification = noteId;
+		var settings = {
+			type: 'GET',
+			url: '/note/' + noteId + '/section/' + sectionId,
+			dataType: "json",
+			success: renderSection
 		}
 		return $.ajax(settings);
 	})
@@ -223,7 +268,7 @@ function confirmDelete() {
 	$('main').on('click', '.confirm-delete-button', function(event) {
 		event.preventDefault();
 		var userNoteContainer = $(this).closest('.user-note-container').hide(); 
-		var noteId = $(this).closest('.user-note-container').find('.note-id').text();
+		var noteId = $(this).prev().prev().prev().text();
 	 	var settings = {
 	 		type: 'DELETE',
 	 		url: '/note/' + noteId
@@ -236,6 +281,8 @@ $(function() {
 	getUserHome();
 	getLogout();
 	getUserNote();
+	getAllSections();
+	getNoteSection();
 	clickNewNote();
 	createNewNote();
 	updateTitle();
