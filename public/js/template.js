@@ -18,47 +18,15 @@ function getNewTitlesTemplate() {
             </div>`
 }
 
-function getNewNoteTemplate(noteId) {
-	//first rendered with the textarea allowing to edit.
-	return  `<div class="row">
-                <div class="col-12 header-container">
-                    <!--this will be hidden at first -->
-                    <div class="header-name"> 
-                        <span class="header-text"></span> 
-                    </div>
-                    <div class="edit-header">  
-                        <div class="error-message">PLEASE FILL OUT 'Header' Field</div>
-                        <div class="edit-header-container">
-                            <label class="header-label">header</label>
-                            <input type="text" name="title" class="update-header-field" required />
-                        </div>
-                        <button class="update-header">Save</button>
-                        <div class="note-id">${noteId}</div>
-                    </div> 
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 note-container">
-                    <div class="note"></div>
-                    <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
-                    <div class="editing-note-container">
-                        <textarea class="edit-note"></textarea>
-                        <div class="save-button-container"><button class="save-note">Save</button></div>
-                        <div class="note-id">${noteId}</div>
-                    </div>
-                </div>
-            </div>`
-
-}
-
 function getNoteHomeTemplate(title, subtitle, noteId) {
     return `<div class="row">
                 <div class="col-12 title-container">
                     <!--this will be hidden at first -->
                     <span class="create-new-section">Create New Sections</span>
                     <span class="sections-button">Note Sections</span>
+                    <span class="hide-sections">Hide Sections</span>
                     <div class="note-id">${noteId}</div>
-                    <div class="sections">
+                    <div class="sections-container">
                     </div>
                     <div class="note-id">${noteId}</div>
                     <div class="titles"> 
@@ -87,8 +55,9 @@ function getNoteTemplate(header, note, noteId) {
                 <div class="col-12 header-container">
                     <span class="create-new-section">Create New Sections</span>
                     <span class="sections-button">Note Sections</span>
+                    <span class="hide-sections">Hide Sections</span>
                     <div class="note-id">${noteId}</div>
-                    <div class="sections">
+                    <div class="sections-container">
                     </div>
                     <div class="header"> 
                         <span class="header-text">${header}</span> 
@@ -117,4 +86,30 @@ function getNoteTemplate(header, note, noteId) {
                     </div>
                 </div>
             </div>`	
+}
+
+function getNewSectionTemplate(noteId) {
+    return `<main>
+                        <div class="row">
+                            <div class="col-12 header-container">
+                                <!--this will be hidden at first -->
+                                <div class="header-name"> 
+                                    <span class="header-text"></span> 
+                                </div>
+                                <div class="header-value">  
+                                    <div class="error-message">PLEASE FILL OUT 'Header' Field</div>
+                                        <label class="header-label">header</label>
+                                        <input type="text" name="header" class="update-header-field" required />
+                                    <div class="note-id">${noteId}</div>
+                                </div> 
+                                <div class="note"></div>
+                                <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
+                                <div class="editing-note-container">
+                                    <textarea class="edit-note"></textarea>
+                                    <div class="create-button-container"><button class="create-note">Create Note</button></div>
+                                    <div class="note-id">${noteId}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>`
 }
