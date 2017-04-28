@@ -73,12 +73,10 @@ const services = {
                                 <div class="header-name"> 
                                     <span class="header-text"></span> 
                                 </div>
-                                <div class="edit-header">  
+                                <div class="header-value">  
                                     <div class="error-message">PLEASE FILL OUT 'Header' Field</div>
-                                    <div class="edit-header-container">
                                         <label class="header-label">header</label>
                                         <input type="text" name="header" class="update-header-field" required />
-                                    </div>
                                     <div class="note-id">${noteId}</div>
                                 </div> 
                                 <div class="note"></div>
@@ -107,6 +105,7 @@ const services = {
 						<span class="note-header note-subtitle"> ${note.subtitle} </span> 
 						<span class="view-note">view note</span>
 						<div class="delete-container">
+                            <div class="note-id">${note._id}</div>
                             <span class="delete-button">Delete Note</span>
                             <span class="confirm-delete">Are you sure</span>
                             <span class="confirm-delete confirm-delete-button">Yes</span>
