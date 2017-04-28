@@ -51,33 +51,54 @@ function getNewNoteTemplate(noteId) {
 
 }
 
-function getPublishedNoteTemplate(title, subtitle, notes, noteId) {
-	//return to this and see if better way. 
-	return `<div class="row">
+function getNoteHomeTemplate(title, subtitle, noteId) {
+    return `<div class="row">
                 <div class="col-12 title-container">
-                    <div class="title">
-                        <span class="title-text">${title}</span> 
+                    <!--this will be hidden at first -->
+                    <div class="note-id">${noteId}</div>
+                    <div class="titles"> 
+                        <span class="title-text">${title}</span>  
                         <span class="subtitle-text">${subtitle}</span> 
                     </div>
                     <div class="edit-title">  
-                        <div class="error-message">PLEASE FILL OUT BOTH FIELDS</div>
-                        <div class="edit-title-container">
-                            <label class="update-title-label">title</label>
+                        <div class="error-message">PLEASE FILL OUT BOTH Fields</div>
+                        <div class="edit-titles-container">
+                            <label class="title-label">title</label>
                             <input type="text" name="title" class="update-title-field" required />
+                            <label class="subtitle-label">subtitle</label>
+                            <input type="text" name="subtitle" class="update-subtitle-field" required />
                         </div>
-                        <div class="edit-subtitle-container">
-                            <label class="update-subtitle-label">subtitle</label>
-                            <input type="text" name="subtitle" class="update-subtitle-field" required />   
+                        <button class="update-titles">Save</button>
+                        <button class="cancel-update">Cancel</button>
+                        <div class="note-id">${noteId}</div>
+                    </div> 
+                </div>
+            </div>`
+}
+
+function getNoteTemplate(header, note, noteId) {
+	//return to this and see if better way. 
+	return `<div class="row">
+                <div class="col-12 header-container">
+                    <div class="header"> 
+                        <span class="header-text">${header}</span> 
+                    </div>
+                    <div class="edit-header">  
+                        <div class="error-message">PLEASE FILL OUT BOTH FIELD</div>
+                        <div class="edit-header-container">
+                            <label class="update-header-label">header</label>
+                            <input type="text" name="header" class="update-header-field" required />
                         </div>
-                        <button class="update-titles">Update</button>
-                        <button class="cancel-title-update">Cancel</button>
+                        <button class="update-header">Update</button>
+                        <button class="cancel-update">Cancel</button>
+                        <!-- note temporarily placed by the button for quick ui swipe -->
                         <div class="note-id">${noteId}</div>
                     </div> 
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 note-container">
-                    <div class="note">${notes}</div>
+                    <div class="note">${note}</div>
                     <div class="editing-note-container hide-edit-note">
                         <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
                         <textarea class="edit-note"></textarea>

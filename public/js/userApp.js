@@ -20,6 +20,10 @@ function renderNote(header, note, noteId) {
 	$('main').html(getNoteTemplate(header, note, noteId))
 }
 
+function renderNoteHomepage(obj) {
+	$('main').html(getNoteHomeTemplate(obj.title, obj.subtitle, obj.id));
+}
+
 function renderNewTitlesTemplate() {
 	$('main').html(getNewTitlesTemplate());
 }
@@ -73,7 +77,7 @@ function getUserNote() {
 				"_id": noteId
 			},
 			dataType: "json",
-			success: renderPublishedNote //keep eye on this
+			success: renderNoteHomepage //keep eye on this
 		}
 		return $.ajax(settings);
 	})
@@ -91,10 +95,9 @@ function createNewNote() {
 		event.preventDefault();
 		//temp solution for now for getting cookie value. 
 		var userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-		var newHeader = $(this).closest('div.col-12').find('div.edit-header').find('input[name="header"]').val();
+		var newHeader = $(this).parent().parent().parent().find('div.header-value').find('input[name="header"]').val();
 		var newNote = $(this).parent().prev().val();
 		var noteId = $(this).parent().next().text();
-		console.log(noteId);
 		var settings = {
 			type: 'POST',
 			url: '/note/' + noteId,
@@ -114,14 +117,15 @@ function updateNote() {
 		event.preventDefault();
 		
 		//ugly solutions for now for both noteText and noteId.
-		var noteText = $(this).parent().closest('div.editing-note-container').find('textarea.edit-note').val();
-		
+		var noteText = $(this).parent().prev().val();
+		var header = $(this).parent().parent().parent().parent().prev().find('.header-container').find('.header').find('span.header-text').text()
+		var noteId = $(this).parent().next().text();
+
 		if (noteText.trim().length === 0) {
 					return $(this).parent().closest('div.note-container').find('.note-error-message').show();
 		}
-		var noteId = $(this).parent().next().text();
 		
-		$(this).parent().closest('div.note-container').find('.note-error-message').hide();
+		$(this).parent().prev().prev().hide();
 		$('div.editing-note-container').hide();
 		$('div.note').text(noteText).show();
 		
@@ -129,21 +133,23 @@ function updateNote() {
 		 	type: 'PUT',
 		 	url: '/note/' + noteId,
 		 	data: {
-		 		"notes": noteText
+		 		"header": header,
+		 		"note": noteText
 		 	}
 		}
 		return $.ajax(settings);
 	})
+}
 
+function updateTitle() {
 	//updating the titles
 	$('main').on('click', '.update-titles', function(event) {
 		event.preventDefault();
-		
-		//get values firsts
-		var titleContainer = $(this).parent(); 
-		var newTitle = titleContainer.find('input[name="title"]').val();
-		var newSubtitle = titleContainer.find('input[name="subtitle"]').val();
-		var noteId = titleContainer.parent().find('div.note-id').text();
+
+		var noteId = $(this).next().next().text();
+		var newTitle = $(this).prev().find('input[name="title"]').val();
+		var newSubtitle = $(this).prev().find('input[name="subtitle"]').val();
+		var editTitlesParent = $(this).parent();
 
 		//client side validation
 		if (newTitle.trim() === 0 || newSubtitle.trim() === 0) {
@@ -151,10 +157,10 @@ function updateNote() {
 		}
 
 		//set the values
-		titleContainer.prev().find('span.title-text').text(newTitle);
-		titleContainer.prev().find('span.subtitle-text').text(newSubtitle); 
-		titleContainer.hide();
-		titleContainer.prev().show();
+		editTitlesParent.prev().find('span.title-text').text(newTitle);
+		editTitlesParent.prev().find('span.subtitle-text').text(newSubtitle); 
+		editTitlesParent.hide();
+		editTitlesParent.prev().show();
 
 		var settings = {
 		  	type: 'PUT',
@@ -166,14 +172,15 @@ function updateNote() {
 		 }
 		return $.ajax(settings);
 	})
+}
 
-	$('main').on('click', '.cancel-title-update', function(event) {
+function clickCancelUpdate() {
+	$('main').on('click', '.cancel-update', function(event) {
 		event.preventDefault();
 		var titleParent =$(this).parent();
 		titleParent.hide();
 		titleParent.prev().show();
 	})
-
 }
 
 function editNote() {
@@ -189,12 +196,21 @@ function editNote() {
 }
 
 function editTitle() {
-	$('main').on('click', '.title', function(event) {
+	$('main').on('click', '.titles', function(event) {
 		event.preventDefault();  
-		$('div.title').hide();
+		$('div.titles').hide();
 		$('div.edit-title').show(); 
 	})
 }
+
+function editHeader() {
+	$('main').on('click', '.header', function(event) {
+		event.preventDefault();  
+		$('div.header').hide();
+		$('div.edit-header').show();	
+	})
+}
+
 
 function deleteNote() {
 	$('main').on('click', '.delete-button', function(event) {
@@ -222,9 +238,11 @@ $(function() {
 	getUserNote();
 	clickNewNote();
 	createNewNote();
+	updateTitle();
 	updateNote();
 	editNote();
 	editTitle();
+	editHeader();
 	deleteNote();
 	confirmDelete();
 })
