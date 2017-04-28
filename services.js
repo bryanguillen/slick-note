@@ -43,30 +43,7 @@ const services = {
 	},
 
 	getNewNoteMarkup: function(noteId) {
-		return  `<!DOCTYPE html>
-					<html>
-					<head>
-						<meta charset="utf-8">
-						<title>Notes</title>
-						<meta name="viewport" content="width=device-width, initial-scale=1">
-						<!-- prevent fake favicon requests -->
-						<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
-						<!-- Normalize.css, a cross-browser reset file -->
-  						<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css" rel="stylesheet">
-  						<!-- custom css sheet -->
-  						<link rel="stylesheet" type="text/css" href="css/main.css">
-					</head>
-					<body>
-					<nav>
-            			<div class="row">
-                			<div class="col-12 nav-container">
-                    			<span class="home nav-button">Home</span>
-                    			<span class="new-note-button nav-button">New Note</span>
-                    			<span class="logout nav-button">Logout</span>
-                			</div>
-            			</div>        
-        			</nav>
-					<main>
+		return  `<main>
 						<div class="row">
                             <div class="col-12 header-container">
                                 <!--this will be hidden at first -->
@@ -84,19 +61,13 @@ const services = {
 								<div class="editing-note-container">
                                     <textarea class="edit-note"></textarea>
                                     <div class="create-button-container"><button class="create-note">Create Note</button></div>
-                                    <div class="note-id">${noteId}</div>
                                 </div>
                             </div>
                         </div>
-					</main>
-            		<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
-					<script type="text/javascript" src="js/template.js"></script>
-					<script type="text/javascript" src="js/userApp.js"></script>
-				</body>
-			</html>`
+					</main>`
 	},
 
- 	getUserFeedMarkup: function(note) {
+ 	createUserFeedMarkup: function(note) {
 	return  `<div class="row user-note-container"> 
 				<div class="col-12">
 					<div class="note-id">${note._id}</div>
@@ -180,6 +151,72 @@ const services = {
 
 	createSectionHTML: function(section) {
 		return `<div class="section-id">${section.id}</div><span class="note-section">${section.header}</span>`
+	},
+
+	noteHomeTemplate: function (title, subtitle, noteId) {
+		return `<div class="row">
+                <div class="col-12 title-container">
+                    <!--this will be hidden at first -->
+                    <span class="create-new-section">Create New Sections</span>
+                    <span class="sections-button">Note Sections</span>
+                    <span class="hide-sections">Hide Sections</span>
+                    <div class="sections-container">
+                    </div>
+                    <div class="note-id">${noteId}</div>
+                    <div class="titles"> 
+                        <span class="title-text">${title}</span>  
+                        <span class="subtitle-text">${subtitle}</span> 
+                    </div>
+                    <div class="edit-title">  
+                        <div class="error-message">PLEASE FILL OUT BOTH Fields</div>
+                        <div class="edit-titles-container">
+                            <label class="title-label">title</label>
+                            <input type="text" name="title" class="update-title-field" required />
+                            <label class="subtitle-label">subtitle</label>
+                            <input type="text" name="subtitle" class="update-subtitle-field" required />
+                        </div>
+                        <button class="update-titles">Save</button>
+                        <button class="cancel-update">Cancel</button>
+                    </div> 
+                </div>
+            </div>`
+	},
+
+	getNoteTemplate: function(noteId, currentNote) {
+		return `<div class="row">
+                <div class="col-12 header-container">
+                    <span class="create-new-section">Create New Sections</span>
+                    <span class="sections-button">Note Sections</span>
+                    <span class="hide-sections">Hide Sections</span>
+                    <div class="sections-container">
+                    </div>
+                    <div class="header"> 
+                        <span class="header-text">${currentNote.header}</span> 
+                    </div>
+                    <div class="edit-header">  
+                        <div class="error-message">PLEASE FILL OUT BOTH FIELD</div>
+                        <div class="edit-header-container">
+                            <label class="update-header-label">header</label>
+                            <input type="text" name="header" class="update-header-field" required />
+                        </div>
+                        <button class="update-header">Update</button>
+                        <button class="cancel-header">Cancel</button>
+                        <!-- note temporarily placed by the button for quick ui swipe -->
+                        <div class="note-id">${noteId}</div>
+                    </div> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 note-container">
+                    <div class="note">${currentNote.note}</div>
+                    <div class="editing-note-container hide-edit-note">
+                        <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
+                        <textarea class="edit-note"></textarea>
+                        <div class="save-button-container"><button class="save-note">Save</button></div>
+                    	<div class="section-id">${currentNote.id}</div>
+                    </div>
+                </div>
+            </div>`
 	}
 }
 module.exports = {services};
