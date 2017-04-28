@@ -176,6 +176,10 @@ const services = {
 			</div>
 		</div>
 	</main>`
+	},
+
+	createSectionHTML: function(section) {
+		return `<div class="section-id">${section.id}</div><span class="note-section">${section.header}</span>`
 	}
 }
 module.exports = {services};

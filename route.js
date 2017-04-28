@@ -59,6 +59,8 @@ router.post('/login', userController.redirectHome)//passport.authenticate('local
 router.get('/user/:id', userController.getHomePage);//require('connect-ensure-login').ensureLoggedIn() 
 router.get('/note/:noteId', noteController.getNote); //GET note on click
 router.delete('/note/:noteId', noteController.deleteNote);
+router.get('/note/:noteId/sections', noteController.getSections);
+router.get('/note/:noteId/section/:sectionId', noteController.getNoteSection)
 router.put('/note/:noteId', noteController.updateNote);
 router.post('/note/:noteId', noteController.createNote);
 router.post('/new-note', noteController.startNote);
