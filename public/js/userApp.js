@@ -1,3 +1,4 @@
+//state mgmt
 var domState = {
 	noteIdentification: 0
 }
@@ -12,39 +13,44 @@ function renderUserHome(data) {
 	
 }
 
+function renderFeed(notes) {
+	$('main').html(notes);
+}
+
+
 function renderLogout(data) {
 	$('body').html(data);
 }
 
-function renderFeed(notes) {
-	$('main').html(notes);
+function renderNoteHomepage(html) {
+	//landing page for all notes of the app.
+	$('main').html(html);
 }
 
 function renderNote(header, note, noteId) {
 	$('main').html(getNoteTemplate(header, note, noteId))
 }
 
-function renderNoteHomepage(obj) {
-	$('main').html(getNoteHomeTemplate(obj.title, obj.subtitle, obj.id));
-}
 
 function renderSections(sections) {
-	$('div.sections').append(sections);
+	$('div.sections-container').append('<div class="sections">' + sections + '</div>' );
 }
 
-function renderSection(section) {
-	var noteId = function() {
-		return domState.noteIdentification
-	}
-	$('main').html(getNoteTemplate(section.header, section.note, noteId()));
+function renderSection(html) {
+	$('main').html(html);
 }
+
+function renderNewSection(noteId) {
+	$('main').html(getNewSectionTemplate(noteId));
+}
+
 
 function renderNewTitlesTemplate() {
 	$('main').html(getNewTitlesTemplate());
 }
 
-function renderNewNoteTemplate(obj) {
-	$('main').html(getNewNoteTemplate(obj.id));
+function renderNewNoteTemplate(html) {
+	$('main').html(html);
 }
 
 function renderPublishedNote(obj) {
@@ -83,16 +89,15 @@ function getLogout() {
 function getUserNote() {
 	$('main').on('click', '.view-note', function(event) {
 		event.preventDefault();
-		var userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-		var noteId = $(this).parent().prev().text(); //keep eye on this
+		var noteId = $(this).parent().prev().text(); 
 		var settings = {
 			type: 'GET',
 			url: '/note/' + noteId,
 			data: {
 				"_id": noteId
 			},
-			dataType: "json",
-			success: renderNoteHomepage //keep eye on this
+			dataType: "html",
+			success: renderNoteHomepage //THE LANDING PAGE FOR ALL NOTES
 		}
 		return $.ajax(settings);
 	})
@@ -101,30 +106,48 @@ function getUserNote() {
 function getAllSections() {
 	$('main').on('click', '.sections-button', function(event) {
 		event.preventDefault();
-		var noteId = $(this).next().text();
+		var noteId = $('div.note-id').text();
 		var settings = {
 			type: 'GET',
 			url: '/note/' + noteId + '/sections',
 			dataType: 'html',
 			success: renderSections
 		}
+		$(this).hide();
+		$('span.hide-sections').show();
 		return $.ajax(settings);
 	})
 }
 
-function getNoteSection() {
+function hideAllsections() {
+	$('main').on('click', '.hide-sections', function(event) {
+		event.preventDefault();
+		$(this).hide();
+		$('div.sections').remove();
+		$('span.sections-button').show();
+	})
+}
+
+function getSection() {
 	$('main').on('click', '.note-section', function(event) {
 		event.preventDefault();
 		var sectionId = $(this).prev().text();
-		var noteId = $(this).parent().prev().text();
-		domState.noteIdentification = noteId;
+		noteId = $('div.note-id').text();
 		var settings = {
-			type: 'GET',
-			url: '/note/' + noteId + '/section/' + sectionId,
-			dataType: "json",
-			success: renderSection
+		 	type: 'GET',
+		 	url: '/note/' + noteId + '/section/' + sectionId,
+		 	dataType: "html",
+		 	success: renderSection
 		}
 		return $.ajax(settings);
+	})
+}
+
+function getNewSection() {
+	$('main').on('click', '.create-new-section', function(event) {
+		event.preventDefault();
+		var noteId = $('div.note-id').text();
+		return renderNewSection(noteId);
 	})
 }
 
@@ -135,14 +158,33 @@ function clickNewNote() {
 	});
 }
 
+function startNewNote() {
+	$('main').on('click', '.start-notes', function(event) {
+		//using event listener in order to not change the url to new note
+		event.preventDefault();
+		var title = $(this).parent().find('input[name="title"]').val();
+		var subtitle = $(this).parent().find('input[name="subtitle"]').val();
+		var settings = {
+			type: 'POST',
+			url: '/new-note',
+			data: {
+				"title": title,
+				"subtitle": subtitle
+			},
+			dataType: 'html',
+			success: renderNewNoteTemplate
+		}
+		return $.ajax(settings);
+	})
+}
+
 function createNewNote() {
 	$('main').on('click', '.create-note', function(event) {
 		event.preventDefault();
 		//temp solution for now for getting cookie value. 
-		var userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 		var newHeader = $(this).parent().parent().parent().find('div.header-value').find('input[name="header"]').val();
 		var newNote = $(this).parent().prev().val();
-		var noteId = $(this).parent().next().text();
+		var noteId = $('div.note-id').text();
 		var settings = {
 			type: 'POST',
 			url: '/note/' + noteId,
@@ -163,25 +205,28 @@ function updateNote() {
 		
 		//ugly solutions for now for both noteText and noteId.
 		var noteText = $(this).parent().prev().val();
-		var header = $(this).parent().parent().parent().parent().prev().find('.header-container').find('.header').find('span.header-text').text()
-		var noteId = $(this).parent().next().text();
+		var newHeader = $(this).parent().parent().parent().parent().prev().find('.header-container').find('.header').find('span.header-text').text()
+		var noteId = $('div.note-id').text();
+		var sectionId = $('div.section-id').text();
 
 		if (noteText.trim().length === 0) {
 					return $(this).parent().closest('div.note-container').find('.note-error-message').show();
 		}
 		
+		var settings = {
+		  	type: 'PUT',
+		  	url: '/note/' + noteId,
+		  	data: {
+		  		"id": sectionId,
+		  		"header": newHeader,
+		  		"note": noteText 
+		  	}	
+		 }
+		
 		$(this).parent().prev().prev().hide();
 		$('div.editing-note-container').hide();
 		$('div.note').text(noteText).show();
-		
-		var settings = {
-		 	type: 'PUT',
-		 	url: '/note/' + noteId,
-		 	data: {
-		 		"header": header,
-		 		"note": noteText
-		 	}
-		}
+
 		return $.ajax(settings);
 	})
 }
@@ -191,7 +236,8 @@ function updateTitle() {
 	$('main').on('click', '.update-titles', function(event) {
 		event.preventDefault();
 
-		var noteId = $(this).next().next().text();
+		var noteId = $('div.note-id').text();
+
 		var newTitle = $(this).prev().find('input[name="title"]').val();
 		var newSubtitle = $(this).prev().find('input[name="subtitle"]').val();
 		var editTitlesParent = $(this).parent();
@@ -219,12 +265,43 @@ function updateTitle() {
 	})
 }
 
-function clickCancelUpdate() {
+function updateHeader() {
+	$('main').on('click', '.update-header', function(event) {
+		event.preventDefault();
+		var newHeader = $(this).prev().find('input[name="header"]').val();
+		var noteText = $('div.note').text() || $('textarea.edit-note').val();
+		var noteId = $('div.note-id').text();
+		var sectionId = $('div.section-id').text();
+		var settings = {
+			type: 'PUT',
+		 	url: '/note/' + noteId,
+		 	data: {
+		 		"id": sectionId,
+		 		"header": newHeader,
+		 		"note": noteText
+		 	}
+		}
+		$('div.edit-header').hide();
+		$('span.header-text').text(newHeader);
+		$('div.header').show();
+		return $.ajax(settings);
+	})
+}
+
+function cancelTitleUpdate() {
 	$('main').on('click', '.cancel-update', function(event) {
 		event.preventDefault();
-		var titleParent =$(this).parent();
+		var titleParent = $(this).parent();
 		titleParent.hide();
 		titleParent.prev().show();
+	})
+}
+
+function cancelHeaderUpdate() {
+	$('main').on('click', '.cancel-header', function(event) {
+		event.preventDefault();
+		$('div.edit-header').hide();
+		$('div.header').show();
 	})
 }
 
@@ -282,8 +359,11 @@ $(function() {
 	getLogout();
 	getUserNote();
 	getAllSections();
-	getNoteSection();
+	hideAllsections();
+	getSection();
+	getNewSection();
 	clickNewNote();
+	startNewNote();
 	createNewNote();
 	updateTitle();
 	updateNote();
@@ -292,4 +372,7 @@ $(function() {
 	editHeader();
 	deleteNote();
 	confirmDelete();
+	updateHeader();
+	cancelTitleUpdate();
+	cancelHeaderUpdate();
 })
