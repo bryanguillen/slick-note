@@ -25,10 +25,8 @@ function getNoteHomeTemplate(title, subtitle, noteId) {
                     <span class="create-new-section">Create New Sections</span>
                     <span class="sections-button">Note Sections</span>
                     <span class="hide-sections">Hide Sections</span>
-                    <div class="note-id">${noteId}</div>
                     <div class="sections-container">
                     </div>
-                    <div class="note-id">${noteId}</div>
                     <div class="titles"> 
                         <span class="title-text">${title}</span>  
                         <span class="subtitle-text">${subtitle}</span> 
@@ -47,45 +45,6 @@ function getNoteHomeTemplate(title, subtitle, noteId) {
                     </div> 
                 </div>
             </div>`
-}
-
-function getNoteTemplate(header, note, noteId) {
-	//return to this and see if better way. 
-	return `<div class="row">
-                <div class="col-12 header-container">
-                    <span class="create-new-section">Create New Sections</span>
-                    <span class="sections-button">Note Sections</span>
-                    <span class="hide-sections">Hide Sections</span>
-                    <div class="note-id">${noteId}</div>
-                    <div class="sections-container">
-                    </div>
-                    <div class="header"> 
-                        <span class="header-text">${header}</span> 
-                    </div>
-                    <div class="edit-header">  
-                        <div class="error-message">PLEASE FILL OUT BOTH FIELD</div>
-                        <div class="edit-header-container">
-                            <label class="update-header-label">header</label>
-                            <input type="text" name="header" class="update-header-field" required />
-                        </div>
-                        <button class="update-header">Update</button>
-                        <button class="cancel-update">Cancel</button>
-                        <!-- note temporarily placed by the button for quick ui swipe -->
-                        <div class="note-id">${noteId}</div>
-                    </div> 
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 note-container">
-                    <div class="note">${note}</div>
-                    <div class="editing-note-container hide-edit-note">
-                        <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
-                        <textarea class="edit-note"></textarea>
-                        <div class="save-button-container"><button class="save-note">Save</button></div>
-                        <div class="note-id">${noteId}</div>
-                    </div>
-                </div>
-            </div>`	
 }
 
 function getNewSectionTemplate(noteId) {
@@ -107,7 +66,6 @@ function getNewSectionTemplate(noteId) {
                                 <div class="editing-note-container">
                                     <textarea class="edit-note"></textarea>
                                     <div class="create-button-container"><button class="create-note">Create Note</button></div>
-                                    <div class="note-id">${noteId}</div>
                                 </div>
                             </div>
                         </div>
