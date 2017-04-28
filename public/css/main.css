@@ -11,11 +11,11 @@ fieldset {
 	padding: 0;
 }
 
-div.signup-content, div.login-content {
+div.signup-content, div.login-content, div.titles-content {
 	text-align: center;
 }
 
-.signup-label, .signup-field, .login-label, .login-field {
+.signup-label, .signup-field, .login-label, .login-field, .title-field, .title-label, .subtitle-field, .subtitle-label {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -23,12 +23,12 @@ div.signup-content, div.login-content {
 	width: 45%;
 }
 
-.signup-label, .login-label {
+.signup-label, .login-label, .title-label, .subtitle-label {
 	font-size: 25px;
 	text-align: left;
 }
 
-.signup-field, .login-field {
+.signup-field, .login-field, .title-field, .subtitle-field {
 	height: 35px;
 }
 
@@ -42,6 +42,7 @@ div.signup-content, div.login-content {
 
 .nav-button {
 	margin-right: 10px;
+	font-size: 20px;
 }
 
 .user-note {
@@ -56,18 +57,45 @@ div.signup-content, div.login-content {
 	padding-top: 5px;
 }
 
+.user-note .note-title {
+	font-size: 20px;
+}
+
+.user-note .note-subtitle {
+	font-size: 15px;
+}
+
+.view-note, .delete-note {
+	font-size: 10px;
+}
+
 .delete-container {
 	margin-top: 5px;
 }
 
 @media screen and (min-width: 768px) {
-	.signup-label, .signup-field {
+	.signup-label, .signup-field, .title-field, .title-label, .subtitle-field, .subtitle-label {
 		width: 30%;
 	}
 
 	.nav-button {
 		margin-right: 20px;
+		font-size:  35px;
 	}
+
+	.user-note .note-title {
+		font-size: 35px;
+	}
+
+	.user-note .note-subtitle {
+		font-size: 25px;
+	}
+
+	.view-note, .delete-note {
+		font-size: 20px;
+	}
+
+
 }
 
 /*js styling for now */
