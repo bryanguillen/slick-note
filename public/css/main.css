@@ -6,6 +6,15 @@ body {
 	padding-top: 15px;
 }
 
+main {
+	padding-bottom: 15px;
+}
+
+textarea {
+	resize: none;
+	font-size: 20px;
+}
+
 fieldset {
 	border: 0;
 	padding: 0;
@@ -23,12 +32,12 @@ div.signup-content, div.login-content, div.titles-content {
 	width: 45%;
 }
 
-.signup-label, .login-label, .title-label, .subtitle-label {
+.signup-label, .login-label, .title-label, .subtitle-label, .header-label {
 	font-size: 25px;
 	text-align: left;
 }
 
-.signup-field, .login-field, .title-field, .subtitle-field {
+.signup-field, .login-field, .title-field, .subtitle-field, .update-header-field {
 	height: 35px;
 }
 
@@ -95,8 +104,34 @@ div.signup-content, div.login-content, div.titles-content {
 	margin-top: 10px;
 }
 
+.note-error-message {
+	display: none;
+}
+
+.header-label, .update-header-field, .note-label {
+	display: block;
+	margin-bottom: 10px;
+	width: 45%;
+}
+
+.note-label {
+	font-size: 15px;
+}
+
+textarea.edit-note {
+	display: block;
+	width: 100%;
+	height: 65vh;
+	margin: 0 auto;
+}
+
+div.create-button-container {
+	text-align: center;
+	margin-top: 15px;	
+}
+
 @media screen and (min-width: 768px) {
-	.signup-label, .signup-field, .title-field, .title-label, .subtitle-field, .subtitle-label {
+	.signup-label, .signup-field, .title-field, .title-label, .subtitle-field, .subtitle-label, .header-label, .update-header-field {
 		width: 30%;
 	}
 
