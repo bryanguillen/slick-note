@@ -8,12 +8,22 @@ let userController = {
 		User
 			.findById(req.params.id)//req.user._id for passport later
 			.populate('userNotes')
-			.exec() 
-			.then(user => user.apiRepr())
+			.exec(function(err, user) {
+				if (err) {
+					console.log(err);
+					return res.status(500).json({errMessage: "internal server error"})
+				}
+
+				if(!user) {
+					return res.json({errorMsg: 'oops, user not found!'});
+				}
+				
+				return user;
+			}) 
 			.then(function(json) {
 				let notes = '';
 				json.userNotes.forEach(function(note) {
- 					notes += services.getUserFeedMarkup(note);
+ 					notes += services.createUserFeedMarkup(note);
  	 			})
 				return notes
 			})
@@ -28,7 +38,6 @@ let userController = {
 
 	createNewUser: function (req, res) {
 		//verify that each of the fields exist after verifying that the body is not empty.
-
 		if(!req.body) {
 	 		res.status(400).json({errorMsg: "Your request is empty and invalid."})
 		}
@@ -53,7 +62,7 @@ let userController = {
 		username = username.trim().toLowerCase();
 		password = password.trim();
 	
-		// //next check if user exists then create if it does not exist. 
+		//next check if user exists then create if it does not exist. 
 		return User
 				.find({username})
 				.count()
@@ -84,11 +93,6 @@ let userController = {
 	   	 					})
 					});
 				})
-				.catch(err => {
-					console.log(err);
-					res.status(500).json({errorMsg: 'internal server error'})
-				})
-		
 	},
 
 	//this is for passport as well.
@@ -114,14 +118,27 @@ let noteController = {
 
 	getNote: function (req, res) {
 		Note
-			.findById({"_id": req.params.noteId}, function(err, note) {
-	 			if (err) {
-	 				console.log(err)
-	 				res.status(500).json({errorMsg: "internal server error"});
-	 			};
-	 			res.json(note.noteAPIRepr());
+			.findById({"_id": req.params.noteId})
+			.exec(function(err, note) {
+	 				if (err) {
+	 					console.log(err)
+	 					res.status(500).json({errorMsg: "internal server error"});
+	 				};
+
+	 				if(!note) {
+	 					console.log('no user found here');
+	 					return json({errMessage: "no user found here"});
+	 				}
+	 				
+	 				return note
 	 		})
-			.exec()
+	 		.then(note => {
+	 			return res.status(200).send(services.noteHomeTemplate(note.title, note.subtitle, note.id));
+	 		})
+	 		.catch(err => {
+	 			console.log(err);
+	 			return res.json({errMessage: "internal server error"});
+	 		})
 	},
 
 	getSections: function(req, res) {
@@ -141,14 +158,14 @@ let noteController = {
 			})
 	},
 
-	getNoteSection: function(req, res) {
+	getSection: function(req, res) {
 		Note
 			.findById(req.params.noteId)
 			.exec()
 			.then(note => {
 				for (let i=0; i<note.notes.length; i++) {
 					if (note.notes[i].id === req.params.sectionId) {
-						res.status(200).json(note.notes[i]);
+						return res.send(services.getNoteTemplate(note.id, note.notes[i])); 
 					}
 				}
 			})
