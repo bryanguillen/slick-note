@@ -36,9 +36,37 @@ div.signup-content, div.login-content {
 	margin-top: 10px;
 }
 
-@media screen and (min-width: 640px) {
+.nav-container {
+	text-align: right;
+}
+
+.nav-button {
+	margin-right: 10px;
+}
+
+.user-note {
+	padding-top: 15px;
+	padding-bottom: 15px;
+	margin-bottom: 5px; 
+}
+
+.user-note > span {
+	display: block;
+	margin-bottom: 5px;
+	padding-top: 5px;
+}
+
+.delete-container {
+	margin-top: 5px;
+}
+
+@media screen and (min-width: 768px) {
 	.signup-label, .signup-field {
 		width: 30%;
+	}
+
+	.nav-button {
+		margin-right: 20px;
 	}
 }
 
