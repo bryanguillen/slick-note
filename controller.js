@@ -280,7 +280,7 @@ let noteController = {
 			.findByIdAndUpdate(req.params.noteId, { $push: {notes: newNoteSection}})
 			.exec()
 			.then(note => {
-				res.status(201).json(note.noteAPIRepr())
+				res.status(201).send(note.noteAPIRepr())
 			})
 			.catch(err => {
 				console.log(err);
