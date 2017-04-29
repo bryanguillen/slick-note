@@ -202,6 +202,10 @@ span.note-section {
 	color: blue;
 }
 
+.note-container {
+	margin-top: 10px;
+}
+
 @media screen and (min-width: 768px) {
 	.signup-label, .signup-field, .title-field, .title-label, .subtitle-field, .subtitle-label, .header-label, .update-header-field {
 		width: 30%;
@@ -243,6 +247,6 @@ span.note-section {
 	display: none;
 }
 
-.note-id, .section-id, .hide-sections {
+.note-id, .section-id, .hide-sections, .emtpy-titles-error {
 	display: none;
 }
