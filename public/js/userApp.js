@@ -107,6 +107,7 @@ function getAllSections() {
 	$('main').on('click', '.sections-button', function(event) {
 		event.preventDefault();
 		var noteId = $('div.note-id').text();
+		console.log(noteId);
 		var settings = {
 			type: 'GET',
 			url: '/note/' + noteId + '/sections',
