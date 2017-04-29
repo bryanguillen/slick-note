@@ -163,6 +163,7 @@ function startNewNote() {
 	$('main').on('click', '.start-notes', function(event) {
 		//using event listener in order to not change the url to new note
 		event.preventDefault();
+		$('.emtpy-titles-error').hide();
 		var title = $(this).parent().find('input[name="title"]').val();
 		var subtitle = $(this).parent().find('input[name="subtitle"]').val();
 		var settings = {
@@ -175,6 +176,11 @@ function startNewNote() {
 			dataType: 'html',
 			success: renderNewNoteTemplate
 		}
+
+		if (title.trim().length === 0 || subtitle.trim().length === 0) {
+					return $('.emtpy-titles-error').show();
+		}
+
 		return $.ajax(settings);
 	})
 }
@@ -182,7 +188,7 @@ function startNewNote() {
 function createNewNote() {
 	$('main').on('click', '.create-note', function(event) {
 		event.preventDefault();
-		//temp solution for now for getting cookie value. 
+		$('.emtpy-titles-error').hide();
 		var newHeader = $(this).parent().parent().parent().find('div.header-value').find('input[name="header"]').val();
 		var newNote = $(this).parent().prev().val();
 		var noteId = $('div.note-id').text();
@@ -193,9 +199,17 @@ function createNewNote() {
 				"header": newHeader,
 				"note": newNote
 			},
-			success: renderNote(newHeader, newNote, noteId)
+			success: function() {
+				return renderNote(newHeader, newNote, noteId)
+			}
 		}
-		return $.ajax(settings);
+		
+		if (newHeader.trim().length === 0 || newNote.trim().length === 0) {
+			return $('.emtpy-titles-error').show();
+		}
+		else {
+			return $.ajax(settings);
+		}
 	});
 }
 
@@ -203,7 +217,7 @@ function updateNote() {
 	//updating the actual note
 	$('main').on('click', 'button.save-note', function(event) {
 		event.preventDefault();
-		
+		$('.emtpy-titles-error').hide();
 		//ugly solutions for now for both noteText and noteId.
 		var noteText = $(this).parent().prev().val();
 		var newHeader = $(this).parent().parent().parent().parent().prev().find('.header-container').find('.header').find('span.header-text').text()
@@ -211,7 +225,7 @@ function updateNote() {
 		var sectionId = $('div.section-id').text();
 
 		if (noteText.trim().length === 0) {
-					return $(this).parent().closest('div.note-container').find('.note-error-message').show();
+					return $('.emtpy-titles-error').show();
 		}
 		
 		var settings = {
@@ -236,7 +250,7 @@ function updateTitle() {
 	//updating the titles
 	$('main').on('click', '.update-titles', function(event) {
 		event.preventDefault();
-
+		$('.emtpy-titles-error').hide();
 		var noteId = $('div.note-id').text();
 
 		var newTitle = $(this).prev().find('input[name="title"]').val();
@@ -245,7 +259,7 @@ function updateTitle() {
 
 		//client side validation
 		if (newTitle.trim() === 0 || newSubtitle.trim() === 0) {
-					return titleContainer.find('div.error-message').show();
+					return $('.emtpy-titles-error').show();;
 		}
 
 		//set the values
@@ -262,29 +276,6 @@ function updateTitle() {
 		  		"subtitle": newSubtitle
 		  	}	
 		 }
-		return $.ajax(settings);
-	})
-}
-
-function updateHeader() {
-	$('main').on('click', '.update-header', function(event) {
-		event.preventDefault();
-		var newHeader = $(this).prev().find('input[name="header"]').val();
-		var noteText = $('div.note').text() || $('textarea.edit-note').val();
-		var noteId = $('div.note-id').text();
-		var sectionId = $('div.section-id').text();
-		var settings = {
-			type: 'PUT',
-		 	url: '/note/' + noteId,
-		 	data: {
-		 		"id": sectionId,
-		 		"header": newHeader,
-		 		"note": noteText
-		 	}
-		}
-		$('div.edit-header').hide();
-		$('span.header-text').text(newHeader);
-		$('div.header').show();
 		return $.ajax(settings);
 	})
 }
@@ -326,15 +317,6 @@ function editTitle() {
 	})
 }
 
-function editHeader() {
-	$('main').on('click', '.header', function(event) {
-		event.preventDefault();  
-		$('div.header').hide();
-		$('div.edit-header').show();	
-	})
-}
-
-
 function deleteNote() {
 	$('main').on('click', '.delete-button', function(event) {
 		event.preventDefault();
@@ -370,10 +352,8 @@ $(function() {
 	updateNote();
 	editNote();
 	editTitle();
-	editHeader();
 	deleteNote();
 	confirmDelete();
-	updateHeader();
 	cancelTitleUpdate();
 	cancelHeaderUpdate();
 })
