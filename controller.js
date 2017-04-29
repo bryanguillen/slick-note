@@ -99,7 +99,7 @@ let userController = {
 	signout: function (req, res) {
 		try {
 				req.session.destroy(function (err) {
-					res.clearCookie('id').send(renderHTMLAfterLogout()); //send body only for ajax call processing
+					res.clearCookie('id').send(services.renderHTMLAfterLogout()); 
 				})
   		}
 		catch (err) {
