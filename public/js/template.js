@@ -5,6 +5,7 @@ function getNewTitlesTemplate() {
     return `<div class="row">
                 <div class="note-container">
                     <div class="col-12 titles-content">
+                    <div class="emtpy-titles-error">PLEASE FILL OUT BOTH FIELDS!</div>
                     <form method="post" action="/new-note" class="new-note">
                         <fieldset name="create-note">
                             <label class="title-label">Title</label>    
@@ -28,6 +29,7 @@ function getNoteHomeTemplate(title, subtitle, noteId) {
                     <span class="hide-sections">Hide Sections</span>
                     <div class="sections-container">
                     </div>
+                    <div class="emtpy-titles-error">PLEASE FILL OUT BOTH FIELDS!</div>
                     <div class="titles"> 
                         <span class="title-text">${title}</span>  
                         <span class="subtitle-text">${subtitle}</span> 
@@ -53,6 +55,7 @@ function getNewSectionTemplate(noteId) {
                         <div class="row">
                             <div class="col-12 header-container">
                                 <!--this will be hidden at first -->
+                                <div class="emtpy-titles-error">PLEASE FILL OUT BOTH FIELDS!</div>
                                 <div class="header-name"> 
                                     <span class="header-text"></span> 
                                 </div>
@@ -82,6 +85,7 @@ function getNoteTemplate(header, note, noteId) {
                     <span class="sections-button">Note Sections</span>
                     <div class="sections-container">
                     </div>
+                    <div class="emtpy-titles-error">PLEASE FILL OUT BOTH FIELDS!</div>
                     <div class="header"> 
                         <span class="header-text">${header}</span> 
                     </div>
@@ -99,6 +103,7 @@ function getNoteTemplate(header, note, noteId) {
             </div>
             <div class="row">
                 <div class="col-12 note-container">
+                    <div>just click the note words below to edit =) </div>
                     <div class="note">${note}</div>
                     <div class="editing-note-container hide-edit-note">
                         <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>

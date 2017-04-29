@@ -47,6 +47,7 @@ const services = {
 						<div class="row">
                             <div class="col-12 header-container">
                                 <!--this will be hidden at first -->
+                                <div class="emtpy-titles-error">PLEASE FILL OUT BOTH FIELDS!</div>
                                 <div class="header-name"> 
                                     <span class="header-text"></span> 
                                 </div>
@@ -163,6 +164,7 @@ const services = {
                     <div class="sections-container">
                     </div>
                     <div class="note-id">${noteId}</div>
+                    <div class="emtpy-titles-error">PLEASE FILL OUT BOTH FIELDS!</div>
                     <div class="titles"> 
                         <span class="title-text">${title}</span>  
                         <span class="subtitle-text">${subtitle}</span> 
@@ -190,6 +192,7 @@ const services = {
                     <span class="hide-sections">Hide Sections</span>
                     <div class="sections-container">
                     </div>
+                    <div class="emtpy-titles-error">PLEASE FILL OUT BOTH FIELDS!</div>
                     <div class="header"> 
                         <span class="header-text">${currentNote.header}</span> 
                     </div>
@@ -208,6 +211,7 @@ const services = {
             </div>
             <div class="row">
                 <div class="col-12 note-container">
+                	<div>just click the note words below to edit =) </div>
                     <div class="note">${currentNote.note}</div>
                     <div class="editing-note-container hide-edit-note">
                         <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
