@@ -53,16 +53,17 @@ router.use(require('express-session')({ secret: 'keyboard cat', resave: false, s
 router.use(passport.initialize()); 
 router.use(passport.session());
 
-router.post('/users', userController.createNewUser); //just create error handling markup for this page and login
-router.get('/logout', userController.signout);
-router.post('/login', userController.redirectHome)//passport.authenticate('local-signup', { failureRedirect: '/login' })
-router.get('/user/:id', userController.getHomePage);//require('connect-ensure-login').ensureLoggedIn() 
-router.get('/note/:noteId', noteController.getNote); //GET note on click
-router.delete('/note/:noteId', noteController.deleteNote);
-router.get('/note/:noteId/sections', noteController.getSections);
-router.get('/note/:noteId/section/:sectionId', noteController.getNoteSection)
-router.put('/note/:noteId', noteController.updateNote);
-router.post('/note/:noteId', noteController.createNote);
-router.post('/new-note', noteController.startNote);
+router.post('/users', userController.createNewUser);
+router.get('/logout', userController.signout); 
+router.post('/login', passport.authenticate('local-signup', { failureRedirect: '/login' }), userController.redirectHome)
+
+router.get('/user/:id', require('connect-ensure-login').ensureLoggedIn(), userController.getHomePage); 
+router.get('/note/:noteId', require('connect-ensure-login').ensureLoggedIn(), noteController.getNote); //GET note on click
+router.delete('/note/:noteId', require('connect-ensure-login').ensureLoggedIn(), noteController.deleteNote); 
+router.get('/note/:noteId/sections', require('connect-ensure-login').ensureLoggedIn(), noteController.getSections);
+router.get('/note/:noteId/section/:sectionId', require('connect-ensure-login').ensureLoggedIn(), noteController.getSection) //check
+router.put('/note/:noteId', require('connect-ensure-login').ensureLoggedIn(), noteController.updateNote); 
+router.post('/note/:noteId', require('connect-ensure-login').ensureLoggedIn(), noteController.createNote);
+router.post('/new-note', require('connect-ensure-login').ensureLoggedIn(), noteController.startNote);
 
 module.exports = router;
