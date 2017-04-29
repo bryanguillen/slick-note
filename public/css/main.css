@@ -1,13 +1,25 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+
+
 body *{
 	box-sizing: border-box;
 }
 
 body {
-	padding-top: 15px;
+	font-family: 'Quicksand';
+	background-color:  #e0e0d1
 }
 
-main {
-	padding-bottom: 15px;
+nav {
+	padding-top: 5px;
+	background-color: #99d6ff;
+	border-bottom: 1px solid #008ae6;
+}
+
+button {
+	background-color: #99d6ff;
+	color: white;
+	border: 0;
 }
 
 textarea {
@@ -18,6 +30,11 @@ textarea {
 fieldset {
 	border: 0;
 	padding: 0;
+}
+
+input[type="text"] {
+	padding: 15px;
+	border: 0;
 }
 
 div.signup-content, div.login-content, div.titles-content {
@@ -46,10 +63,13 @@ div.signup-content, div.login-content, div.titles-content {
 }
 
 .nav-container {
+	background-color: #99d6ff; 
 	text-align: right;
+	position: relative;
 }
 
 .nav-button {
+	color: white;
 	margin-right: 10px;
 	font-size: 20px;
 }
@@ -130,8 +150,64 @@ div.create-button-container {
 	margin-top: 15px;	
 }
 
+.header, .note {
+	margin-top: 15px;
+}
+
+.header {
+	font-size: 15px;
+}
+
+.note {
+	font-size: 20px;
+	overflow-wrap: break-word;
+}
+
+.sections-button, .create-new-section, .note-section {
+	color: white;
+	display: block;
+	margin-bottom: 10px;
+}
+
+span.note-section {
+	margin-bottom: 5px;
+	color: white;
+}
+
+.update-title-label, .update-title-field, .update-subtitle-label, .update-subtitle-field {
+	display: block;
+	width: 40%;
+	margin-bottom: 10px;
+}
+
+.update-title-label, .update-subtitle-label {
+	font-size: 15px;
+}
+
+.edit-titles-container {
+	padding-top: 15px;
+}
+
+.sections {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+.save-button-container {
+	text-align: center;
+	margin-top: 10px;
+}
+
+.confirm-delete-button {
+	color: blue;
+}
+
 @media screen and (min-width: 768px) {
 	.signup-label, .signup-field, .title-field, .title-label, .subtitle-field, .subtitle-label, .header-label, .update-header-field {
+		width: 30%;
+	}
+
+	.update-title-label, .update-title-field, .update-subtitle-label, .update-subtitle-field {
 		width: 30%;
 	}
 
@@ -140,11 +216,11 @@ div.create-button-container {
 		font-size:  35px;
 	}
 
-	.user-note .note-title {
+	.user-note .note-title, {
 		font-size: 35px;
 	}
 
-	.user-note .note-subtitle {
+	.user-note .note-subtitle, .header, .note, .update-title-label, .update-subtitle-label {
 		font-size: 25px;
 	}
 
