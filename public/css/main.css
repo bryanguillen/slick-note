@@ -58,6 +58,15 @@ div.signup-content, div.login-content, div.titles-content {
 	height: 35px;
 }
 
+.successful-signup {
+	font-size: 20px; 
+	text-align: center;
+}
+
+.unregistered-user {
+	display: none;
+}
+
 .get-login, .get-signup {
 	margin-top: 10px;
 }
@@ -72,6 +81,10 @@ div.signup-content, div.login-content, div.titles-content {
 	color: white;
 	margin-right: 10px;
 	font-size: 20px;
+}
+
+.nav-button:hover {
+	color: black;
 }
 
 .user-note {
@@ -98,8 +111,16 @@ div.signup-content, div.login-content, div.titles-content {
 	font-size: 10px;
 }
 
+.view-note:hover{
+	color: white;
+}
+
+.delete-button:hover {
+	color: white;
+}
+
 .delete-container {
-	margin-top: 5px;
+	margin-top: 10px;
 }
 
 .title-container {
@@ -163,10 +184,18 @@ div.create-button-container {
 	overflow-wrap: break-word;
 }
 
+.note:hover {
+	background-color: white;
+}
+
 .sections-button, .create-new-section, .note-section {
 	color: white;
 	display: block;
 	margin-bottom: 10px;
+}
+
+.sections-button:hover, .create-new-section:hover {
+	color: black;
 }
 
 span.note-section {
