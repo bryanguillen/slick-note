@@ -20,6 +20,10 @@ Below are some screen shots of the app at work.
 
 HTML, CSS, Javascript, Jquery, Node.js/Express.js, Travis CI, Mocha, Chai, Passport.js, Mongoose, Homemade CSS Framework.
 
+### Live Version 
+
+[Click here](https://vast-mesa-45606.herokuapp.com/)
+
 ## Author
 
 Bryan G
