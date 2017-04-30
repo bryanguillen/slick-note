@@ -86,7 +86,7 @@ let userController = {
 						User
 	   	 					.find(user.username)
 	   	 					.exec()
-	   	 					.then(res.status(201).send(services.getLoginMarkup()))
+	   	 					.then(res.status(201).send(services.getLoginMarkup("successful-signup")))
 	   	 					.catch(err => {
 	   	 						console.log(err);
 	   	 						res.status(500).json({errorMsg: "internal server error"});
@@ -99,7 +99,7 @@ let userController = {
 	signout: function (req, res) {
 		try {
 				req.session.destroy(function (err) {
-					res.clearCookie('id').send(services.renderHTMLAfterLogout()); 
+					res.clearCookie('id').send(services.getLoginMarkup("unregistered-user")); //this is subject to change 
 				})
   		}
 		catch (err) {
@@ -111,6 +111,10 @@ let userController = {
 	//controller for passport
 	redirectHome: function (req, res) {
     	res.redirect('/user/' + req.user._id);
+  	}, 
+
+  	getLogin: function (req, res) {
+  		res.send(services.getLoginMarkup("unregistered-user"))
   	}
 }
 
@@ -133,7 +137,7 @@ let noteController = {
 	 				return note
 	 		})
 	 		.then(note => {
-	 			return res.status(200).send(services.noteHomeTemplate(note.title, note.subtitle, note.id));
+	 			return res.status(200).json(note.noteAPIRepr());
 	 		})
 	 		.catch(err => {
 	 			console.log(err);
@@ -146,11 +150,7 @@ let noteController = {
 			.findById(req.params.noteId)
 			.exec()
 			.then(note => {
-				let html = '';
-				for (let i=0; i<note.notes.length; i++) {
-					html += services.createSectionHTML(note.notes[i]);
-				}
-				return res.status(200).send(html);
+				return res.status(200).json(note.noteAPIRepr());
 			})
 			.catch(err => {
 				console.log(err);
@@ -165,7 +165,7 @@ let noteController = {
 			.then(note => {
 				for (let i=0; i<note.notes.length; i++) {
 					if (note.notes[i].id === req.params.sectionId) {
-						return res.send(services.getNoteTemplate(note.id, note.notes[i])); 
+						return res.status(200).json({id: note.id, note: note.notes[i]}); 
 					}
 				}
 			})
@@ -262,7 +262,7 @@ let noteController = {
 			User
 	   	 		.findByIdAndUpdate(req.cookies.id, { $push: {userNotes: note._id}})
 	   	 		.exec()
-	   	 		.then(res.status(201).send(services.getNewNoteMarkup(note._id)))//render new note html file
+	   	 		.then(res.status(201).json(note.noteAPIRepr()))
 	   	 		.catch(err => {
 	   	 			console.log(err);
 	   	 			res.status(500).json({errorMsg: "internal server error"});
@@ -279,8 +279,15 @@ let noteController = {
 		Note
 			.findByIdAndUpdate(req.params.noteId, { $push: {notes: newNoteSection}})
 			.exec()
-			.then(note => {
-				res.status(201).send(note.noteAPIRepr())
+			.then(userNote => {
+				return Note.findOne({'notes.header': req.body.header, 'notes.note': req.body.note});
+			})
+			.then(updatedNote => {
+				for (let i=0, length=updatedNote.notes.length; i<length;  i++) {
+					if (updatedNote.notes[i].note === req.body.note) {
+						res.status(201).json({id: req.params.noteId, theNote: updatedNote.notes[i]})
+					}
+				}
 			})
 			.catch(err => {
 				console.log(err);
