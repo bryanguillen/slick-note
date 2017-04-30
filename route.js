@@ -56,7 +56,7 @@ router.use(passport.session());
 router.post('/users', userController.createNewUser);
 router.get('/logout', userController.signout); 
 router.post('/login', passport.authenticate('local-signup', { failureRedirect: '/login' }), userController.redirectHome)
-
+router.get('/login', userController.getLogin);
 router.get('/user/:id', require('connect-ensure-login').ensureLoggedIn(), userController.getHomePage); 
 router.get('/note/:noteId', require('connect-ensure-login').ensureLoggedIn(), noteController.getNote); //GET note on click
 router.delete('/note/:noteId', require('connect-ensure-login').ensureLoggedIn(), noteController.deleteNote); 
