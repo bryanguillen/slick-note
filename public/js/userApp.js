@@ -13,48 +13,44 @@ function renderUserHome(data) {
 	
 }
 
-function renderFeed(notes) {
-	$('main').html(notes);
-}
-
-
 function renderLogout(data) {
 	$('body').html(data);
 }
 
-function renderNoteHomepage(html) {
+function renderNoteHomepage(noteObj) {
 	//landing page for all notes of the app.
-	$('main').html(html);
+	$('main').html(appTemplates.getNoteHomeTemp(noteObj.title, noteObj.subtitle, noteObj.id));
 }
 
-function renderNote(header, note, noteId) {
-	$('main').html(getNoteTemplate(header, note, noteId))
+function renderNote(json) {
+	$('main').html(appTemplates.getNoteTemp(json.id, json.theNote));
 }
 
 
-function renderSections(sections) {
-	$('div.sections-container').append('<div class="sections">' + sections + '</div>' );
+function renderSections(note) {
+	//looping to get every section in the notes array
+	let html = '';
+	for (let i=0; i<note.notes.length; i++) {
+			html += appTemplates.createSectionHTML(note.notes[i]);
+	}
+	$('div.sections-container').append('<div class="sections">' + html + '</div>' );
 }
 
-function renderSection(html) {
-	$('main').html(html);
+function renderSection(noteJson) {
+	$('main').html(appTemplates.getNoteTemp(noteJson.id, noteJson.note));
 }
 
 function renderNewSection(noteId) {
-	$('main').html(getNewSectionTemplate(noteId));
+	$('main').html(appTemplates.getNewSectionTemplate(noteId));
 }
 
 
 function renderNewTitlesTemplate() {
-	$('main').html(getNewTitlesTemplate());
+	$('main').html(appTemplates.getNewTitlesTemplate());
 }
 
-function renderNewNoteTemplate(html) {
-	$('main').html(html);
-}
-
-function renderPublishedNote(obj) {
-	$('main').html(getPublishedNoteTemplate(obj.title, obj.subtitle, obj.notes, obj.id));
+function renderNewNoteTemplate(note) {
+	$('main').html(appTemplates.getNewNoteTemp(note.id));
 }
 
 //EVENT LISTENERS
@@ -96,7 +92,7 @@ function getUserNote() {
 			data: {
 				"_id": noteId
 			},
-			dataType: "html",
+			dataType: "json",
 			success: renderNoteHomepage //THE LANDING PAGE FOR ALL NOTES
 		}
 		return $.ajax(settings);
@@ -111,7 +107,7 @@ function getAllSections() {
 		var settings = {
 			type: 'GET',
 			url: '/note/' + noteId + '/sections',
-			dataType: 'html',
+			dataType: 'json',
 			success: renderSections
 		}
 		$(this).hide();
@@ -133,11 +129,11 @@ function getSection() {
 	$('main').on('click', '.note-section', function(event) {
 		event.preventDefault();
 		var sectionId = $(this).prev().text();
-		noteId = $('div.note-id').text();
+		var noteId = $('div.note-id').text();
 		var settings = {
 		 	type: 'GET',
 		 	url: '/note/' + noteId + '/section/' + sectionId,
-		 	dataType: "html",
+		 	dataType: "json",
 		 	success: renderSection
 		}
 		return $.ajax(settings);
@@ -173,7 +169,7 @@ function startNewNote() {
 				"title": title,
 				"subtitle": subtitle
 			},
-			dataType: 'html',
+			dataType: 'json',
 			success: renderNewNoteTemplate
 		}
 
@@ -190,21 +186,19 @@ function createNewNote() {
 		event.preventDefault();
 		$('.emtpy-titles-error').hide();
 		var newHeader = $(this).parent().parent().parent().find('div.header-value').find('input[name="header"]').val();
-		var newNote = $(this).parent().prev().val();
+		var newNoteText = $(this).parent().prev().val();
 		var noteId = $('div.note-id').text();
 		var settings = {
 			type: 'POST',
 			url: '/note/' + noteId,
 			data: {
 				"header": newHeader,
-				"note": newNote
+				"note": newNoteText
 			},
-			success: function() {
-				return renderNote(newHeader, newNote, noteId)
-			}
+			success: renderNote
 		}
 		
-		if (newHeader.trim().length === 0 || newNote.trim().length === 0) {
+		if (newHeader.trim().length === 0 || newNoteText.trim().length === 0) {
 			return $('.emtpy-titles-error').show();
 		}
 		else {
@@ -289,14 +283,6 @@ function cancelTitleUpdate() {
 	})
 }
 
-function cancelHeaderUpdate() {
-	$('main').on('click', '.cancel-header', function(event) {
-		event.preventDefault();
-		$('div.edit-header').hide();
-		$('div.header').show();
-	})
-}
-
 function editNote() {
 	$('main').on('click', '.note', function(event) {
 		event.preventDefault();
@@ -355,5 +341,4 @@ $(function() {
 	deleteNote();
 	confirmDelete();
 	cancelTitleUpdate();
-	cancelHeaderUpdate();
 })
