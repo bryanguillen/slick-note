@@ -313,8 +313,8 @@ function deleteNote() {
 function confirmDelete() {
 	$('main').on('click', '.confirm-delete-button', function(event) {
 		event.preventDefault();
-		var userNoteContainer = $(this).closest('.user-note-container').hide(); 
 		var noteId = $(this).prev().prev().prev().text();
+		var userNoteContainer = $(this).closest('.user-note-container').hide(); 
 	 	var settings = {
 	 		type: 'DELETE',
 	 		url: '/note/' + noteId
