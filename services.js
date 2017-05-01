@@ -1,7 +1,55 @@
 //services for getting and creating app markup in on server.
 const services = {
 
-	getLoginMarkup: function(className) {
+	displaySignupError: function(errorMessage) {
+		return `<!DOCTYPE html>
+					<html>
+						<head>
+						<meta charset="utf-8">
+						<title>Notes</title>
+						<meta name="viewport" content="width=device-width, initial-scale=1">
+						<!-- prevent fake favicon requests -->
+						<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+						<!-- Normalize.css, a cross-browser reset file -->
+  						<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css" rel="stylesheet">
+  						<link rel="stylesheet" type="text/css" href="css/grid.css">
+ 					 	<!-- custom css sheet -->
+  						<link rel="stylesheet" type="text/css" href="css/main.css">
+					</head>
+					<body>			
+						<main>
+							<div class="signup-container">
+								<div class="inner-container">
+									<div class="row">
+										<div class="col-12 signup-content">
+											<div>${errorMessage}</div>
+											<form method="post" action="/users" class="signup-form" name="register-user">
+												<fieldset name="signup-form">
+													<label class="signup-label">Email</label>
+													<input type="text" name="email" class="signup-field" placeholder="foo@bar.com" required />
+													<label class="signup-label">Username</label>
+													<input type="text" name="username" class="signup-field" placeholder="johnsmith123" required />
+													<label class="signup-label">Password</label>
+													<input type="password" name="password" class="signup-field" required />
+													<label class="signup-label">Confirm Password</label>
+													<input type="password" name="passwordConfirmation" class="signup-field" required />
+													<button class="authentication-button signup" type="submit">Sign Up</button>
+												</fieldset>
+											</form>
+											<div class="signup-login-links-container get-login">Login</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</main>
+						<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+						<script type="text/javascript" src="js/unauthorizedTemplates.js"></script>
+						<script type="text/javascript" src="js/unauthorizedClient.js"></script>
+					</body>	
+					</html>`
+	},
+
+	getLoginMarkup: function(message) {
 	return `<!DOCTYPE html>
 				<html>
 				<head>
@@ -21,8 +69,8 @@ const services = {
 						<div class="login-container">
 							<div class="inner-container">
 								<div class="row">
-									<div class="col-12 login-content">
-										<div class=${className}>You have created a successful account</div>
+									<div class="col-12 login-content"> 
+										<div>${message}</div>
 										<form method="post" action="/login" class="login-form">
 											<fieldset name="login-form">
 												<label class="login-label">Username</label>
