@@ -41,7 +41,7 @@ function renderSection(noteJson) {
 }
 
 function renderNewSection(noteId) {
-	$('main').html(appTemplates.getNewSectionTemplate(noteId));
+	$('main').html(appTemplates.getNewSectionTemp(noteId));
 }
 
 
