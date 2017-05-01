@@ -4,6 +4,7 @@ const {User} = require('./model')
 const passport = require('passport');
 const {userController, noteController} = require('./controller');
 const bodyParser = require('body-parser');
+const flash = require('connect-flash');
 const jsonParser = bodyParser.json();
 
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -55,7 +56,8 @@ router.use(passport.session());
 
 router.post('/users', userController.createNewUser);
 router.get('/logout', userController.signout); 
-router.post('/login', passport.authenticate('local-signup', { failureRedirect: '/login' }), userController.redirectHome)
+router.get('/invalid-login', userController.failedLogin);
+router.post('/login', passport.authenticate('local-signup', { failureRedirect: '/invalid-login' }), userController.redirectHome)
 router.get('/login', userController.getLogin);
 router.get('/user/:id', require('connect-ensure-login').ensureLoggedIn(), userController.getHomePage); 
 router.get('/note/:noteId', require('connect-ensure-login').ensureLoggedIn(), noteController.getNote); //GET note on click
