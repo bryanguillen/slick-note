@@ -10,11 +10,11 @@ require('dotenv').config()
 
 mongoose.Promise = global.Promise;
 
+app.use(cookieParser());
 app.use(express.static('public'));
+app.use(morgan('common')); //log http layer
 app.use('/user', express.static('public'))
 app.use('/', route); 
-app.use(morgan('common')); //log http layer
-app.use(cookieParser());
 
 //start and kill server code below
 function runServer(databseUrl=DATABASE_URL) {
