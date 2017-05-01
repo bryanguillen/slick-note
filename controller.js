@@ -39,23 +39,23 @@ let userController = {
 	createNewUser: function (req, res) {
 		//verify that each of the fields exist after verifying that the body is not empty.
 		if(!req.body) {
-	 		res.status(400).json({errorMsg: "Your request is empty and invalid."})
+	 		return res.status(400).json({errorMsg: "Your request is empty and invalid."})
 		}
 	
 		Object.keys(req.body).forEach(function(field) {
 			let submittedValue = req.body[field];
-			if(submittedValue === '') {
-				return res.status(422).json({errorMsg: `Incorrect Length: ${field} is empty`});
+			if(submittedValue.trim() === '') {
+				return res.status(422).send(services.displaySignupError('Incorrect Length:' + field + ' is empty'));
 			} 
 			else if(typeof submittedValue !== 'string') {
-				return res.status(422).json({errorMsg: `Incorrect datatype: ${field} is wrong field type`});	
+				return res.status(422).send(services.displaySignupError('Incorrect datatype: ' + field + ' is wrong field type'));	
 			}
 		})
 		
 		let {username, email, password, passwordConfirmation} = req.body;
 
  		if(password !== passwordConfirmation) {
- 			return res.status(422).json({errorMsg: `Passwords do not match.`})
+ 			return res.status(422).send(services.displaySignupError('passwords do not match'));
  		}
 
 		email = email.trim().toLowerCase(); 
@@ -69,7 +69,7 @@ let userController = {
 				.exec()
 				.then(count => {
 					if(count>0) {
-						return res.status(422).json({errorMsg: `This username already exists`});
+						throw newres.status(422).send(services.displaySignupError('username already exists'));
 					}
 					return User.hashPassword(password)
 				})
@@ -86,7 +86,7 @@ let userController = {
 						User
 	   	 					.find(user.username)
 	   	 					.exec()
-	   	 					.then(res.status(201).send(services.getLoginMarkup("successful-signup")))
+	   	 					.then(res.status(201).send(services.getLoginMarkup('you have logged in successfully')))
 	   	 					.catch(err => {
 	   	 						console.log(err);
 	   	 						res.status(500).json({errorMsg: "internal server error"});
@@ -99,7 +99,7 @@ let userController = {
 	signout: function (req, res) {
 		try {
 				req.session.destroy(function (err) {
-					res.clearCookie('id').send(services.getLoginMarkup("unregistered-user")); //this is subject to change 
+					res.clearCookie('id').send(services.getLoginMarkup('you have signed out successfully')); //this is subject to change 
 				})
   		}
 		catch (err) {
@@ -114,7 +114,11 @@ let userController = {
   	}, 
 
   	getLogin: function (req, res) {
-  		res.send(services.getLoginMarkup("unregistered-user"))
+		res.send(services.getLoginMarkup('login page'))
+  	},
+
+  	failedLogin: function (req, res) {
+  		res.send(services.getLoginMarkup('invalid username/password'));
   	}
 }
 
