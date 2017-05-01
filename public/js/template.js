@@ -22,36 +22,34 @@ var appTemplates = {
     },
 
     getNewNoteTemp: function (noteId) {
-            return  `<main>
-                            <div class="row">
-                                <div class="col-12 header-container">
-                                    <!--this will be hidden at first -->
-                                    <div class="emtpy-titles-error">PLEASE FILL OUT BOTH FIELDS!</div>
-                                    <div class="header-name"> 
-                                        <span class="header-text"></span> 
-                                    </div>
-                                    <div class="header-value">  
-                                        <div class="note-error-message">PLEASE FILL OUT 'Header' Field</div>
-                                        <label class="header-label">header</label>
-                                        <input type="text" name="header" class="update-header-field" required />
-                                        <div class="note-id">${noteId}</div>
-                                    </div> 
-                                    <div class="note"></div>
-                                    <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
-                                    <div class="editing-note-container">
-                                        <textarea class="edit-note"></textarea>
-                                        <div class="create-button-container"><button class="create-note">Create Note</button></div>
-                                    </div>
-                                </div>
+            return  `<div class="row">
+                        <div class="col-12 header-container">
+                            <!--this will be hidden at first -->
+                            <div class="emtpy-titles-error">PLEASE FILL OUT BOTH FIELDS!</div>
+                            <div class="header-name"> 
+                                <span class="header-text"></span> 
                             </div>
-                        </main>`
+                            <div class="header-value">  
+                                <div class="note-error-message">PLEASE FILL OUT 'Header' Field</div>
+                                    <label class="header-label">header</label>
+                                    <input type="text" name="header" class="update-header-field" required />
+                                    <div class="note-id">${noteId}</div>
+                            </div> 
+                            <div class="note"></div>
+                            <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
+                            <div class="editing-note-container">
+                                <textarea class="edit-note"></textarea>
+                                <div class="create-button-container"><button class="create-note">Create Note</button></div>
+                            </div>
+                        </div>
+                    </div>`
     },
 
     getNoteHomeTemp: function (title, subtitle, noteId) {
         return `<div class="row">
                 <div class="col-12 title-container">
                     <!--this will be hidden at first -->
-                    <span class="create-new-section">New Sections</span>
+                    <span class="create-new-section">New Section</span>
                     <span class="sections-button">Note Sections</span>
                     <span class="hide-sections">Hide Sections</span>
                     <div class="sections-container">
