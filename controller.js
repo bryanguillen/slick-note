@@ -6,7 +6,7 @@ let userController = {
 	
 	getHomePage: function (req, res) {
 		User
-			.findById(req.params.id)//req.user._id for passport later
+			.findById(req.user._id)//req.user._id for passport later
 			.populate('userNotes')
 			.exec(function(err, user) {
 				if (err) {
@@ -28,7 +28,7 @@ let userController = {
 				return notes
 			})
 			.then(notes => {
-				return res.cookie('id', req.params.id).status(200).send(services.getUserHomeMarkup(notes)); //just setting cookie for now.
+				return res.cookie('id', req.user._id).status(200).send(services.getUserHomeMarkup(notes)); //just setting cookie for now.
 			})
 			.catch(err => {
 		  		console.log(err);
@@ -86,7 +86,7 @@ let userController = {
 						User
 	   	 					.find(user.username)
 	   	 					.exec()
-	   	 					.then(res.status(201).send(services.getLoginMarkup('you have logged in successfully')))
+	   	 					.then(res.status(201).send(services.getLoginMarkup('you have create a new account successfully, now login')))
 	   	 					.catch(err => {
 	   	 						console.log(err);
 	   	 						res.status(500).json({errorMsg: "internal server error"});
@@ -188,18 +188,25 @@ let noteController = {
 					console.log(err);
 					return res.status(500).json({errorMsg: "internal server error"}); 
 				}
+				console.log(note);
 			})
 			.exec()
 			.then(function() {
-				//remove the note ref object.
+		 		//remove the note ref object.
 				User
-					.findByIdAndUpdate(req.cookies.id, { $pull: {userNotes: note}})
+					.findByIdAndUpdate(req.user._id, { $pull: {userNotes: note}})
 					.exec()
-					.then(res.status(204).end())
-					.catch(err => {
-						console.log(err)
-						return res.status(500).json({errorMsg: "internal server error"})
+					.then(function () {
+						res.status(204).end();
 					})
+					.catch(err => {
+						console.log(err);
+						return res.status(500).json({errorMsg: "internal server error"});
+					})
+			})
+			.catch(err => {
+				console.log(err);
+				return res.status(500).json({errorMsg: "internal server errror"});
 			})
 	},
 
@@ -256,7 +263,7 @@ let noteController = {
 		//start note consists of just writing the 
 		//the titles for the note. so it is sort of the setup for the note. 
 		let newNote = new Note ({
-			"user": req.cookies.id, //use for now
+			"user": req.user._id,
 			"title": req.body.title, 
 			"subtitle": req.body.subtitle
 		});
@@ -264,7 +271,7 @@ let noteController = {
 		newNote.save(function(err, note) {
 			if (err) {return console.log(err)};
 			User
-	   	 		.findByIdAndUpdate(req.cookies.id, { $push: {userNotes: note._id}})
+	   	 		.findByIdAndUpdate(req.user._id, { $push: {userNotes: note._id}})
 	   	 		.exec()
 	   	 		.then(res.status(201).json(note.noteAPIRepr()))
 	   	 		.catch(err => {
