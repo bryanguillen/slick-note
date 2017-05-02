@@ -1,7 +1,7 @@
-//state mgmt
-var domState = {
-	noteIdentification: 0
-}
+// //state mgmt
+// var domState = {
+// 	noteIdentification: 0
+// }
 
 //DOM MANIPULATION
 function renderUserHome(data) { 

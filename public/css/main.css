@@ -30,6 +30,7 @@ textarea {
 fieldset {
 	border: 0;
 	padding: 0;
+	margin-bottom: 10px;
 }
 
 input[type="text"] {
@@ -68,9 +69,10 @@ div.signup-content, div.login-content, div.titles-content {
 }
 
 .get-login, .get-signup {
-	margin-top: 10px;
+	text-decoration: none;
+	color: black;
 }
-
+ 
 .nav-container {
 	background-color: #99d6ff; 
 	text-align: right;
@@ -79,6 +81,7 @@ div.signup-content, div.login-content, div.titles-content {
 
 .nav-button {
 	color: white;
+	text-decoration: none;
 	margin-right: 10px;
 	font-size: 20px;
 }
@@ -107,8 +110,10 @@ div.signup-content, div.login-content, div.titles-content {
 	font-size: 15px;
 }
 
-.view-note, .delete-note {
-	font-size: 10px;
+.view-note, .delete-button {
+	text-decoration: none;
+	color: black;
+	font-size: 15px;
 }
 
 .view-note:hover{

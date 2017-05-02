@@ -36,7 +36,7 @@ const services = {
 													<button class="authentication-button signup" type="submit">Sign Up</button>
 												</fieldset>
 											</form>
-											<div class="signup-login-links-container get-login">Login</div>
+											<a href="#" class="signup-login-links-container get-login">Login</a>
 										</div>
 									</div>
 								</div>
@@ -80,13 +80,16 @@ const services = {
 											<button type="submit" class="authentication-button login">Login</button>
 											</fieldset>
 										</form>
-										<div class="signup-login-links-container"><a href="/index.html">Sign Up</a></div>
+										<a href="#" class="signup-login-links-container">Sign Up</a>
 									</div>
 								</div>
 							</div>
 						</div>
 					</main>
-				
+					
+					<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+					<script type="text/javascript" src="js/unauthorizedTemplates.js"></script>
+					<script type="text/javascript" src="js/unauthorizedClient.js"></script>
 				</body>
 				</html>`
 	},
@@ -98,12 +101,12 @@ const services = {
 					<div class="user-note">
 						<span class="note-header note-title"> ${note.title} </span> 
 						<span class="note-header note-subtitle"> ${note.subtitle} </span> 
-						<span class="view-note">view note</span>
+						<a href="#" class="view-note">view note</a>
 						<div class="delete-container">
                             <div class="note-id">${note._id}</div>
-                            <span class="delete-button">Delete Note</span>
+                            <a href="#" class="delete-button">Delete Note</a>
                             <span class="confirm-delete">Are you sure</span>
-                            <span class="confirm-delete confirm-delete-button">Yes</span>
+                            <a href="#" class="confirm-delete confirm-delete-button">Yes</a>
                         </div>
 					</div>
 				</div>
@@ -129,9 +132,9 @@ const services = {
 				<nav>
             		<div class="row">
                 		<div class="col-12 nav-container">
-                    		<span class="home nav-button">Home</span>
-                    		<span class="new-note-button nav-button">New Note</span>
-                    		<span class="logout nav-button">Logout</span>
+                    		<a href="#" class="home nav-button">Home</a>
+                    		<a href="#" class="new-note-button nav-button">New Note</a>
+                    		<a href="#" class="logout nav-button">Logout</a>
                 		</div>
             		</div>        
         		</nav>

@@ -12,7 +12,7 @@ function getLoginTemplate() {
                                     <button type="submit" class="authentication-button login">Login</button>
                                 </fieldset>
                             </form>
-                            <div class="signup-login-links-container get-signup">Sign Up</div>
+                            <a href="#" class="signup-login-links-container get-signup">Sign Up</a>
                         </div>
                     </div>
                 </div>
@@ -37,7 +37,7 @@ function getSignupTemplate() {
                             <button class="authentication-button signup" type="submit">Sign Up</button>
                         </fieldset>
                     </form>
-                    <div class="signup-login-links-container get-login">Login</div>
+                    <a href="#" class="signup-login-links-container get-login">Login</a>
                 </div>
             </div>
             </div>

@@ -49,9 +49,9 @@ var appTemplates = {
         return `<div class="row">
                 <div class="col-12 title-container">
                     <!--this will be hidden at first -->
-                    <span class="create-new-section">New Section</span>
-                    <span class="sections-button">Note Sections</span>
-                    <span class="hide-sections">Hide Sections</span>
+                    <a href="#" class="create-new-section">New Section</a>
+                    <a href="#" class="sections-button">Note Sections</a>
+                    <a href="#" class="hide-sections">Hide Sections</a>
                     <div class="sections-container">
                     </div>
                     <div class="note-id">${noteId}</div>
@@ -103,15 +103,15 @@ var appTemplates = {
     },
 
     createSectionHTML: function (section) {
-        return `<div class="section-id">${section._id}</div><span class="note-section">${section.header}</span>`
+        return `<div class="section-id">${section._id}</div><a href="#" class="note-section">${section.header}</a>`
     },
 
     getNoteTemp: function (noteId, currentNote) {
         return `<div class="row">
                 <div class="col-12 header-container">
-                    <span class="create-new-section">New Section</span>
-                    <span class="sections-button">Note Sections</span>
-                    <span class="hide-sections">Hide Sections</span>
+                    <a href="#" class="create-new-section">New Section</a>
+                    <a href="#" class="sections-button">Note Sections</a>
+                    <a href="#" class="hide-sections">Hide Sections</a>
                     <div class="sections-container">
                     </div>
                     <div class="emtpy-titles-error">PLEASE FILL OUT BOTH FIELDS!</div>
