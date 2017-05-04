@@ -26,21 +26,14 @@ userSchema.statics.hashPassword = function(password) {
 
 const noteSchema = mongoose.Schema({
 	user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-	title: {type: String, required: true},
-	subtitle: {type: String, required: true},
-	notes: [{
-		header: String,
-		note: String
-	}]
+	title: { type: String, required: true },
+	content: { type: String, required: true }
 })
 
 noteSchema.methods.noteAPIRepr = function() {
 	return {
 		id: this._id,
-		user: this.user,
-		title: this.title,
-		subtitle: this.subtitle,
-		notes: this.notes
+		user: this.user
 	}
 }
 
