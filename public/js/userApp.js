@@ -12,12 +12,16 @@ function renderLogout(data) {
 	$('body').html(data);
 }
 
-function renderEditTemp(noteObj) {
-	$('main').html(appTemplates.getEditTemp(noteObj.id, noteObj.title, noteObj.content));
+function renderNewNoteTemp() {
+	$('main').html(appTemplates.getNewNoteTemp());
 }
 
-function renderNewNoteTemplate(note) {
-	$('main').html(appTemplates.getNewNoteTemp(note.id));
+function renderNoteTemp(noteObj) {
+	$('main').html(appTemplates.getNoteTemp(noteObj.id, noteObj.title, noteObj.content));
+}
+
+function renderEditTemp(noteObj) {
+	$('main').html(appTemplates.getEditTemp(noteObj.id, noteObj.title, noteObj.content));
 }
 
 //EVENT LISTENERS
@@ -53,7 +57,7 @@ function getLogout() {
 function clickNewNote() {
 	$('nav').on('click', '.new-note-button', function(event) {
 		event.preventDefault();
-		return renderNewTitlesTemplate(); 
+		return renderNewNoteTemp(); 
 	});
 }
 
@@ -61,29 +65,30 @@ function createNewNote() {
 	$('main').on('click', '.create-note', function(event) {
 		event.preventDefault();
 		$('.emtpy-titles-error').hide();
-		var newHeader = $(this).parent().parent().parent().find('div.header-value').find('input[name="header"]').val();
-		var newNoteText = $(this).parent().prev().val();
-		var noteId = $('div.note-id').text();
+		var newTitle = $('#new-title').val();
+		var newNoteText = $('#new-note').val();
 		var settings = {
 			type: 'POST',
-			url: '/note/' + noteId,
+			url: '/new-note',
 			data: {
-				"header": newHeader,
-				"note": newNoteText
+				"title": newTitle,
+				"content": newNoteText
 			},
-			success: renderNote
+			dataType: 'json',
+			success: renderNoteTemp
 		}
 	
-		if (newHeader.trim().length === 0 || newNoteText.trim().length === 0) {
+		if (newTitle.trim().length === 0 || newNoteText.trim().length === 0) {
 			return $('.emtpy-titles-error').show();
 		}
-		else {
-			return $.ajax(settings);
-		}
+		
+		return $.ajax(settings);
 	});
 }
 
 function editNote() {
+	//clicking on both the edit note link as well as the div 
+	//in the actual note. 
 	$('main').on('click', 'a.edit', function(event) {
 		event.preventDefault();
 		var cardContentParent = $(this).closest('div.card-content'); //the parent 
@@ -100,14 +105,14 @@ function editNote() {
 	$('main').on('click', 'div.note', function(event) {
 		event.preventDefault();
 		var noteText = $(this).text();
-		$('div.editing-note-container').val(noteText).show();
-		$('div.note').text('').hide(); //set empty text val for it. 
+		$('#edit-note').val(noteText);
+		$('div.editing-note-container').show();
+		$('div.note').hide();  
 	})
 
 }
 
 function updateNote() {
-	//updating the actual note
 	$('main').on('click', 'button.save-note', function(event) {
 		event.preventDefault();
 		$('.emtpy-titles-error').hide();
