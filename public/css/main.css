@@ -14,6 +14,11 @@ body {
 	background-color: #f3f4f5; 
 }
 
+label  {
+	font-size: 20px;
+	color: #6e6d72;
+}
+
 nav {
 	background: #ee4343;
 }
@@ -80,13 +85,15 @@ ul.side-nav a {
 	padding-left: 5px;
 	padding-right: 5px;
 	border: 1px solid #6e6d72;
+	margin-top: 10px;
 }
 
-.save-button-container {
+.save-button-container, .create-button-container {
 	text-align: center;
+	margin-top: 5px;
 }
 
-.save-note, .update-title-button {
+.save-note, .update-title-button, .create-note {
 	border: 0;
 	background: #ee4343;
 	color: #ffffff;
@@ -119,268 +126,7 @@ ul.side-nav a {
 
 }
 
-/*
-button {
-	background-color: #99d6ff;
-	color: white;
-	border: 0;
-}
-
-textarea {
-	resize: none;
-	font-size: 20px;
-}
-
-fieldset {
-	border: 0;
-	padding: 0;
-	margin-bottom: 10px;
-}
-
-input[type="text"] {
-	padding: 15px;
-	border: 0;
-}
-
-div.signup-content, div.login-content, div.titles-content {
-	text-align: center;
-}
-
-.signup-label, .signup-field, .login-label, .login-field, .title-field, .title-label, .subtitle-field, .subtitle-label {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 10px; 
-	width: 45%;
-}
-
-.signup-label, .login-label, .title-label, .subtitle-label, .header-label {
-	font-size: 25px;
-	text-align: left;
-}
-
-.signup-field, .login-field, .title-field, .subtitle-field, .update-header-field {
-	height: 35px;
-}
-
-.successful-signup {
-	font-size: 20px; 
-	text-align: center;
-}
-
-.unregistered-user {
-	display: none;
-}
-
-.get-login, .get-signup {
-	text-decoration: none;
-	color: black;
-}
- 
-.nav-container {
-	background-color: #99d6ff; 
-	text-align: right;
-	position: relative;
-}
-
-.nav-button {
-	color: white;
-	text-decoration: none;
-	margin-right: 10px;
-	font-size: 20px;
-}
-
-.nav-button:hover {
-	color: black;
-}
-
-.user-note {
-	padding-top: 15px;
-	padding-bottom: 15px;
-	margin-bottom: 5px; 
-}
-
-.user-note > span {
-	display: block;
-	margin-bottom: 5px;
-	padding-top: 5px;
-}
-
-.user-note .note-title {
-	font-size: 20px;
-}
-
-.user-note .note-subtitle {
-	font-size: 15px;
-}
-
-.view-note, .delete-button {
-	text-decoration: none;
-	color: black;
-	font-size: 15px;
-}
-
-.view-note:hover{
-	color: white;
-}
-
-.delete-button:hover {
-	color: white;
-}
-
-.delete-container {
-	margin-top: 10px;
-}
-
-.title-container {
-	padding-top: 15px;
-}
-
-.title-container > span {
-	margin-right: 10px;
-	font-size: 15px;
-}
-
-.titles {
-	margin-top: 10px;
-	font-size: 20px;
-}
-
-.titles > span {
-	display: block;
-}
-
-.titles > span.subtitle-text {
-	margin-top: 10px;
-}
-
-.note-error-message {
-	display: none;
-}
-
-.header-label, .update-header-field, .note-label {
-	display: block;
-	margin-bottom: 10px;
-	width: 45%;
-}
-
-.note-label {
-	font-size: 15px;
-}
-
-textarea.edit-note {
-	display: block;
-	width: 100%;
-	height: 65vh;
-	margin: 0 auto;
-}
-
-div.create-button-container {
-	text-align: center;
-	margin-top: 15px;	
-}
-
-.header, .note {
-	margin-top: 15px;
-}
-
-.header {
-	font-size: 15px;
-}
-
-.note {
-	font-size: 20px;
-	overflow-wrap: break-word;
-}
-
-.note:hover {
-	background-color: white;
-}
-
-.sections-button, .create-new-section, .note-section {
-	color: white;
-	display: block;
-	margin-bottom: 10px;
-}
-
-.sections-button:hover, .create-new-section:hover {
-	color: black;
-}
-
-span.note-section {
-	margin-bottom: 5px;
-	color: white;
-}
-
-.update-title-label, .update-title-field, .update-subtitle-label, .update-subtitle-field {
-	display: block;
-	width: 40%;
-	margin-bottom: 10px;
-}
-
-.update-title-label, .update-subtitle-label {
-	font-size: 15px;
-}
-
-.edit-titles-container {
-	padding-top: 15px;
-}
-
-.sections {
-	padding-top: 15px;
-	padding-bottom: 15px;
-}
-
-.save-button-container {
-	text-align: center;
-	margin-top: 10px;
-}
-
-.confirm-delete-button {
-	color: blue;
-}
-
-.note-container {
-	margin-top: 10px;
-}
-
-@media screen and (min-width: 768px) {
-	.signup-label, .signup-field, .title-field, .title-label, .subtitle-field, .subtitle-label, .header-label, .update-header-field {
-		width: 30%;
-	}
-
-	.update-title-label, .update-title-field, .update-subtitle-label, .update-subtitle-field {
-		width: 30%;
-	}
-
-	.nav-button {
-		margin-right: 20px;
-		font-size:  35px;
-	}
-
-	.user-note .note-title, {
-		font-size: 35px;
-	}
-
-	.user-note .note-subtitle, .header, .note, .update-title-label, .update-subtitle-label {
-		font-size: 25px;
-	}
-
-	.view-note, .delete-note {
-		font-size: 20px;
-	}
-
-	span.create-new-section, span.sections-button {
-		font-size: 25px;
-	}
-
-	.titles {
-		font-size: 30px;
-	}
-
-}
-
-.edit-title, .hide-edit-note, .confirm-delete, .edit-header{
+/*.edit-title, .hide-edit-note, .confirm-delete, .edit-header{
 	display: none;
 }
 
