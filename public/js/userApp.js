@@ -159,7 +159,7 @@ function updateTitle() {
 		var noteId = $('div.note-id').text();
 
 		var newTitle = $('#edit-title').val();
-		//client side validation
+		//client side validation //test this!
 		if (newTitle.trim() === 0) {
 			return $('.emtpy-titles-error').show();;
 		}
@@ -180,17 +180,17 @@ function updateTitle() {
 }
 
 function deleteNote() {
-	$('main').on('click', '.delete-button', function(event) {
+	$('main').on('click', '.delete', function(event) {
 		event.preventDefault();
-		$(this).nextAll().show();
+		$(this).parent().next().show(); //traverse up and then down to the next p element containing the confirmation
 	})
 }
 
 function confirmDelete() {
-	$('main').on('click', '.confirm-delete-button', function(event) {
+	$('main').on('click', '.confirm-delete', function(event) {
 		event.preventDefault();
-		var noteId = $(this).prev().prev().prev().text();
-		var userNoteContainer = $(this).closest('.user-note-container').hide(); 
+		var noteId = $(this).closest('div.card-content').find('div.note-id').text();
+		var userNoteContainer = $(this).closest('.user-note').hide(); 
 	 	var settings = {
 	 		type: 'DELETE',
 	 		url: '/note/' + noteId
