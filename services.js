@@ -97,13 +97,13 @@ const services = {
  	createUserFeedMarkup: function(note) {
 	return  `
 			<div class="row">
-			<div class="col m10 offset-m1">
+			<div class="col s12 m10 offset-m1">
 			<div class="card user-note">
     			<div class="card-content">
       				<div class="note-id" style="display: none;">${note._id}</div>
       				<span class="card-title activator grey-text text-darken-4">${note.title}<i class="material-icons right">more_vert</i></span>
-      				<p><a href="#" class="edit">Edit</a></p>
-      				<p><a href="#" class="delete">Delete</a></p>
+      				<p class="card-links"><a href="#" class="edit">Edit</a></p>
+      				<p class="card-links"><a href="#" class="delete">Delete</a></p>
       				<p class="deletion-question" style="display: none;">Are You Sure?<a href="#" class="confirm-delete">Yes</a></p>
     			</div>
     			<div class="card-reveal">
@@ -149,6 +149,7 @@ const services = {
     					</li>
   					</ul>
 
+  					<a hre="#" class="home nav-button mobile-logo center">Slick Note</a>
   					<ul class="medium-viewport-nav right">
   						<li class="medium-view nav-button">
   							<a href="#!" class="home nav-button">Home</a>
