@@ -1,16 +1,24 @@
 var appTemplates = {
 
     getNewNoteTemp: function () {
-            return  `<div class="note-container">    
-                        <div class="edit-title-container create-note-title">
-                            <label class="new-note-label">Title:</label>
-                            <input type="text" id="new-title" placeholder="ex. Today's Class" />
+            return  `<div class="note-container container">    
+                        <div class="row">    
+                            <div class="col s12 m6">
+                                <div class="edit-title-container create-note-title">
+                                    <label class="new-note-label">Title:</label>
+                                    <input type="text" id="new-title" placeholder="ex. Today's Class" />
+                                </div>
+                            </div>
                         </div>
-                        <div class="editing-note-container create-note-content">
-                            <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
-                            <label class="new-note-label">Note:</label>
-                            <textarea id="new-note" placeholder="ex. Today was fun. I learned nothing."></textarea>
-                            <div class="create-button-container"><button class="create-note">Create</button></div>
+                        <div class="row">
+                            <div class="col s12 m6">
+                                <div class="editing-note-container create-note-content">
+                                    <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
+                                    <label class="new-note-label">Note:</label>
+                                    <textarea id="new-note" class="note-editor" placeholder="ex. Today was fun. I learned nothing."></textarea>
+                                    <div class="create-button-container"><button class="create-note">Create</button></div>
+                                </div>
+                            </div>
                         </div>
                     </div>`
     },
