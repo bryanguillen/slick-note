@@ -98,9 +98,10 @@ const services = {
 	return  `<div class="card user-note">
     			<div class="card-content">
       				<div class="note-id" style="display: none;">${note._id}</div>
-      				<span class="card-title activator grey-text text-darken-4">${note.title}<i class="material-icons right">read note</i></span>
+      				<span class="card-title activator grey-text text-darken-4">${note.title}<i class="material-icons right">more_vert</i></span>
       				<p><a href="#" class="edit">Edit</a></p>
-      				<p><a href="#">Delete</a></p>
+      				<p><a href="#" class="delete">Delete</a></p>
+      				<p class="deletion-question" style="display: none;">Are You Sure?<a href="#" class="confirm-delete">Yes</a></p>
     			</div>
     			<div class="card-reveal">
       				<span class="card-title grey-text text-darken-4">${note.title}<i class="material-icons right">close</i></span>
@@ -121,20 +122,55 @@ const services = {
   				<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css" rel="stylesheet">
   				<!--custom css page-->
   				<link rel="stylesheet" type="text/css" href="css/materialize.min.css">
+  				<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   				<link rel="stylesheet" type="text/css" href="css/main.css">
 			</head>
 			<body>
 	
-				<nav>
-                    <a href="#" class="home nav-button">Home</a>
-                    <a href="#" class="new-note-button nav-button">New Note</a>
-                    <a href="#" class="logout nav-button">Logout</a>        
+				<nav>        
+        			<a href="#" data-activates="slide-out" class="menu button-collapse"><i class="material-icons">reorder</i></a>
+        			<ul id="slide-out" class="side-nav">
+    					<li>
+    						<a href="#!" class="home nav-button">Home</a>
+    					</li>
+    					<li>
+    						<a href="#" class="new-note-button nav-button">New Note</a>
+    					</li>
+    					<li>
+    						<div class="divider"></div>
+    					</li>
+    					<li>
+    						<a href="#" class="logout nav-button">Logout</a>
+    					</li>
+  					</ul>
+
+  					<ul class="medium-viewport-nav right">
+  						<li class="medium-view nav-button">
+  							<a href="#!" class="home nav-button">Home</a>
+  						</li>
+  						<li class="medium-view nav-button">
+  							<a href="#!" class="new-note-button nav-button">New Note</a>
+  						</li>
+  						<li class="medium-view nav-button">
+  							<a href="#!" class="logout nav-button">Logout</a>
+  						</li>
+  					</ul> 
         		</nav>
 
 				<main>${notes}</main>
 
 				<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
-				<script type="text/javascript" src="js/materialize.min.js"></script> 
+				<script type="text/javascript" src="js/materialize.js"></script>
+				<script>
+					//side nav
+					$(document).ready(function(){
+        				$(".button-collapse").sideNav();
+        				$('.parallax').parallax();
+        				$(".dropdown-button").dropdown({
+ 				           hover: false
+        				});
+    				});
+    			</script> 
 				<script type="text/javascript" src="js/template.js"></script>
 				<script type="text/javascript" src="js/userApp.js"></script>
 			</body>
