@@ -3,8 +3,12 @@ var appTemplates = {
     getEditTemp: function (noteId, title, content) {
         return `<div class="note-id">${noteId}</div>
                 <div class="note-container">
-                    <div class="note-title">${title}</div>
-                    <input type="text" id="edit-title" />
+                    <div class="note-title">${title}</div>    
+                    <div class="edit-title-container" style="display: none;">
+                        <input type="text" id="edit-title" />
+                        <button type="submit" id="update-title">Update</button>
+                        <button id="cancel-update">Cancel</button>
+                    </div>
                     <div class="note hide-note"></div>
                     <div class="editing-note-container">
                         <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
