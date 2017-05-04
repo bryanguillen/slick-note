@@ -1,4 +1,3 @@
-//imports
 const {User, Note} = require('./model');
 const {services} = require('./services');
 
@@ -6,7 +5,7 @@ let userController = {
 	
 	getHomePage: function (req, res) {
 		User
-			.findById(req.user._id)//req.user._id for passport later
+			.findById(req.params.id) // req.user._id
 			.populate('userNotes')
 			.exec(function(err, user) {
 				if (err) {
@@ -28,7 +27,7 @@ let userController = {
 				return notes
 			})
 			.then(notes => {
-				return res.cookie('id', req.user._id).status(200).send(services.getUserHomeMarkup(notes)); //just setting cookie for now.
+				return res.cookie('id', req.params.id).status(200).send(services.getUserHomeMarkup(notes)); //just setting cookie for now.
 			})
 			.catch(err => {
 		  		console.log(err);
@@ -149,36 +148,6 @@ let noteController = {
 	 		})
 	},
 
-	getSections: function(req, res) {
-		Note
-			.findById(req.params.noteId)
-			.exec()
-			.then(note => {
-				return res.status(200).json(note.noteAPIRepr());
-			})
-			.catch(err => {
-				console.log(err);
-				res.status(500).json({errorMsg: "internal server error"});
-			})
-	},
-
-	getSection: function(req, res) {
-		Note
-			.findById(req.params.noteId)
-			.exec()
-			.then(note => {
-				for (let i=0; i<note.notes.length; i++) {
-					if (note.notes[i].id === req.params.sectionId) {
-						return res.status(200).json({id: note.id, note: note.notes[i]}); 
-					}
-				}
-			})
-			.catch(err => {
-				console.log(err);
-				return res.status(500).json({errMessage: "hello world!"});
-			})
-	},
-
 	deleteNote: function (req, res) {
 		let note;
 		Note
@@ -188,13 +157,17 @@ let noteController = {
 					console.log(err);
 					return res.status(500).json({errorMsg: "internal server error"}); 
 				}
-				console.log(note);
+			
+				if(!_note) {
+					console.log('no note exists with the id given.');
+					return res.status(500).json({errorMsg: "user not found!"});
+				}
 			})
 			.exec()
 			.then(function() {
 		 		//remove the note ref object.
 				User
-					.findByIdAndUpdate(req.user._id, { $pull: {userNotes: note}})
+					.findByIdAndUpdate(req.cookies.id, { $pull: {userNotes: note}}) //req.user._id
 					.exec()
 					.then(function () {
 						res.status(204).end();
@@ -222,29 +195,6 @@ let noteController = {
 			}
 		})
 		
-		//update the sections
-		if ("header" in updatedFields && "note" in updatedFields) {
-			Note
-				.findById(req.params.noteId)
-				.exec()
-				.then(userNote => {
-					for (let i=0, length=userNote.notes.length; i<length;  i++) {
-						if (userNote.notes[i].id === req.body.id) {
-							userNote.notes[i].header = req.body.header;
-							userNote.notes[i].note = req.body.note;
-							
-							userNote.save(function (err, updatedNote) {
-    							if (err) {
-    								console.log(err);
-    							}
-    							res.status(204).end();
-  							});
-						}
-					}
-				})
-				.catch(err => res.send(err))
-		}
-		
 		Note
 			.findByIdAndUpdate({"_id": req.params.noteId}, 
 				newValues, 
@@ -259,19 +209,19 @@ let noteController = {
 				})
 	},
 	
-	startNote: function (req, res) {
+	createNote: function (req, res) {
 		//start note consists of just writing the 
 		//the titles for the note. so it is sort of the setup for the note. 
 		let newNote = new Note ({
-			"user": req.user._id,
+			"user": req.cookies.id,
 			"title": req.body.title, 
-			"subtitle": req.body.subtitle
+			"content": req.body.content
 		});
 
 		newNote.save(function(err, note) {
 			if (err) {return console.log(err)};
 			User
-	   	 		.findByIdAndUpdate(req.user._id, { $push: {userNotes: note._id}})
+	   	 		.findByIdAndUpdate(req.cookies.id, { $push: {userNotes: note._id}})
 	   	 		.exec()
 	   	 		.then(res.status(201).json(note.noteAPIRepr()))
 	   	 		.catch(err => {
@@ -279,33 +229,7 @@ let noteController = {
 	   	 			res.status(500).json({errorMsg: "internal server error"});
 	   	 		})
 		});
-	}, 
-
-	createNote: function(req, res) {
-		let newNoteSection = {
-			"header": req.body.header,
-			"note": req.body.note
-		}
-	
-		Note
-			.findByIdAndUpdate(req.params.noteId, { $push: {notes: newNoteSection}})
-			.exec()
-			.then(userNote => {
-				return Note.findOne({'notes.header': req.body.header, 'notes.note': req.body.note});
-			})
-			.then(updatedNote => {
-				for (let i=0, length=updatedNote.notes.length; i<length;  i++) {
-					if (updatedNote.notes[i].note === req.body.note) {
-						res.status(201).json({id: req.params.noteId, theNote: updatedNote.notes[i]})
-					}
-				}
-			})
-			.catch(err => {
-				console.log(err);
-				res.status(500).json({errorMsg: "internal server error"});
-			})
 	}
-
 }
 
 module.exports = {userController, noteController};
