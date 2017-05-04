@@ -1,44 +1,70 @@
 var appTemplates = {
 
-    getEditTemp: function (noteId, title, content) {
+    getNewNoteTemp: function () {
+            return  `<div class="note-container">    
+                        <div class="edit-title-container create-note-title">
+                            <label class="new-note-label">Title:</label>
+                            <input type="text" id="new-title" placeholder="ex. Today's Class" />
+                        </div>
+                        <div class="editing-note-container create-note-content">
+                            <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
+                            <label class="new-note-label">Note:</label>
+                            <textarea id="new-note" placeholder="ex. Today was fun. I learned nothing."></textarea>
+                            <div class="create-button-container"><button class="create-note">Create</button></div>
+                        </div>
+                    </div>`
+    },
+
+    //The next two functions should be refactored 
+    getNoteTemp: function (noteId, title, content) {
         return `<div class="note-id">${noteId}</div>
-                <div class="note-container">
-                    <div class="note-title">${title}</div>    
-                    <div class="edit-title-container" style="display: none;">
-                        <input type="text" id="edit-title" />
-                        <button type="submit" id="update-title">Update</button>
-                        <button id="cancel-update">Cancel</button>
+                <div class="note-container container">
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="note-title">${title}</div>    
+                            <div class="edit-title-container" style="display: none;">
+                                <input type="text" id="edit-title" />
+                                <button type="submit" id="update-title">Update</button>
+                                <button id="cancel-update">Cancel</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="note hide-note"></div>
-                    <div class="editing-note-container">
-                        <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
-                        <textarea id="edit-note">${content}</textarea>
-                        <div class="save-button-container"><button class="save-note">Save</button></div>
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="note hide-note">${content}</div>
+                            <div class="editing-note-container" style="display: none;">
+                                <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
+                                <textarea id="edit-note" class="note-editor"></textarea>
+                                <div class="save-button-container"><button class="save-note">Save</button></div>
+                            </div>
+                        </div>
                     </div>
                 </div>`
     },
 
-    getNewNoteTemp: function (noteId) {
-            return  `<div class="row">
-                        <div class="col-12 header-container">
-                            <!--this will be hidden at first -->
-                            <div class="emtpy-titles-error">PLEASE FILL OUT BOTH FIELDS!</div>
-                            <div class="header-name"> 
-                                <span class="header-text"></span> 
-                            </div>
-                            <div class="header-value">  
-                                <div class="note-error-message">PLEASE FILL OUT 'Header' Field</div>
-                                    <label class="header-label">header</label>
-                                    <input type="text" name="header" class="update-header-field" required />
-                                    <div class="note-id">${noteId}</div>
-                            </div> 
-                            <div class="note"></div>
-                            <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
-                            <div class="editing-note-container">
-                                <textarea class="edit-note"></textarea>
-                                <div class="create-button-container"><button class="create-note">Create Note</button></div>
+    getEditTemp: function (noteId, title, content) {
+        return `<div class="note-id">${noteId}</div>
+                <div class="note-container container">
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="note-title">${title}</div>    
+                            <div class="edit-title-container" style="display: none;">
+                                <input type="text" id="edit-title" />
+                                <button type="submit" id="update-title" class="update-title-button">Update</button>
+                                <button id="cancel-update" class="update-title-button">Cancel</button>
                             </div>
                         </div>
-                    </div>`
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="note hide-note"></div>
+                            <div class="editing-note-container">
+                                <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
+                                <textarea id="edit-note" class="note-editor">${content}</textarea>
+                                <div class="save-button-container"><button class="save-note">Save</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
     }
 }
