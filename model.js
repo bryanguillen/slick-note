@@ -33,7 +33,9 @@ const noteSchema = mongoose.Schema({
 noteSchema.methods.noteAPIRepr = function() {
 	return {
 		id: this._id,
-		user: this.user
+		user: this.user,
+		title: this.title,
+		content: this.content
 	}
 }
 
