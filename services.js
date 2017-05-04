@@ -95,16 +95,18 @@ const services = {
 	},
 
  	createUserFeedMarkup: function(note) {
-	return  `<div class="note-id" style="display: none;">${note._id}</div>
-				<div class="user-note">
-					<span class="note-header note-title"> ${note.title} </span>  
-					<a href="#" class="view-note">view note</a>
-					<div class="delete-container">
-                        <a href="#" class="delete-button">Delete Note</a>
-                        <span class="confirm-delete">Are you sure</span>
-                        <a href="#" class="confirm-delete confirm-delete-button">Yes</a>
-                    </div>
-			</div>`
+	return  `<div class="card user-note">
+    			<div class="card-content">
+      				<div class="note-id" style="display: none;">${note._id}</div>
+      				<span class="card-title activator grey-text text-darken-4">${note.title}<i class="material-icons right">read note</i></span>
+      				<p><a href="#" class="edit">Edit</a></p>
+      				<p><a href="#">Delete</a></p>
+    			</div>
+    			<div class="card-reveal">
+      				<span class="card-title grey-text text-darken-4">${note.title}<i class="material-icons right">close</i></span>
+      				<p>${note.content}</p>
+    			</div>
+  			</div>`
 	},
 
 	getUserHomeMarkup: function(notes) { 
@@ -132,6 +134,7 @@ const services = {
 				<main>${notes}</main>
 
 				<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+				<script type="text/javascript" src="js/materialize.min.js"></script> 
 				<script type="text/javascript" src="js/template.js"></script>
 				<script type="text/javascript" src="js/userApp.js"></script>
 			</body>
