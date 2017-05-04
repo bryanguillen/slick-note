@@ -1,21 +1,102 @@
-@import url('https://fonts.googleapis.com/css?family=Quicksand');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
 
 body *{
 	box-sizing: border-box;
 }
 
+html {
+	height: 100%;
+}
+
 body {
-	font-family: 'Quicksand';
-	background-color:  #e0e0d1
+	font-family: 'Roboto';
+	background-color: #f3f4f5; 
 }
 
 nav {
-	padding-top: 5px;
-	background-color: #99d6ff;
-	border-bottom: 1px solid #008ae6;
+	background: #ee4343;
 }
 
+nav .menu {
+	color: #ffffff;
+}
+
+.user-note a {
+	color: black;
+	text-decoration: none;
+}
+
+.user-note a:hover {
+	color: #ee4343;
+}
+
+
+.medium-view .button {
+	display: inline-block;
+}
+
+.nav-button {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+.nav-button:hover {
+	color: black;
+}
+
+ul.side-nav {
+	background: #ee4343;
+	padding-top: 15px;
+}
+
+ul.side-nav a {
+	color: white;
+}
+
+.note-id, .note-error-message {
+	display: none;
+}
+
+.note-container {
+	padding-top: 15px;
+	height: 100%;
+	padding-bottom: 5px;
+}
+
+.note-title {
+	font-size: 1.5em;
+}
+
+.note-editor {
+	height: 75vh;
+	resize: none;
+	background-color: #ffffff;
+	padding-top: 15px;
+	padding-left: 5px;
+	padding-right: 5px;
+	border: 1px solid #6e6d72;
+}
+
+.save-button-container {
+	text-align: center;
+}
+
+.save-note, .update-title-button {
+	border: 0;
+	background: #ee4343;
+	color: #ffffff;
+	height: 25%;
+	width: 35%;
+}
+
+@media screen and (max-width: 992px) {
+	.medium-viewport-nav {
+		display: none;
+	}
+}
+
+/*
 button {
 	background-color: #99d6ff;
 	color: white;
@@ -276,11 +357,10 @@ span.note-section {
 
 }
 
-/*js styling for now */
 .edit-title, .hide-edit-note, .confirm-delete, .edit-header{
 	display: none;
 }
 
 .note-id, .section-id, .hide-sections, .emtpy-titles-error {
 	display: none;
-}
+}*/
