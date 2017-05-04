@@ -8,13 +8,48 @@
 	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 	<!-- Normalize.css, a cross-browser reset file -->
   	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css" rel="stylesheet">
-  	<link rel="stylesheet" type="text/css" href="css/grid.css">
-  	<!-- custom css sheet -->
+  	<!--custom css page-->
+  	<link rel="stylesheet" type="text/css" href="css/materialize.min.css">
+  	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   	<link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>			
 	<main>
-		<div class="signup-container">
+		<div class="container landing-page">
+			<div class="row">
+				<div class="col s12 m10 offset-m1 app-name-container">
+					<h2 class="landing-text app-name">Slick Notes</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col s12 m10 offset-m1 app-slogan-container">
+					<h3 class="landing-text app-slogan">Where Notes Matter</h3>
+				</div>
+			</div>
+			<div class="row options-row">
+				<div class="col s12 m4 unauthorized-options">
+					<div class="option">
+						<a href="#" class="icon-link icon-demo"><i class="material-icons icon-option">skip_next</i></a>
+						<div class="icon-description">Demo Slick Note</div>
+					</div>
+				</div>
+				<div class="col s12 m4 unauthorized-options">
+					<div class="option">
+						<a href="#" class="icon-link icon-signup"><i class="material-icons icon-option">done</i></a>
+						<div class="icon-description">Sign Up</div>
+					</div>
+				</div>
+				<div class="col s12 m4 unauthorized-options">
+					<div class="option">
+						<a href="#" class="icon-link icon-login"><i class="material-icons icon-option">trending_flat</i></a>
+						<div class="icon-description">Login</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+		<!-- comment out for now -->
+		<!-- <div class="signup-container">
 			<div class="inner-container">
 			<div class="row">
 				<div class="col-12 signup-content">
@@ -35,9 +70,20 @@
 				</div>
 			</div>
 			</div>
-		</div>
-	</main>
+		</div> -->
 	<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+	<script type="text/javascript" src="js/typed.js"></script>
+	<script type="text/javascript">
+		setTimeout(function(){
+        $(".app-name").typed({
+            strings: ["Slick Notes"],
+            typeSpeed: 100, // typing speed
+            loop: false, // loop on or off (true or false)
+            loopCount: 0, // number of loops, false = infinite
+            callback: function(){ } // call function after typing is done
+        });
+    }, 0);
+	</script>
 	<script type="text/javascript" src="js/unauthorizedTemplates.js"></script>
 	<script type="text/javascript" src="js/unauthorizedClient.js"></script>
 </body>
