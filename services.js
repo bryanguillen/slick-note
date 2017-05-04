@@ -95,21 +95,15 @@ const services = {
 	},
 
  	createUserFeedMarkup: function(note) {
-	return  `<div class="row user-note-container"> 
-				<div class="col-12">
-					<div class="note-id">${note._id}</div>
-					<div class="user-note">
-						<span class="note-header note-title"> ${note.title} </span> 
-						<span class="note-header note-subtitle"> ${note.subtitle} </span> 
-						<a href="#" class="view-note">view note</a>
-						<div class="delete-container">
-                            <div class="note-id">${note._id}</div>
-                            <a href="#" class="delete-button">Delete Note</a>
-                            <span class="confirm-delete">Are you sure</span>
-                            <a href="#" class="confirm-delete confirm-delete-button">Yes</a>
-                        </div>
-					</div>
-				</div>
+	return  `<div class="note-id" style="display: none;">${note._id}</div>
+				<div class="user-note">
+					<span class="note-header note-title"> ${note.title} </span>  
+					<a href="#" class="view-note">view note</a>
+					<div class="delete-container">
+                        <a href="#" class="delete-button">Delete Note</a>
+                        <span class="confirm-delete">Are you sure</span>
+                        <a href="#" class="confirm-delete confirm-delete-button">Yes</a>
+                    </div>
 			</div>`
 	},
 
@@ -124,19 +118,15 @@ const services = {
   				<!-- normalize css packages -->
   				<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css" rel="stylesheet">
   				<!--custom css page-->
-  				<link rel="stylesheet" type="text/css" href="css/grid.css">
+  				<link rel="stylesheet" type="text/css" href="css/materialize.min.css">
   				<link rel="stylesheet" type="text/css" href="css/main.css">
 			</head>
 			<body>
 	
 				<nav>
-            		<div class="row">
-                		<div class="col-12 nav-container">
-                    		<a href="#" class="home nav-button">Home</a>
-                    		<a href="#" class="new-note-button nav-button">New Note</a>
-                    		<a href="#" class="logout nav-button">Logout</a>
-                		</div>
-            		</div>        
+                    <a href="#" class="home nav-button">Home</a>
+                    <a href="#" class="new-note-button nav-button">New Note</a>
+                    <a href="#" class="logout nav-button">Logout</a>        
         		</nav>
 
 				<main>${notes}</main>
