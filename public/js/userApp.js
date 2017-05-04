@@ -20,7 +20,7 @@ function renderNewNoteTemplate(note) {
 	$('main').html(appTemplates.getNewNoteTemp(note.id));
 }
 
-
+//EVENT LISTENERS
 function getUserHome() {
 	//beware this get call. 
 	$('nav').on('click', '.home', function(event) {
@@ -57,46 +57,6 @@ function clickNewNote() {
 	});
 }
 
-function editNote() {
-	$('main').on('click', 'a.edit', function(event) {
-		event.preventDefault();
-		var cardContentParent = $(this).closest('div.card-content'); //the parent 
-		var noteId = cardContentParent.find('div.note-id').text(); 
-		var settings = {
-			type: 'GET',
-			url: '/note/' + noteId,
-			dataType: "json",
-			success: renderEditTemp //THE LANDING PAGE FOR ALL NOTES
-		}
-		return $.ajax(settings);
-	})
-}
-
-function startNewNote() {
-	$('main').on('click', '.start-notes', function(event) {
-		//using event listener in order to not change the url to new note
-		event.preventDefault();
-		$('.emtpy-titles-error').hide();
-		var title = $(this).parent().find('input[name="title"]').val();
-		var subtitle = $(this).parent().find('input[name="subtitle"]').val();
-		var settings = {
-			type: 'POST',
-			url: '/new-note',
-			data: {
-				"title": title,
-				"subtitle": subtitle
-			},
-			dataType: 'json',
-			success: renderNewNoteTemplate
-		}
-
-		if (title.trim().length === 0 || subtitle.trim().length === 0) {
-			return $('.emtpy-titles-error').show();
-		}
-		return $.ajax(settings);
-	})
-}
-
 function createNewNote() {
 	$('main').on('click', '.create-note', function(event) {
 		event.preventDefault();
@@ -123,86 +83,99 @@ function createNewNote() {
 	});
 }
 
+function editNote() {
+	$('main').on('click', 'a.edit', function(event) {
+		event.preventDefault();
+		var cardContentParent = $(this).closest('div.card-content'); //the parent 
+		var noteId = cardContentParent.find('div.note-id').text(); 
+		var settings = {
+			type: 'GET',
+			url: '/note/' + noteId,
+			dataType: "json",
+			success: renderEditTemp 
+		}
+		return $.ajax(settings);
+	})
+
+	$('main').on('click', 'div.note', function(event) {
+		event.preventDefault();
+		var noteText = $(this).text();
+		$('div.editing-note-container').val(noteText).show();
+		$('div.note').text('').hide(); //set empty text val for it. 
+	})
+
+}
+
 function updateNote() {
 	//updating the actual note
 	$('main').on('click', 'button.save-note', function(event) {
 		event.preventDefault();
 		$('.emtpy-titles-error').hide();
-		//ugly solutions for now for both noteText and noteId.
-		var noteText = $(this).parent().prev().val();
-		var newHeader = $(this).parent().parent().parent().parent().prev().find('.header-container').find('.header').find('span.header-text').text()
-		var noteId = $('div.note-id').text();
-		var sectionId = $('div.section-id').text();
 
+		var noteText = $('textarea').val();
+		var noteId = $('div.note-id').text();
+		
 		if (noteText.trim().length === 0) {
 			return $('.emtpy-titles-error').show();
-		}
-		
+		}	
 		var settings = {
 		  	type: 'PUT',
 		  	url: '/note/' + noteId,
 	  		data: {
-	  			"id": sectionId,
-	  			"header": newHeader,
-	  			"note": noteText 
-	  		}	
+	  			"_id": noteId,
+	  			"content": noteText
+	  		}
 	 	}
 		
-		$(this).parent().prev().prev().hide();
 		$('div.editing-note-container').hide();
 		$('div.note').text(noteText).show();
 		return $.ajax(settings);
 	})
 }
 
+function editTitle() {
+	$('main').on('click', '.note-title', function(event) {
+		event.preventDefault();  
+		var noteTitle = $(this).text();
+		$('div.note-title').hide();
+		$('#edit-title').val(noteTitle);
+		$('div.edit-title-container').show(); 
+	})
+}
+
+function cancelTitleUpdate() {
+	$('main').on('click', '#cancel-update', function(event) {
+		event.preventDefault();
+		$('.edit-title-container').hide();
+		$('.note-title').show();
+	})
+}
+
 function updateTitle() {
 	//updating the titles
-	$('main').on('click', '.update-titles', function(event) {
+	$('main').on('click', '#update-title', function(event) {
 		event.preventDefault();
 		$('.emtpy-titles-error').hide();
 		var noteId = $('div.note-id').text();
 
-		var newTitle = $(this).prev().find('input[name="title"]').val();
-		var newSubtitle = $(this).prev().find('input[name="subtitle"]').val();
-		var editTitlesParent = $(this).parent();
-
+		var newTitle = $('#edit-title').val();
 		//client side validation
-		if (newTitle.trim() === 0 || newSubtitle.trim() === 0) {
+		if (newTitle.trim() === 0) {
 			return $('.emtpy-titles-error').show();;
 		}
-
-		//set the values
-		editTitlesParent.prev().find('span.title-text').text(newTitle);
-		editTitlesParent.prev().find('span.subtitle-text').text(newSubtitle); 
-		editTitlesParent.hide();
-		editTitlesParent.prev().show();
 
 		var settings = {
 	  		type: 'PUT',
 	  		url: '/note/' + noteId,
 	  		data: {
-	  			"title": newTitle,
-	  			"subtitle": newSubtitle
+	  			"_id": noteId,
+	  			"title": newTitle
 	  		}	
 	 	}
+		
+	 	$('.edit-title-container').hide();
+		$('.note-title').text(newTitle).show();
 		return $.ajax(settings);
-	})
-}
-
-function cancelTitleUpdate() {
-	$('main').on('click', '.cancel-update', function(event) {
-		event.preventDefault();
-		var titleParent = $(this).parent();
-		titleParent.hide();
-		titleParent.prev().show();
-	})
-}
-
-function editTitle() {
-	$('main').on('click', '.titles', function(event) {
-		event.preventDefault();  
-		$('div.titles').hide();
-		$('div.edit-title').show(); 
 	})
 }
 
@@ -229,13 +202,13 @@ function confirmDelete() {
 $(function() {
 	getUserHome();
 	getLogout();
-	editNote();
-	startNewNote();
+	clickNewNote();
 	createNewNote();
+	editNote();
 	updateNote();
-	updateTitle();
-	cancelTitleUpdate();
 	editTitle();
+	cancelTitleUpdate();
+	updateTitle();
 	deleteNote();
 	confirmDelete();
 })
