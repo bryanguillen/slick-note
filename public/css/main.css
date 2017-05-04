@@ -14,6 +14,40 @@ body {
 	background-color: #f3f4f5; 
 }
 
+.landing-page {
+	color: #6e6d72;;
+}
+
+div.app-name-container, div.app-slogan-container, div.option {
+	text-align: center;
+}
+
+.app-name {
+	max-width: 100%;
+}
+
+span.typed-cursor {
+	display: none;
+}
+
+.option {
+	margin-top: 20px;
+}
+
+.icon-option {
+	background-color: #ee4343;
+	color: white;
+	width: 20%;
+	height: 35px;
+	border-radius: 75%;
+
+}
+
+.icon-description {
+	font-size: 25px;
+	margin-top: 10px;
+}
+
 label  {
 	font-size: 20px;
 	color: #6e6d72;
@@ -25,6 +59,10 @@ nav {
 
 nav .menu {
 	color: #ffffff;
+}
+
+.mobile-logo {
+	margin-left: 5px;
 }
 
 .container {
@@ -42,6 +80,10 @@ nav .menu {
 
 .confirm-delete {
 	margin-left: 5px;
+}
+
+.medium-viewport-nav {
+	display: inline-block;
 }
 
 .medium-view .button {
@@ -108,9 +150,22 @@ ul.side-nav a {
 	.medium-viewport-nav {
 		display: none;
 	}
+
+	.option {
+		text-align: center;
+	}
 }
 
 @media screen and (min-width: 992px) {
+	
+	.app-name {
+		font-size: 5em; 
+	}
+
+	.icon-option {
+		height: 30px;
+	}
+
 	/*.note-container {
 		text-align: center;
 	}
