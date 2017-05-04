@@ -95,7 +95,10 @@ const services = {
 	},
 
  	createUserFeedMarkup: function(note) {
-	return  `<div class="card user-note">
+	return  `
+			<div class="row">
+			<div class="col m10 offset-m1">
+			<div class="card user-note">
     			<div class="card-content">
       				<div class="note-id" style="display: none;">${note._id}</div>
       				<span class="card-title activator grey-text text-darken-4">${note.title}<i class="material-icons right">more_vert</i></span>
@@ -107,6 +110,8 @@ const services = {
       				<span class="card-title grey-text text-darken-4">${note.title}<i class="material-icons right">close</i></span>
       				<p>${note.content}</p>
     			</div>
+  			</div>
+  			</div>
   			</div>`
 	},
 
@@ -157,7 +162,7 @@ const services = {
   					</ul> 
         		</nav>
 
-				<main>${notes}</main>
+				<main><div class="container">${notes}</div></main>
 
 				<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
 				<script type="text/javascript" src="js/materialize.js"></script>
