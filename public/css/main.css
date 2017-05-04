@@ -40,6 +40,9 @@ nav .menu {
 	color: #ee4343;
 }
 
+.confirm-delete {
+	margin-left: 5px;
+}
 
 .medium-view .button {
 	display: inline-block;
