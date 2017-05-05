@@ -126,6 +126,10 @@ ul.side-nav a {
 	overflow-wrap: break-word;
 }
 
+.highlighted {
+	background-color: yellow;
+}
+
 .note-editor {
 	height: 75vh;
 	resize: none;
