@@ -9,6 +9,14 @@ var appTemplates = {
                                     <input type="text" id="new-title" placeholder="ex. Today's Class" />
                                 </div>
                             </div>
+                            <div class="col m6 instructions-container">
+                                <div class="instructions">
+                                    <ul>
+                                        <li>Please Fill out both Fields</li>
+                                        <li>Highlight text: use two back ticks before and ater word.</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
@@ -37,6 +45,13 @@ var appTemplates = {
                                 <button id="cancel-update">Cancel</button>
                             </div>
                         </div>
+                        <div class="col m6 instructions-container">
+                                <div class="instructions">
+                                    <ul>
+                                        <li>Highlight text: use two back ticks before and ater word.</li>
+                                    </ul>
+                                </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col s12 m6">
@@ -62,6 +77,13 @@ var appTemplates = {
                                 <input type="text" id="edit-title" />
                                 <button type="submit" id="update-title" class="update-title-button">Update</button>
                                 <button id="cancel-update" class="update-title-button">Cancel</button>
+                            </div>
+                        </div>
+                        <div class="col m6 instructions-container">
+                            <div class="instructions">
+                                <ul>
+                                    <li>Highlight text: use two back ticks before and ater word.</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
