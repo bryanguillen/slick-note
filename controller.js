@@ -1,5 +1,5 @@
 const {User, Note} = require('./model');
-const {services} = require('./services');
+const {domServices} = require('./services');
 
 let userController = {
 	
@@ -22,12 +22,12 @@ let userController = {
 			.then(function(json) {
 				let notes = '';
 				json.userNotes.forEach(function(note) {
- 					notes += services.createUserFeedMarkup(note);
+ 					notes += domServices.createUserFeedMarkup(note);
  	 			})
 				return notes
 			})
 			.then(notes => {
-				return res.cookie('id', req.params.id).status(200).send(services.getUserHomeMarkup(notes)); //just setting cookie for now.
+				return res.cookie('id', req.params.id).status(200).send(domServices.getUserHomeMarkup(notes)); //just setting cookie for now.
 			})
 			.catch(err => {
 		  		console.log(err);
@@ -44,17 +44,17 @@ let userController = {
 		Object.keys(req.body).forEach(function(field) {
 			let submittedValue = req.body[field];
 			if(submittedValue.trim() === '') {
-				return res.status(422).send(services.displaySignupError('Incorrect Length:' + field + ' is empty'));
+				return res.status(422).send(domServices.displaySignupError('Incorrect Length:' + field + ' is empty'));
 			} 
 			else if(typeof submittedValue !== 'string') {
-				return res.status(422).send(services.displaySignupError('Incorrect datatype: ' + field + ' is wrong field type'));	
+				return res.status(422).send(domServices.displaySignupError('Incorrect datatype: ' + field + ' is wrong field type'));	
 			}
 		})
 		
 		let {username, email, password, passwordConfirmation} = req.body;
 
  		if(password !== passwordConfirmation) {
- 			return res.status(422).send(services.displaySignupError('passwords do not match'));
+ 			return res.status(422).send(domServices.displaySignupError('passwords do not match'));
  		}
 
 		email = email.trim().toLowerCase(); 
@@ -68,7 +68,7 @@ let userController = {
 				.exec()
 				.then(count => {
 					if(count>0) {
-						throw newres.status(422).send(services.displaySignupError('username already exists'));
+						throw newres.status(422).send(domServices.displaySignupError('username already exists'));
 					}
 					return User.hashPassword(password)
 				})
@@ -85,7 +85,7 @@ let userController = {
 						User
 	   	 					.find(user.username)
 	   	 					.exec()
-	   	 					.then(res.status(201).send(services.getLoginMarkup('you have create a new account successfully, now login')))
+	   	 					.then(res.status(201).send(domServices.getLoginMarkup('you have create a new account successfully, now login')))
 	   	 					.catch(err => {
 	   	 						console.log(err);
 	   	 						res.status(500).json({errorMsg: "internal server error"});
@@ -98,7 +98,7 @@ let userController = {
 	signout: function (req, res) {
 		try {
 				req.session.destroy(function (err) {
-					res.clearCookie('id').send(services.getLoginMarkup('you have signed out successfully')); //this is subject to change 
+					res.clearCookie('id').send(domServices.getLoginMarkup('you have signed out successfully')); //this is subject to change 
 				})
   		}
 		catch (err) {
@@ -113,11 +113,11 @@ let userController = {
   	}, 
 
   	getLogin: function (req, res) {
-		res.send(services.getLoginMarkup('login page'))
+		res.send(domServices.getLoginMarkup('login page'))
   	},
 
   	failedLogin: function (req, res) {
-  		res.send(services.getLoginMarkup('invalid username/password'));
+  		res.send(domServices.getLoginMarkup('invalid username/password'));
   	}
 }
 
