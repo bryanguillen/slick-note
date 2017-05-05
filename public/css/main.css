@@ -130,6 +130,10 @@ ul.side-nav a {
 	background-color: yellow;
 }
 
+.highlighted-error {
+	display: none;
+}
+
 .note-editor {
 	height: 75vh;
 	resize: none;
