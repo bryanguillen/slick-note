@@ -42,6 +42,7 @@ var appTemplates = {
                             <div class="note hide-note">${content}</div>
                             <div class="editing-note-container" style="display: none;">
                                 <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
+                                <div class="highlighted-error">PLEASE MAKE SURE ALL TICKS ARE INCLUDED IF HIGHLIGHTING. ``HIGHLIGHTED WORD``</div>
                                 <textarea id="edit-note" class="note-editor"></textarea>
                                 <div class="save-button-container"><button class="save-note">Save</button></div>
                             </div>
@@ -68,6 +69,7 @@ var appTemplates = {
                             <div class="note hide-note"></div>
                             <div class="editing-note-container">
                                 <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
+                                <div class="highlighted-error">PLEASE MAKE SURE ALL TICKS ARE INCLUDED IF HIGHLIGHTING.</div>
                                 <textarea id="edit-note" class="note-editor">${content}</textarea>
                                 <div class="save-button-container"><button class="save-note">Save</button></div>
                             </div>
