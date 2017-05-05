@@ -28,7 +28,7 @@ var appTemplates = {
         return `<div class="note-id">${noteId}</div>
                 <div class="note-container container">
                     <div class="row">
-                        <div class="col s12">
+                        <div class="col s12 m6">
                             <div class="note-title">${title}</div>    
                             <div class="edit-title-container" style="display: none;">
                                 <input type="text" id="edit-title" />
@@ -38,7 +38,7 @@ var appTemplates = {
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col s12">
+                        <div class="col s12 m6">
                             <div class="note hide-note">${content}</div>
                             <div class="editing-note-container" style="display: none;">
                                 <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
