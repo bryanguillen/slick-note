@@ -1,3 +1,28 @@
+//INPUT MANIPULATION 
+//LACK OF A BETTER NAME FOR THE 
+//FUNCTIONS! RENAME ASAP!
+function noteFormatter(string) {
+	var lineBreak = '<br>';
+	var brString = string.replace(/\n/g, lineBreak);
+	function spaceRecognizer(brString) {
+		var nbSpace = '&nbsp;';
+		var fullyFormattedStr = brString.replace(/\s/g, nbSpace);
+		return fullyFormattedStr;
+	}
+	return spaceRecognizer(brString);
+}
+
+function editorFormatter(string) {
+	var lineBreak = '\n';
+	var brString = string.replace(/<br>/g, lineBreak);
+	function spaceRecognizer(brString) {
+		var editorSpace = ' ';
+		var formattedEditor = brString.replace(/&nbsp;/g, editorSpace);
+		return formattedEditor;
+	}
+	return spaceRecognizer(brString);
+}
+
 //DOM MANIPULATION
 function renderUserHome(data) { 
 	//hack for endering user home through ajax call.
@@ -104,8 +129,9 @@ function editNote() {
 
 	$('main').on('click', 'div.note', function(event) {
 		event.preventDefault();
-		var noteText = $(this).text();
-		$('#edit-note').val(noteText);
+		var noteText = $(this).html();
+		var editorText = editorFormatter(noteText);//FOR THE text area! //TODO BETTER IMPLEMENTATION!
+		$('#edit-note').val(editorText);
 		$('div.editing-note-container').show();
 		$('div.note').hide();  
 	})
@@ -119,6 +145,7 @@ function updateNote() {
 
 		var noteText = $('textarea').val();
 		var noteId = $('div.note-id').text();
+		var formattedNoteStr = noteFormatter(noteText); //FOR THE NOTE DIV //TODO BETTER IMPLEMENTATION!
 		
 		if (noteText.trim().length === 0) {
 			return $('.emtpy-titles-error').show();
@@ -131,9 +158,9 @@ function updateNote() {
 	  			"content": noteText
 	  		}
 	 	}
-		
+
 		$('div.editing-note-container').hide();
-		$('div.note').text(noteText).show();
+		$('div.note').append(formattedNoteStr).show();
 		return $.ajax(settings);
 	})
 }
