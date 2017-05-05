@@ -122,6 +122,10 @@ ul.side-nav a {
 	font-size: 1.5em;
 }
 
+.note {
+	overflow-wrap: break-word;
+}
+
 .note-editor {
 	height: 75vh;
 	resize: none;
