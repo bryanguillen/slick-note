@@ -14,8 +14,29 @@ body {
 	background-color: #f3f4f5; 
 }
 
+.login-content, .signup-content, .app-logo {
+	text-align: center;
+}
+
+.authentication-page-header {
+	color: #6e6d72;
+}
+
+.login-form, .signup-form {
+	margin-bottom: 10px;
+}
+
+
+.authentication-button {
+	height: 25%;
+	width: 35%;
+	border: 0;
+	color: white;
+	background-color: #ee4343;
+}
+
 .landing-page {
-	color: #6e6d72;;
+	color: #6e6d72;
 }
 
 div.app-name-container, div.app-slogan-container, div.option {
@@ -67,6 +88,11 @@ nav .menu {
 
 .container {
 	padding-top: 15px;
+}
+
+.instructions-container {
+	text-align: center;
+	font-size: 20px;
 }
 
 .user-note a {
@@ -165,6 +191,10 @@ ul.side-nav a {
 
 	.option {
 		text-align: center;
+	}
+
+	.instructions-container {
+		display: none;
 	}
 }
 
