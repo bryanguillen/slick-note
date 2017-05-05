@@ -1,5 +1,37 @@
 //services for getting and creating app markup in on server.
-const services = {
+const formattingNoteServices = {
+	highlight: function (string) {
+				
+				var stringCharacters = string.split('');
+				var tick = '`';
+				var tickCounter = 0;
+				var tickIndices = [];
+				for (var i=0, length=stringCharacters.length; i<length; i++) {
+					var currentCharacter = stringCharacters[i];
+					var nextCharacter = stringCharacters[i+1];
+					if (currentCharacter===tick && nextCharacter===tick) {
+						tickCounter += 1;
+						if (tickCounter % 2 !== 0) {
+							stringCharacters.splice(i, 1, '<span class="highlighted">')
+							stringCharacters.splice(i+1, 1);
+							tickIndices.push(i);
+						}
+						else { 
+							stringCharacters.splice(i, 1, '</span>')
+							stringCharacters.splice(i+1, 1);
+							tickIndices.push(i);
+						} 
+					}
+				}
+	
+				if (tickCounter % 2 !== 0) {
+					return false
+				}
+				return stringCharacters.join('');
+	}
+}
+
+const domServices = {
 
 	displaySignupError: function(errorMessage) {
 		return `<!DOCTYPE html>
@@ -95,6 +127,7 @@ const services = {
 	},
 
  	createUserFeedMarkup: function(note) {
+	let content = formattingNoteServices.highlight(note.content);
 	return  `
 			<div class="row">
 			<div class="col s12 m10 offset-m1">
@@ -108,7 +141,7 @@ const services = {
     			</div>
     			<div class="card-reveal">
       				<span class="card-title grey-text text-darken-4">${note.title}<i class="material-icons right">close</i></span>
-      				<p>${note.content}</p>
+      				<p>${content}</p>
     			</div>
   			</div>
   			</div>
@@ -183,4 +216,5 @@ const services = {
 			</html>`
 	}
 }
-module.exports = {services};
+
+module.exports = {domServices};
