@@ -28,6 +28,7 @@ function editorFormatter(string) {
 function highlighter(string) {
 	//add yellow highlighting when two tick marks are encloessed by anothed
 	//two tick marks
+	$('div.highlighted-error').hide();
 	var stringCharacters = string.split('');
 	var tick = '`';
 	var tickCounter = 0;
@@ -48,6 +49,10 @@ function highlighter(string) {
 				tickIndices.push(i);
 			} 
 		}
+	}
+	
+	if (tickCounter % 2 !== 0) {
+		return false
 	}
 	return stringCharacters.join('');
 }
@@ -128,6 +133,7 @@ function createNewNote() {
 	$('main').on('click', '.create-note', function(event) {
 		event.preventDefault();
 		$('.emtpy-titles-error').hide();
+		$('.highlighted-error').hide();
 		var newTitle = $('#new-title').val();
 		var newNoteText = $('#new-note').val();
 		var settings = {
@@ -145,6 +151,10 @@ function createNewNote() {
 			return $('.emtpy-titles-error').show();
 		}
 		
+		if(!highlighter(formattedNoteStr)) {
+	 		return $('.highlighted-error').show()
+	 	}
+
 		return $.ajax(settings);
 	});
 }
@@ -181,7 +191,7 @@ function updateNote() {
 	$('main').on('click', 'button.save-note', function(event) {
 		event.preventDefault();
 		$('.emtpy-titles-error').hide();
-
+		$('.highlighted-error').show()
 		var noteText = $('textarea').val();
 		var noteId = $('div.note-id').text();
 		var formattedNoteStr = noteFormatter(noteText); //FOR THE NOTE DIV //TODO BETTER IMPLEMENTATION!
@@ -195,6 +205,10 @@ function updateNote() {
 	  			"_id": noteId,
 	  			"content": noteText
 	  		}
+	 	}
+
+	 	if(!highlighter(formattedNoteStr)) {
+	 		return $('.highlighted-error').show()
 	 	}
 
 		$('div.editing-note-container').hide();
