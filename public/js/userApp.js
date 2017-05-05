@@ -1,6 +1,8 @@
 //INPUT MANIPULATION 
 //LACK OF A BETTER NAME FOR THE 
 //FUNCTIONS! RENAME ASAP!
+//SIMPLE IMPLEMENTATIONS FOR 
+//PROTOTYPE
 function noteFormatter(string) {
 	var lineBreak = '<br>';
 	var brString = string.replace(/\n/g, lineBreak);
@@ -23,6 +25,42 @@ function editorFormatter(string) {
 	return spaceRecognizer(brString);
 }
 
+function highlighter(string) {
+	//add yellow highlighting when two tick marks are encloessed by anothed
+	//two tick marks
+	var stringCharacters = string.split('');
+	var tick = '`';
+	var tickCounter = 0;
+	var tickIndices = [];
+	for (var i=0, length=stringCharacters.length; i<length; i++) {
+		var currentCharacter = stringCharacters[i];
+		var nextCharacter = stringCharacters[i+1];
+		if (currentCharacter===tick && nextCharacter===tick) {
+			tickCounter += 1;
+			if (tickCounter % 2 !== 0) {
+				stringCharacters.splice(i, 1, '<span class="highlighted">')
+				stringCharacters.splice(i+1, 1);
+				tickIndices.push(i);
+			}
+			else { 
+				stringCharacters.splice(i, 1, '</span>')
+				stringCharacters.splice(i+1, 1);
+				tickIndices.push(i);
+			} 
+		}
+	}
+	return stringCharacters.join('');
+}
+
+function removeHighlighter(string) {
+	var removeOpeningTags = string.replace(/<span class="highlighted">/g, '``');
+	function removeClosingTags(string) {
+		var textString = string.replace(/<\/span>/g, '``');
+		return textString;
+	}
+	return removeClosingTags(removeOpeningTags);
+}
+
 //DOM MANIPULATION
 function renderUserHome(data) { 
 	//hack for endering user home through ajax call.
@@ -42,7 +80,7 @@ function renderNewNoteTemp() {
 }
 
 function renderNoteTemp(noteObj) {
-	$('main').html(appTemplates.getNoteTemp(noteObj.id, noteObj.title, noteObj.content));
+	$('main').html(appTemplates.getNoteTemp(noteObj.id, noteObj.title, highlighter(noteFormatter(noteObj.content))));
 }
 
 function renderEditTemp(noteObj) {
@@ -130,7 +168,8 @@ function editNote() {
 	$('main').on('click', 'div.note', function(event) {
 		event.preventDefault();
 		var noteText = $(this).html();
-		var editorText = editorFormatter(noteText);//FOR THE text area! //TODO BETTER IMPLEMENTATION!
+		var removedHighlighterText =removeHighlighter(noteText); //remove this for protecting textarea from nonsense
+		var editorText = editorFormatter(removedHighlighterText);//FOR THE text area! //TODO BETTER IMPLEMENTATION!
 		$('#edit-note').val(editorText);
 		$('div.editing-note-container').show();
 		$('div.note').hide();  
@@ -146,7 +185,6 @@ function updateNote() {
 		var noteText = $('textarea').val();
 		var noteId = $('div.note-id').text();
 		var formattedNoteStr = noteFormatter(noteText); //FOR THE NOTE DIV //TODO BETTER IMPLEMENTATION!
-		
 		if (noteText.trim().length === 0) {
 			return $('.emtpy-titles-error').show();
 		}	
@@ -160,7 +198,7 @@ function updateNote() {
 	 	}
 
 		$('div.editing-note-container').hide();
-		$('div.note').append(formattedNoteStr).show();
+		$('div.note').html(highlighter(formattedNoteStr)).show();
 		return $.ajax(settings);
 	})
 }
