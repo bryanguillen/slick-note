@@ -44,38 +44,42 @@ const domServices = {
 						<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 						<!-- Normalize.css, a cross-browser reset file -->
   						<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css" rel="stylesheet">
-  						<link rel="stylesheet" type="text/css" href="css/grid.css">
- 					 	<!-- custom css sheet -->
+  						<!--custom css page-->
+  						<link rel="stylesheet" type="text/css" href="css/materialize.min.css">
+  						<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   						<link rel="stylesheet" type="text/css" href="css/main.css">
 					</head>
 					<body>			
 						<main>
-							<div class="signup-container">
-								<div class="inner-container">
-									<div class="row">
-										<div class="col-12 signup-content">
-											<div>${errorMessage}</div>
-											<form method="post" action="/users" class="signup-form" name="register-user">
-												<fieldset name="signup-form">
-													<label class="signup-label">Email</label>
-													<input type="text" name="email" class="signup-field" placeholder="foo@bar.com" required />
-													<label class="signup-label">Username</label>
-													<input type="text" name="username" class="signup-field" placeholder="johnsmith123" required />
-													<label class="signup-label">Password</label>
-													<input type="password" name="password" class="signup-field" required />
-													<label class="signup-label">Confirm Password</label>
-													<input type="password" name="passwordConfirmation" class="signup-field" required />
-													<button class="authentication-button signup" type="submit">Sign Up</button>
-												</fieldset>
-											</form>
-											<a href="#" class="signup-login-links-container get-login">Login</a>
-										</div>
-									</div>
-								</div>
-							</div>
+							<div class="container signup">
+                				<div class="row">
+                    				<div class="col s12 m6 offset-m3 app-logo">
+                        				<h2 class="app-name authentication-page-header">Slick Notes</h2>
+                    				</div>
+                				</div>
+                				<div class="row">
+                    				<div class="col s12 m6 offset-m3 signup-content">
+                        				<form method="post" action="/users" class="signup-form">
+                            			<fieldset name="signup-form">
+                                			<label class="signup-label">Email</label>
+                                			<input type="text" name="email" class="signup-field" placeholder="foo@bar.com" required />
+                                			<label class="signup-label">Username</label>
+                                			<input type="text" name="username" class="signup-field" placeholder="johnsmith123" required />
+                                			<label class="signup-label">Password</label>
+                                			<input type="password" name="password" class="signup-field" required />
+                                			<label class="signup-label">Confirm Password</label>
+                                			<input type="password" name="passwordConfirmation" class="signup-field" required />
+                                			<button class="authentication-button signup" type="submit">Sign Up</button>
+                            			</fieldset>
+                        				</form>
+                       					<a href="#" class="signup-login-links-container get-login">Login</a>
+                    				</div>
+                				</div>
+            				</div>
 						</main>
 						<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
-						<script type="text/javascript" src="js/unauthorizedTemplates.js"></script>
+						<script type="text/javascript" src="js/materialize.js"></script>
+						<script type="text/javascript" src="js/unauthorizedServices.js"></script>
 						<script type="text/javascript" src="js/unauthorizedClient.js"></script>
 					</body>	
 					</html>`
@@ -92,60 +96,94 @@ const domServices = {
 					<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 					<!-- Normalize.css, a cross-browser reset file -->
   					<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css" rel="stylesheet">
-  					<!-- custom css sheet -->
+  					<!--custom css page-->
+  					<link rel="stylesheet" type="text/css" href="css/materialize.min.css">
+  					<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   					<link rel="stylesheet" type="text/css" href="css/main.css">
 				</head>
 				<body>
 
 					<main>
-						<div class="login-container">
-							<div class="inner-container">
-								<div class="row">
-									<div class="col-12 login-content"> 
-										<div>${message}</div>
-										<form method="post" action="/login" class="login-form">
-											<fieldset name="login-form">
-												<label class="login-label">Username</label>
-											<input type="text" name="username" class="login-field" placeholder="johnsmith28" required />
-											<label class="login-label">Password</label>
-											<input type="password" name="password" class="login-field" required />
-											<button type="submit" class="authentication-button login">Login</button>
-											</fieldset>
-										</form>
-										<a href="#" class="signup-login-links-container">Sign Up</a>
-									</div>
-								</div>
-							</div>
-						</div>
+						<div class="container login">
+                <div class="row">
+                    <div class="col s12 m6 offset-m3 app-logo">
+                        <h2 class="app-name authentication-page-header">Slick Notes</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m6 offset-m3 login-content">
+                            <form method="post" action="/login" class="login-form">
+                                <fieldset name="login-form">
+                                    <label class="login-label">Username</label>
+                                    <input type="text" name="username" class="login-field" placeholder="johnsmith28" required />
+                                    <label class="login-label">Password</label>
+                                    <input type="password" name="password" class="login-field" required />
+                                    <button type="submit" class="authentication-button login">Login</button>
+                                </fieldset>
+                            </form>
+                            <a href="#" class="signup-login-links-container get-signup">Sign Up</a>
+                    </div>
+                </div>
+            </div>
 					</main>
 					
 					<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
-					<script type="text/javascript" src="js/unauthorizedTemplates.js"></script>
-					<script type="text/javascript" src="js/unauthorizedClient.js"></script>
+	<script type="text/javascript" src="js/typed.js"></script>
+	<script type="text/javascript" src="js/materialize.js"></script>
+	<script type="text/javascript" src="js/unauthorizedServices.js"></script>
+	<script type="text/javascript" src="js/unauthorizedClient.js"></script>
+	<script type="text/javascript">
+	$(document).ready(
+		function(){
+			setTimeout(function(){
+        		$(".app-name").typed({
+ 	 	        	strings: ["Slick Notes"],
+            		typeSpeed: 100, // typing speed
+		            loop: false, // loop on or off (true or false)
+        		    loopCount: 0, // number of loops, false = infinite
+            		callback: function(){
+            			$(".button-collapse").sideNav(); 
+            			$('.parallax').parallax();
+    			        $(".dropdown-button").dropdown({
+				           hover: false
+			            })
+            		} // call function after typing is done
+        			});
+    			}, 0)
+		});
+	</script>
 				</body>
 				</html>`
 	},
 
  	createUserFeedMarkup: function(note) {
 	let content = formattingNoteServices.highlight(note.content);
-	return  `
-			<div class="row">
-			<div class="col s12 m10 offset-m1">
-			<div class="card user-note">
-    			<div class="card-content">
-      				<div class="note-id" style="display: none;">${note._id}</div>
-      				<span class="card-title activator grey-text text-darken-4">${note.title}<i class="material-icons right">more_vert</i></span>
-      				<p class="card-links"><a href="#" class="edit">Edit</a></p>
-      				<p class="card-links"><a href="#" class="delete">Delete</a></p>
-      				<p class="deletion-question" style="display: none;">Are You Sure?<a href="#" class="confirm-delete">Yes</a></p>
-    			</div>
-    			<div class="card-reveal">
-      				<span class="card-title grey-text text-darken-4">${note.title}<i class="material-icons right">close</i></span>
-      				<p>${content}</p>
-    			</div>
-  			</div>
-  			</div>
-  			</div>`
+	return  `<div class="row">
+            <div class="col s12 m10 offset-m1">
+            <div class="card user-note">
+                <div class="card-content">
+                    <div class="note-id" style="display: none;">${note.id}</div>
+                    <div class="row">
+                        <div class="col s10">
+                            <span class="card-title grey-text text-darken-4">${note.title}</span>
+                        </div>
+                        <div class="col s2">
+                            <span class="activator"><i class="material-icons right">more_vert</i></span>
+                        </div>
+                    </div>
+                    <p class="card-links">
+                        <a href="#" class="edit"><i class="material-icons link-options">mode_edit</i></a>
+                        <a href="#" class="delete"><i class="material-icons link-options">delete</i></a>
+                    </p>
+                    <p class="deletion-question" style="display: none;">Are You Sure?<a href="#" class="confirm-delete">Yes</a></p>
+                </div>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">${note.title}<i class="material-icons right">close</i></span>
+                    <p>${content}</p>
+                </div>
+            </div>
+            </div>
+            </div>`
 	},
 
 	getUserHomeMarkup: function(notes) { 
@@ -200,6 +238,8 @@ const domServices = {
 
 				<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
 				<script type="text/javascript" src="js/materialize.js"></script>
+				<script type="text/javascript" src="js/template.js"></script>
+				<script type="text/javascript" src="js/userApp.js"></script>
 				<script>
 					//side nav
 					$(document).ready(function(){
@@ -208,10 +248,8 @@ const domServices = {
         				$(".dropdown-button").dropdown({
  				           hover: false
         				});
-    				});
-    			</script> 
-				<script type="text/javascript" src="js/template.js"></script>
-				<script type="text/javascript" src="js/userApp.js"></script>
+    				}); 
+				</script>
 			</body>
 			</html>`
 	}
