@@ -13,7 +13,9 @@
   	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   	<link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
-<body>			
+<body>	
+
+	<section></section>	
 	<main>
 		<div class="container landing-page">
 			<div class="row">
@@ -29,62 +31,49 @@
 			<div class="row options-row">
 				<div class="col s12 m4 unauthorized-options">
 					<div class="option">
-						<a href="#" class="icon-link icon-demo"><i class="material-icons icon-option">skip_next</i></a>
+						<a href="#" class="icon-link icon-demo get-demo"><i class="material-icons icon-option">skip_next</i></a>
 						<div class="icon-description">Demo Slick Note</div>
 					</div>
 				</div>
 				<div class="col s12 m4 unauthorized-options">
 					<div class="option">
-						<a href="#" class="icon-link icon-signup"><i class="material-icons icon-option">done</i></a>
+						<a href="#" class="icon-link icon-signup get-signup"><i class="material-icons icon-option">done</i></a>
 						<div class="icon-description">Sign Up</div>
 					</div>
 				</div>
 				<div class="col s12 m4 unauthorized-options">
 					<div class="option">
-						<a href="#" class="icon-link icon-login"><i class="material-icons icon-option">trending_flat</i></a>
+						<a href="#" class="icon-link icon-login get-login"><i class="material-icons icon-option">trending_flat</i></a>
 						<div class="icon-description">Login</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</main>
-		<!-- comment out for now -->
-		<!-- <div class="signup-container">
-			<div class="inner-container">
-			<div class="row">
-				<div class="col-12 signup-content">
-					<form method="post" action="/users" class="signup-form" name="register-user">
-						<fieldset name="signup-form">
-							<label class="signup-label">Email</label>
-							<input type="text" name="email" class="signup-field" placeholder="foo@bar.com" required />
-							<label class="signup-label">Username</label>
-							<input type="text" name="username" class="signup-field" placeholder="johnsmith123" required />
-							<label class="signup-label">Password</label>
-							<input type="password" name="password" class="signup-field" required />
-							<label class="signup-label">Confirm Password</label>
-							<input type="password" name="passwordConfirmation" class="signup-field" required />
-							<button class="authentication-button signup" type="submit">Sign Up</button>
-						</fieldset>
-					</form>
-					<a href="#" class="signup-login-links-container get-login">Login</a>
-				</div>
-			</div>
-			</div>
-		</div> -->
 	<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
 	<script type="text/javascript" src="js/typed.js"></script>
-	<script type="text/javascript">
-		setTimeout(function(){
-        $(".app-name").typed({
-            strings: ["Slick Notes"],
-            typeSpeed: 100, // typing speed
-            loop: false, // loop on or off (true or false)
-            loopCount: 0, // number of loops, false = infinite
-            callback: function(){ } // call function after typing is done
-        });
-    }, 0);
-	</script>
-	<script type="text/javascript" src="js/unauthorizedTemplates.js"></script>
+	<script type="text/javascript" src="js/materialize.js"></script>
+	<script type="text/javascript" src="js/unauthorizedServices.js"></script>
 	<script type="text/javascript" src="js/unauthorizedClient.js"></script>
+	<script type="text/javascript">
+	$(document).ready(
+		function(){
+			setTimeout(function(){
+        		$(".app-name").typed({
+ 	 	        	strings: ["Slick Notes"],
+            		typeSpeed: 100, // typing speed
+		            loop: false, // loop on or off (true or false)
+        		    loopCount: 0, // number of loops, false = infinite
+            		callback: function(){
+            			$(".button-collapse").sideNav(); 
+            			$('.parallax').parallax();
+    			        $(".dropdown-button").dropdown({
+				           hover: false
+			            })
+            		} // call function after typing is done
+        			});
+    			}, 0)
+		});
+	</script>
 </body>
 </html>
