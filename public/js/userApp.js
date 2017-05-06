@@ -25,7 +25,7 @@ function editorFormatter(string) {
 	return spaceRecognizer(brString);
 }
 
-function highlighter(string) {
+function highlight(string) {
 	//add yellow highlighting when two tick marks are encloessed by anothed
 	//two tick marks
 	$('div.highlighted-error').hide();
@@ -85,7 +85,7 @@ function renderNewNoteTemp() {
 }
 
 function renderNoteTemp(noteObj) {
-	$('main').html(appTemplates.getNoteTemp(noteObj.id, noteObj.title, highlighter(noteFormatter(noteObj.content))));
+	$('main').html(appTemplates.getNoteTemp(noteObj.id, noteObj.title, highlight(noteFormatter(noteObj.content))));
 }
 
 function renderEditTemp(noteObj) {
@@ -97,15 +97,14 @@ function getUserHome() {
 	//beware this get call. 
 	$('nav').on('click', '.home', function(event) {
 		event.preventDefault();
-		console.log('hello world!');
-		// var userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-		// var settings = {
-		// 	type: 'GET',
-		// 	url: '/user/' + userId,
-		// 	dataType: 'html',
-		// 	success: renderUserHome
-		// }
-		// return $.ajax(settings);
+		var userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+		var settings = {
+			type: 'GET',
+			url: '/user/' + userId,
+			dataType: 'html',
+			success: renderUserHome
+		}
+		return $.ajax(settings);
 	})
 }
 
@@ -136,6 +135,7 @@ function createNewNote() {
 		$('.highlighted-error').hide();
 		var newTitle = $('#new-title').val();
 		var newNoteText = $('#new-note').val();
+		var formattedNoteStr = noteFormatter(newNoteText);
 		var settings = {
 			type: 'POST',
 			url: '/new-note',
@@ -151,7 +151,7 @@ function createNewNote() {
 			return $('.emtpy-titles-error').show();
 		}
 		
-		if(!highlighter(formattedNoteStr)) {
+		if(!highlight(formattedNoteStr)) {
 	 		return $('.highlighted-error').show()
 	 	}
 
@@ -190,13 +190,13 @@ function editNote() {
 function updateNote() {
 	$('main').on('click', 'button.save-note', function(event) {
 		event.preventDefault();
-		$('.emtpy-titles-error').hide();
+		$('.note-error-message').hide();
 		$('.highlighted-error').show()
 		var noteText = $('textarea').val();
 		var noteId = $('div.note-id').text();
 		var formattedNoteStr = noteFormatter(noteText); //FOR THE NOTE DIV //TODO BETTER IMPLEMENTATION!
 		if (noteText.trim().length === 0) {
-			return $('.emtpy-titles-error').show();
+			return $('.note-error-message').show();
 		}	
 		var settings = {
 		  	type: 'PUT',
@@ -207,12 +207,12 @@ function updateNote() {
 	  		}
 	 	}
 
-	 	if(!highlighter(formattedNoteStr)) {
+	 	if(!highlight(formattedNoteStr)) {
 	 		return $('.highlighted-error').show()
 	 	}
 
 		$('div.editing-note-container').hide();
-		$('div.note').html(highlighter(formattedNoteStr)).show();
+		$('div.note').html(highlight(formattedNoteStr)).show();
 		return $.ajax(settings);
 	})
 }
@@ -283,6 +283,14 @@ function confirmDelete() {
 	})	
 }
 
+function hideTip() {
+	$('main').on('click', '.hide-tip', function(event) {
+		event.preventDefault();
+		$('.tips').hide();
+	})
+}
+
+
 $(function() {
 	getUserHome();
 	getLogout();
@@ -295,4 +303,5 @@ $(function() {
 	updateTitle();
 	deleteNote();
 	confirmDelete();
+	hideTip();
 })
