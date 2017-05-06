@@ -1,26 +1,24 @@
 var appTemplates = {
 
+    ticks: '``',
+
     getNewNoteTemp: function () {
             return  `<div class="note-container container">    
                         <div class="row">    
-                            <div class="col s12 m6">
+                            <div class="col s12 m10 offset-m1">
                                 <div class="edit-title-container create-note-title">
                                     <label class="new-note-label">Title:</label>
                                     <input type="text" id="new-title" placeholder="ex. Today's Class" />
                                 </div>
                             </div>
-                            <div class="col m6 instructions-container">
-                                <div class="instructions">
-                                    <ul>
-                                        <li>Please Fill out both Fields</li>
-                                        <li>Highlight text: use two back ticks before and ater word.</li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                         <div class="row">
-                            <div class="col s12 m6">
+                            <div class="col s12 m10 offset-m1">
                                 <div class="editing-note-container create-note-content">
+                                    <div class="tips">
+                                        Tip: Hightlight word with backticks. ${this.ticks}highlighted word${this.ticks}
+                                        <a href="#" class="hide-tip"><i class="material-icons right">done</i></a>
+                                    </div>
                                     <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
                                     <div class="highlighted-error">PLEASE MAKE SURE ALL TICKS ARE INCLUDED IF HIGHLIGHTING.</div>
                                     <label class="new-note-label">Note:</label>
@@ -35,9 +33,9 @@ var appTemplates = {
     //The next two functions should be refactored 
     getNoteTemp: function (noteId, title, content) {
         return `<div class="note-id">${noteId}</div>
-                <div class="note-container container">
+                <div class="container note-container">
                     <div class="row">
-                        <div class="col s12 m6">
+                        <div class="col s12 m10 offset-m1">
                             <div class="note-title">${title}</div>    
                             <div class="edit-title-container" style="display: none;">
                                 <input type="text" id="edit-title" />
@@ -45,18 +43,15 @@ var appTemplates = {
                                 <button id="cancel-update">Cancel</button>
                             </div>
                         </div>
-                        <div class="col m6 instructions-container">
-                                <div class="instructions">
-                                    <ul>
-                                        <li>Highlight text: use two back ticks before and ater word.</li>
-                                    </ul>
-                                </div>
-                        </div>
                     </div>
                     <div class="row">
-                        <div class="col s12 m6">
+                        <div class="col s12 m10 offset-m1">
                             <div class="note hide-note">${content}</div>
                             <div class="editing-note-container" style="display: none;">
+                                <div class="tips">
+                                    Tips: Hightlight using backticks: ${this.ticks}highlighted word${this.ticks}
+                                    <a href="#" class="hide-tip"><i class="material-icons right">done</i></a>
+                                </div>
                                 <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
                                 <div class="highlighted-error">PLEASE MAKE SURE ALL TICKS ARE INCLUDED IF HIGHLIGHTING.</div>
                                 <textarea id="edit-note" class="note-editor"></textarea>
@@ -69,9 +64,9 @@ var appTemplates = {
 
     getEditTemp: function (noteId, title, content) {
         return `<div class="note-id">${noteId}</div>
-                <div class="note-container container">
+                <div class="container note-container">
                     <div class="row">
-                        <div class="col s12 m6">
+                        <div class="col s12 m10 offset-m1">
                             <div class="note-title">${title}</div>    
                             <div class="edit-title-container" style="display: none;">
                                 <input type="text" id="edit-title" />
@@ -79,18 +74,15 @@ var appTemplates = {
                                 <button id="cancel-update" class="update-title-button">Cancel</button>
                             </div>
                         </div>
-                        <div class="col m6 instructions-container">
-                            <div class="instructions">
-                                <ul>
-                                    <li>Highlight text: use two back ticks before and ater word.</li>
-                                </ul>
-                            </div>
-                        </div>
                     </div>
                     <div class="row">
-                        <div class="col s12 m6">
+                        <div class="col s12 m10 offset-m1">
                             <div class="note hide-note"></div>
                             <div class="editing-note-container">
+                                <div class="tips">
+                                    Tip: Hightlight word with backticks. ${this.ticks}highlighted word${this.ticks}
+                                    <a href="#" class="hide-tip"><i class="material-icons right">done</i></a>
+                                </div>  
                                 <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
                                 <div class="highlighted-error">PLEASE MAKE SURE ALL TICKS ARE INCLUDED IF HIGHLIGHTING.</div>
                                 <textarea id="edit-note" class="note-editor">${content}</textarea>
