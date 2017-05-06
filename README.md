@@ -1,4 +1,4 @@
-# Friendly Note
+# Slick Note
 
 ## Summary 
 
@@ -10,11 +10,13 @@ and a more organized way of writing and keeping track of notes.
 
 Below are some screen shots of the app at work. 
 
-![alt text](https://github.com/bryg217/friendly-note/blob/master/screenshots/Screenshot%20(109).png)
+![alt text](https://github.com/bryg217/slick-note/blob/master/screenshots/Screenshot%20(120).png)
 
-![alt text](https://github.com/bryg217/friendly-note/blob/master/screenshots/IMG_4371%20(2).PNG)
+![alt text](https://github.com/bryg217/slick-note/blob/master/screenshots/Screenshot%20(121).png)
 
-![alt text](https://github.com/bryg217/friendly-note/blob/master/screenshots/IMG_4370.PNG)
+![alt text](https://github.com/bryg217/slick-note/blob/master/screenshots/Screenshot%20(122).png)
+
+![alt text](https://github.com/bryg217/slick-note/blob/master/screenshots/IMG_4646.PNG)
 
 ## Technologies Use
 
