@@ -43,6 +43,19 @@ div.app-name-container, div.app-slogan-container, div.option {
 	text-align: center;
 }
 
+.card-links, .deletion-question {
+	text-align: right;
+	margin-top: 15px;
+}
+
+.card-reveal {
+	height: 100vh;
+}
+
+.link-options {
+	margin-right: 5px;
+}
+
 .app-name {
 	max-width: 100%;
 }
@@ -76,6 +89,8 @@ label  {
 
 nav {
 	background: #ee4343;
+	padding-left: 15px;
+	padding-right: 15px;
 }
 
 nav .menu {
@@ -87,7 +102,7 @@ nav .menu {
 }
 
 .container {
-	padding-top: 15px;
+	padding-top: 25px;
 }
 
 .instructions-container {
@@ -144,7 +159,7 @@ ul.side-nav a {
 	padding-bottom: 5px;
 }
 
-.note-title {
+.note-title, #edit-title {
 	font-size: 1.5em;
 }
 
@@ -176,12 +191,27 @@ ul.side-nav a {
 	margin-top: 5px;
 }
 
-.save-note, .update-title-button, .create-note {
+.save-note, .update-title-button, .create-note, .hide-tip {
 	border: 0;
 	background: #ee4343;
 	color: #ffffff;
-	height: 25%;
-	width: 35%;
+	width: 25%;
+}
+
+.save-note, .create-note {
+	height: 45px;
+}
+
+.update-title-button {
+	height: 30px;
+}
+
+.tips {
+	margin-bottom: 15px;
+}
+
+.hide-tip {
+	color: #ee4343;
 }
 
 @media screen and (max-width: 992px) {
@@ -225,11 +255,3 @@ ul.side-nav a {
 	}*/
 
 }
-
-/*.edit-title, .hide-edit-note, .confirm-delete, .edit-header{
-	display: none;
-}
-
-.note-id, .section-id, .hide-sections, .emtpy-titles-error {
-	display: none;
-}*/
