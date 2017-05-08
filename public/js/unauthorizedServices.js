@@ -126,7 +126,7 @@ var appTemplates = {
             userHomeHTML  += appTemplates.createNoteFeed(note);
         })
         $('section').html(appTemplates.getNavTemp());
-        $('main').html('<div class="container">' + userHomeHTML + '</div>');
+        $('main').html('<div class="user-home-container"><div class="container">' + userHomeHTML + '</div></div>');
         window.setTimeout(function() {
           $(".button-collapse").sideNav(); 
             $('.parallax').parallax();

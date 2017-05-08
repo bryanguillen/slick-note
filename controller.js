@@ -68,7 +68,7 @@ let userController = {
 				.exec()
 				.then(count => {
 					if(count>0) {
-						throw newres.status(422).send(domServices.displaySignupError('username already exists'));
+						res.status(422).send(domServices.displaySignupError('username already exists'));
 					}
 					return User.hashPassword(password)
 				})
@@ -91,6 +91,10 @@ let userController = {
 	   	 						res.status(500).json({errorMsg: "internal server error"});
 	   	 					})
 					});
+				})
+				.catch( err => {
+					console.log(err);
+					return res.json({errMessage: 'internal server error'});
 				})
 	},
 

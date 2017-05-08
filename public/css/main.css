@@ -5,13 +5,24 @@ body *{
 	box-sizing: border-box;
 }
 
-html {
-	height: 100%;
+html, body, main {
+	height: 100vh;
 }
 
 body {
 	font-family: 'Roboto';
 	background-color: #f3f4f5; 
+}
+
+.user-home-container {
+	background:  linear-gradient(
+      				rgba(0, 0, 0, 0.5),
+      				rgba(0, 0, 0, 0.5)
+    			),
+				url('../images/background-image.jpg');
+	height: 100vh;
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 .login-content, .signup-content, .app-logo {
