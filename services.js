@@ -2,32 +2,40 @@
 const formattingNoteServices = {
 	highlight: function (string) {
 				
-				var stringCharacters = string.split('');
-				var tick = '`';
-				var tickCounter = 0;
-				var tickIndices = [];
-				for (var i=0, length=stringCharacters.length; i<length; i++) {
-					var currentCharacter = stringCharacters[i];
-					var nextCharacter = stringCharacters[i+1];
-					if (currentCharacter===tick && nextCharacter===tick) {
-						tickCounter += 1;
-						if (tickCounter % 2 !== 0) {
-							stringCharacters.splice(i, 1, '<span class="highlighted">')
-							stringCharacters.splice(i+1, 1);
-							tickIndices.push(i);
-						}
-						else { 
-							stringCharacters.splice(i, 1, '</span>')
-							stringCharacters.splice(i+1, 1);
-							tickIndices.push(i);
-						} 
-					}
-				}
-	
-				if (tickCounter % 2 !== 0) {
-					return false
-				}
-				return stringCharacters.join('');
+        var stringCharacters = string.split('');
+        var asterisk = '*';
+        var asteriskCounter = 0;
+        for (var i=0, length=stringCharacters.length; i<length; i++) {
+            var currentCharacter = stringCharacters[i];
+            var nextCharacter = stringCharacters[i+1];
+            if (currentCharacter===asterisk && nextCharacter===asterisk) {
+                asteriskCounter += 1;
+                if (asteriskCounter % 2 !== 0) {
+                    stringCharacters.splice(i, 1, '<span class="highlighted">')
+                    stringCharacters.splice(i+1, 1);
+                }
+                else { 
+                    stringCharacters.splice(i, 1, '</span>')
+                    stringCharacters.splice(i+1, 1);
+                } 
+            }
+        }
+    
+        if (asteriskCounter % 2 !== 0) {
+            return false
+        }
+        return stringCharacters.join('');
+	},
+
+	noteFormatter: function (string) {
+		var lineBreak = '<br>';
+		var brString = string.replace(/\n/g, lineBreak);
+		function spaceRecognizer(brString) {
+			var nbSpace = '&nbsp;';
+			var fullyFormattedStr = brString.replace(/\s/g, nbSpace);
+				return fullyFormattedStr;
+		}
+		return spaceRecognizer(brString);
 	}
 }
 
@@ -59,6 +67,7 @@ const domServices = {
                 				</div>
                 				<div class="row">
                     				<div class="col s12 m6 offset-m3 signup-content">
+                        				<div class="authentication-error">${errorMessage}</div>
                         				<form method="post" action="/users" class="signup-form">
                             			<fieldset name="signup-form">
                                 			<label class="signup-label">Email</label>
@@ -112,6 +121,7 @@ const domServices = {
                 </div>
                 <div class="row">
                     <div class="col s12 m6 offset-m3 login-content">
+                            <div class="authentication-error">${message}</div>
                             <form method="post" action="/login" class="login-form">
                                 <fieldset name="login-form">
                                     <label class="login-label">Username</label>
@@ -157,7 +167,7 @@ const domServices = {
 	},
 
  	createUserFeedMarkup: function(note) {
-	let content = formattingNoteServices.highlight(note.content);
+	let content = formattingNoteServices.highlight(formattingNoteServices.noteFormatter(note.content));
 	return  `<div class="row">
             <div class="col s12 m10 offset-m1">
             <div class="card user-note">
@@ -234,7 +244,7 @@ const domServices = {
   					</ul> 
         		</nav>
 
-				<main><div class="container">${notes}</div></main>
+				<main><div class="user-home-container"><div class="container">${notes}</div></div></main>
 
 				<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
 				<script type="text/javascript" src="js/materialize.js"></script>
