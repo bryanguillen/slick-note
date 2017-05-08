@@ -61,7 +61,7 @@ router.get('/invalid-login', userController.failedLogin);
 router.post('/login', passport.authenticate('local-signup', { failureRedirect: '/invalid-login' }), userController.redirectHome)
 router.get('/login', userController.getLogin);
 
-router.get('/user/:id', require('connect-ensure-login').ensureLoggedIn(), userController.getHomePage); 
+router.get('/user/:id', require('connect-ensure-login').ensureLoggedIn(), userController.getHomePage);   
 
 router.get('/note/:noteId', require('connect-ensure-login').ensureLoggedIn(), noteController.getNote); 
 router.delete('/note/:noteId', require('connect-ensure-login').ensureLoggedIn(), noteController.deleteNote);
