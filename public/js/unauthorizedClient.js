@@ -8,13 +8,7 @@ state = {
 			{
 				id: 1,
 				title: 'Hello demoUser123',
-				content: 'This is a ``demo`` feel free to read me, or edit me. Whatever you like'
-			}, {
-				id: 2,
-				title: 'Learning Software Dev',
-				content: 'Thus far, it has been an enjoyable journey. I mean ' +
-						'It has been full of challenges but with ``the help of my mentor`` and supporting staff ' +
-						'the journey has been a life changing experience.'
+				content: 'This is a **demo** feel free to read me, or edit me. Whatever you like'
 			}
 		]
 	}
@@ -24,13 +18,7 @@ state = {
 		id: 1,
 		user: 200,
 		title: 'Hello World',
-		content: 'This is a ``demo`` feel free to read me, or edit me. Whatever you like.'
-	},
-	{
-		id: 2,
-		user: 200,
-		title: 'Learning Software Development',
-		content: 'Thus far, it has been an enjoyable journey. I mean it has been full of challenges but with  ``the help of my mentor`` and supporting staff '
+		content: 'This is a **demo** feel free to read me, or edit me. Whatever you like.'
 	}
 	],
 
@@ -48,10 +36,6 @@ function renderNewNoteTemp() {
 	$('main').html(appTemplates.getNewNoteTemp());
 }
 
-function renderNoteTemp(noteObj) {
-	$('main').html((appTemplates.getNoteTemp(noteObj.id, noteObj.title, noteFormattingServices.highlight(noteFormattingServices.noteFormatter(noteObj.content)))));
-}
-
 function renderEditTemp(noteObj) {
 	$('main').html(appTemplates.getEditTemp(noteObj.id, noteObj.title, noteObj.content));
 }
@@ -62,7 +46,7 @@ function renderEditTemp(noteObj) {
 function getDemoHome() {
 	//return the json data..
 	$('main').on('click', '.get-demo', function(event) {
-		return appTemplates.getUserHome()
+		return appTemplates.getUserHome();
 	})
 
 	$('section').on('click', '.home', function(event) {
@@ -114,11 +98,7 @@ function demoCreateNote() {
 	 	state.notes.push(newNote);
 	 	state.users[0].userNotes.push(userNoteRef);
 		
-		for (var i=0; i<state.notes.length; i++) {
-			if (state.notes[i].id === state.dbIdSetter) {
-				return renderNoteTemp(state.notes[i]);
-			}
-		}
+		return appTemplates.getUserHome();
 	
 	});
 }
@@ -137,17 +117,6 @@ function demoEditNote() {
 			}
 		}
 	})
-
-	$('main').on('click', 'div.note', function(event) {
-		event.preventDefault();
-		var noteText = $(this).html();
-		var removedHighlighterText = noteFormattingServices.removeHighlighter(noteText); //remove this for protecting textarea from nonsense
-		var editorText = noteFormattingServices.editorFormatter(removedHighlighterText);//FOR THE text area! //TODO BETTER IMPLEMENTATION!
-		$('#edit-note').val(editorText);
-		$('div.editing-note-container').show();
-		$('div.note').hide();  
-	})
-
 }
 
 function demoUpdateNote() {
@@ -176,7 +145,8 @@ function demoUpdateNote() {
 			}
 		}	
 	
-		return console.log('updated successfully');
+		console.log('updated successfully');
+		return appTemplates.getUserHome();
 	})
 }
 
@@ -217,6 +187,10 @@ function demoUpdateTitle() {
 				state.users[0].userNotes[i].title = newTitle;
 			}
 		}
+		
+		$('.edit-title-container').hide();
+		$('.note-title').text(newTitle).show();
+
 	})
 }
 
@@ -246,7 +220,7 @@ function hideTip() {
 	$('main').on('click', '.hide-tip', function(event) {
 		event.preventDefault();
 		$('.tips').hide();
-	})
+	})	
 }
 
 function renderLoginMarkup() {
