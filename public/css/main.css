@@ -14,14 +14,35 @@ body {
 	background-color: #f3f4f5; 
 }
 
+.save-button-container, .create-button-container {
+	text-align: center;
+	margin-top: 5px;
+}
+
+.save-note, .update-title-button, .create-note {
+	border: 0;
+	background: #ee4343;
+	color: #ffffff;
+	width: 25%;
+}
+
+.save-note, .create-note {
+	height: 45px;
+}
+
+.update-title-button {
+	height: 30px;
+}
+
+
 .user-home-container {
 	background:  linear-gradient(
       				rgba(0, 0, 0, 0.5),
       				rgba(0, 0, 0, 0.5)
     			),
 				url('../images/background-image.jpg');
-	height: 100vh;
 	background-repeat: no-repeat;
+	height: 150vh;
 	background-size: cover;
 }
 
@@ -31,6 +52,11 @@ body {
 
 .authentication-page-header {
 	color: #6e6d72;
+}
+
+.authentication-error {
+	color: red;
+	font-size: 25px;
 }
 
 .login-form, .signup-form {
@@ -91,6 +117,11 @@ span.typed-cursor {
 .icon-description {
 	font-size: 25px;
 	margin-top: 10px;
+}
+
+.icon-option {
+	padding-top: 10px;
+	line-height: 10px;
 }
 
 label  {
@@ -174,7 +205,7 @@ ul.side-nav a {
 	font-size: 1.5em;
 }
 
-.note {
+.card-reveal {
 	overflow-wrap: break-word;
 }
 
@@ -197,32 +228,13 @@ ul.side-nav a {
 	margin-top: 10px;
 }
 
-.save-button-container, .create-button-container {
-	text-align: center;
-	margin-top: 5px;
-}
-
-.save-note, .update-title-button, .create-note, .hide-tip {
-	border: 0;
-	background: #ee4343;
-	color: #ffffff;
-	width: 25%;
-}
-
-.save-note, .create-note {
-	height: 45px;
-}
-
-.update-title-button {
-	height: 30px;
-}
-
 .tips {
 	margin-bottom: 15px;
 }
 
+
 .hide-tip {
-	color: #ee4343;
+	color: #ee4343; 
 }
 
 @media screen and (max-width: 992px) {
@@ -249,20 +261,12 @@ ul.side-nav a {
 		height: 30px;
 	}
 
-	/*.note-container {
-		text-align: center;
+	.left-end-option {
+		text-align: right;
 	}
 
-	.note-editor {
-		width: 55%;
-	}	
-
-	.save-note, .update-title-button {
-		border: 0;
-		background: #ee4343;
-		color: #ffffff;
-		height: 20%;
-		width: 25%;
-	}*/
+	.right-end-option {
+		text-align: left;
+	}
 
 }
