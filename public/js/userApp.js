@@ -29,32 +29,29 @@ function highlight(string) {
 	//add yellow highlighting when two tick marks are encloessed by anothed
 	//two tick marks
 	$('div.highlighted-error').hide();
-	var stringCharacters = string.split('');
-	var tick = '`';
-	var tickCounter = 0;
-	var tickIndices = [];
-	for (var i=0, length=stringCharacters.length; i<length; i++) {
-		var currentCharacter = stringCharacters[i];
-		var nextCharacter = stringCharacters[i+1];
-		if (currentCharacter===tick && nextCharacter===tick) {
-			tickCounter += 1;
-			if (tickCounter % 2 !== 0) {
-				stringCharacters.splice(i, 1, '<span class="highlighted">')
-				stringCharacters.splice(i+1, 1);
-				tickIndices.push(i);
-			}
-			else { 
-				stringCharacters.splice(i, 1, '</span>')
-				stringCharacters.splice(i+1, 1);
-				tickIndices.push(i);
-			} 
-		}
-	}
-	
-	if (tickCounter % 2 !== 0) {
-		return false
-	}
-	return stringCharacters.join('');
+        var stringCharacters = string.split('');
+        var asterisk = '*';
+        var asteriskCounter = 0;
+        for (var i=0, length=stringCharacters.length; i<length; i++) {
+            var currentCharacter = stringCharacters[i];
+            var nextCharacter = stringCharacters[i+1];
+            if (currentCharacter===asterisk && nextCharacter===asterisk) {
+                asteriskCounter += 1;
+                if (asteriskCounter % 2 !== 0) {
+                    stringCharacters.splice(i, 1, '<span class="highlighted">')
+                    stringCharacters.splice(i+1, 1);
+                }
+                else { 
+                    stringCharacters.splice(i, 1, '</span>')
+                    stringCharacters.splice(i+1, 1);
+                } 
+            }
+        }
+    
+        if (asteriskCounter % 2 !== 0) {
+            return false
+        }
+        return stringCharacters.join('');
 }
 
 function removeHighlighter(string) {
@@ -84,15 +81,22 @@ function renderNewNoteTemp() {
 	$('main').html(appTemplates.getNewNoteTemp());
 }
 
-function renderNoteTemp(noteObj) {
-	$('main').html(appTemplates.getNoteTemp(noteObj.id, noteObj.title, highlight(noteFormatter(noteObj.content))));
-}
-
 function renderEditTemp(noteObj) {
 	$('main').html(appTemplates.getEditTemp(noteObj.id, noteObj.title, noteObj.content));
 }
 
 //EVENT LISTENERS
+function userHome() {
+	var userId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+	var settings = {
+		type: 'GET',
+		url: '/user/' + userId,
+		dataType: 'html',
+		success: renderUserHome
+	}
+	return $.ajax(settings);
+}
+
 function getUserHome() {
 	//beware this get call. 
 	$('nav').on('click', '.home', function(event) {
@@ -144,7 +148,7 @@ function createNewNote() {
 				"content": newNoteText
 			},
 			dataType: 'json',
-			success: renderNoteTemp
+			success: userHome
 		}
 	
 		if (newTitle.trim().length === 0 || newNoteText.trim().length === 0) {
@@ -175,16 +179,6 @@ function editNote() {
 		return $.ajax(settings);
 	})
 
-	$('main').on('click', 'div.note', function(event) {
-		event.preventDefault();
-		var noteText = $(this).html();
-		var removedHighlighterText =removeHighlighter(noteText); //remove this for protecting textarea from nonsense
-		var editorText = editorFormatter(removedHighlighterText);//FOR THE text area! //TODO BETTER IMPLEMENTATION!
-		$('#edit-note').val(editorText);
-		$('div.editing-note-container').show();
-		$('div.note').hide();  
-	})
-
 }
 
 function updateNote() {
@@ -204,15 +198,14 @@ function updateNote() {
 	  		data: {
 	  			"_id": noteId,
 	  			"content": noteText
-	  		}
+	  		},
+	  		success: userHome
 	 	}
 
 	 	if(!highlight(formattedNoteStr)) {
 	 		return $('.highlighted-error').show()
 	 	}
 
-		$('div.editing-note-container').hide();
-		$('div.note').html(highlight(formattedNoteStr)).show();
 		return $.ajax(settings);
 	})
 }
