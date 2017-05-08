@@ -78,14 +78,14 @@ var noteFormattingServices = {
         //two tick marks
         $('div.highlighted-error').hide();
         var stringCharacters = string.split('');
-        var tick = '`';
-        var tickCounter = 0;
+        var asterisk = '*';
+        var asteriskCounter = 0;
         for (var i=0, length=stringCharacters.length; i<length; i++) {
             var currentCharacter = stringCharacters[i];
             var nextCharacter = stringCharacters[i+1];
-            if (currentCharacter===tick && nextCharacter===tick) {
-                tickCounter += 1;
-                if (tickCounter % 2 !== 0) {
+            if (currentCharacter===asterisk && nextCharacter===asterisk) {
+                asteriskCounter += 1;
+                if (asteriskCounter % 2 !== 0) {
                     stringCharacters.splice(i, 1, '<span class="highlighted">')
                     stringCharacters.splice(i+1, 1);
                 }
@@ -96,16 +96,16 @@ var noteFormattingServices = {
             }
         }
     
-        if (tickCounter % 2 !== 0) {
+        if (asteriskCounter % 2 !== 0) {
             return false
         }
         return stringCharacters.join('');
     },
 
     removeHighlighter: function (string) {
-        var removeOpeningTags = string.replace(/<span class="highlighted">/g, '``');
+        var removeOpeningTags = string.replace(/<span class="highlighted">/g, '**');
         function removeClosingTags(string) {
-            var textString = string.replace(/<\/span>/g, '``');
+            var textString = string.replace(/<\/span>/g, '**');
             return textString;
         }
         return removeClosingTags(removeOpeningTags);
@@ -115,7 +115,7 @@ var noteFormattingServices = {
 
 var appTemplates = {
 
-    ticks: '``',
+    asterisk: '**',
 
     getUserHome: function () {
         event.preventDefault();
@@ -150,7 +150,7 @@ var appTemplates = {
                             <div class="col s12 m10 offset-m1">
                                 <div class="editing-note-container create-note-content">
                                     <div class="tips">
-                                        Tip: Hightlight word with backticks. ${this.ticks}highlighted word${this.ticks}
+                                        Tip: Hightlight word with backticks. ${this.asterisk}highlighted word${this.asterisk} & click on title to edit before saving note.
                                         <a href="#" class="hide-tip"><i class="material-icons right">done</i></a>
                                     </div>
                                     <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
@@ -162,38 +162,6 @@ var appTemplates = {
                             </div>
                         </div>
                     </div>`
-    },
-
-    //The next two functions should be refactored 
-    getNoteTemp: function (noteId, title, content) {
-        return `<div class="note-id">${noteId}</div>
-                <div class="container note-container">
-                    <div class="row">
-                        <div class="col s12 m10 offset-m1">
-                            <div class="note-title">${title}</div>    
-                            <div class="edit-title-container" style="display: none;">
-                                <input type="text" id="edit-title" />
-                                <button type="submit" id="update-title">Update</button>
-                                <button id="cancel-update">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col s12 m10 offset-m1">
-                            <div class="note hide-note">${content}</div>
-                            <div class="editing-note-container" style="display: none;">
-                                <div class="tips">
-                                    Tips: Hightlight using backticks: ${this.ticks}highlighted word${this.ticks}
-                                    <a href="#" class="hide-tip"><i class="material-icons right">done</i></a>
-                                </div>
-                                <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
-                                <div class="highlighted-error">PLEASE MAKE SURE ALL TICKS ARE INCLUDED IF HIGHLIGHTING.</div>
-                                <textarea id="edit-note" class="note-editor"></textarea>
-                                <div class="save-button-container"><button class="save-note">Save</button></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>`
     },
 
     getEditTemp: function (noteId, title, content) {
@@ -214,8 +182,8 @@ var appTemplates = {
                             <div class="note hide-note"></div>
                             <div class="editing-note-container">
                                 <div class="tips">
-                                    Tip: Hightlight word with backticks. ${this.ticks}highlighted word${this.ticks}
-                                    <a href="#" class="hide-tip"><i class="material-icons right">done</i></a>
+                                    Tips: Hightlight word with asterisk, ${this.asterisk}highlighted word${this.asterisk} & click on title to edit before saving note.
+                                    <a href="#" class="hide-tip"><i class="material-icons done-icon right">done</i></a>
                                 </div>  
                                 <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
                                 <div class="highlighted-error">PLEASE MAKE SURE ALL TICKS ARE INCLUDED IF HIGHLIGHTING.</div>
@@ -253,7 +221,7 @@ var appTemplates = {
     },
 
     createNoteFeed: function(note) {
-    let content = noteFormattingServices.highlight(note.content);
+    let content = noteFormattingServices.highlight(noteFormattingServices.noteFormatter(note.content));
         return  `<div class="row">
             <div class="col s12 m10 offset-m1">
             <div class="card user-note">

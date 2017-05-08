@@ -1,6 +1,6 @@
 var appTemplates = {
 
-    ticks: '``',
+    asterisk: '**',
 
     getNewNoteTemp: function () {
             return  `<div class="note-container container">    
@@ -16,7 +16,7 @@ var appTemplates = {
                             <div class="col s12 m10 offset-m1">
                                 <div class="editing-note-container create-note-content">
                                     <div class="tips">
-                                        Tip: Hightlight word with backticks. ${this.ticks}highlighted word${this.ticks}
+                                        Tip: Hightlight word with backticks. ${this.asterisk}highlighted word${this.asterisk} & click on title to edit before saving note.
                                         <a href="#" class="hide-tip"><i class="material-icons right">done</i></a>
                                     </div>
                                     <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
@@ -28,38 +28,6 @@ var appTemplates = {
                             </div>
                         </div>
                     </div>`
-    },
-
-    //The next two functions should be refactored 
-    getNoteTemp: function (noteId, title, content) {
-        return `<div class="note-id">${noteId}</div>
-                <div class="container note-container">
-                    <div class="row">
-                        <div class="col s12 m10 offset-m1">
-                            <div class="note-title">${title}</div>    
-                            <div class="edit-title-container" style="display: none;">
-                                <input type="text" id="edit-title" />
-                                <button type="submit" id="update-title">Update</button>
-                                <button id="cancel-update">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col s12 m10 offset-m1">
-                            <div class="note hide-note">${content}</div>
-                            <div class="editing-note-container" style="display: none;">
-                                <div class="tips">
-                                    Tips: Hightlight using backticks: ${this.ticks}highlighted word${this.ticks}
-                                    <a href="#" class="hide-tip"><i class="material-icons right">done</i></a>
-                                </div>
-                                <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
-                                <div class="highlighted-error">PLEASE MAKE SURE ALL TICKS ARE INCLUDED IF HIGHLIGHTING.</div>
-                                <textarea id="edit-note" class="note-editor"></textarea>
-                                <div class="save-button-container"><button class="save-note">Save</button></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>`
     },
 
     getEditTemp: function (noteId, title, content) {
@@ -80,7 +48,7 @@ var appTemplates = {
                             <div class="note hide-note"></div>
                             <div class="editing-note-container">
                                 <div class="tips">
-                                    Tip: Hightlight word with backticks. ${this.ticks}highlighted word${this.ticks}
+                                    Tip: Hightlight word with backticks. ${this.asterisk}highlighted word${this.asterisk} & click on title to edit before saving note.
                                     <a href="#" class="hide-tip"><i class="material-icons right">done</i></a>
                                 </div>  
                                 <div class="note-error-message">PLEASE MAKE SURE NOTE TO LEAVE A BLANK NOTE!</div>
